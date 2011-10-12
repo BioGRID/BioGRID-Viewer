@@ -1,3 +1,4 @@
+
 var BGV={
   store_url:function(url){
     $("form[name=fetch_url] [type=url]").val(url);
@@ -9,8 +10,8 @@ var BGV={
     var url = $(e.currentTarget).find("input[type=url]").val().trim();
     $("body").css("cursor", "wait");
     if (url.length > 0){
-      $.get("http://gen-sven2.princeton.edu/bg2/fetch.cgi?" + url, BGV.parse_tab2);
-//      $.get("http://biogrid-dev.princeton.edu/cgi-bin/fetch.cgi?" + url, BGV.parse_tab2);
+      $.get("http://gen-sven2.princeton.edu/BioGRID-Viewer/fetch.cgi?" + url, those.parse_tab2);
+//      $.get("http://biogrid-dev.princeton.edu/cgi-bin/fetch.cgi?" + url, this.parse_tab2);
     }
   },
 
@@ -43,7 +44,7 @@ var BGV={
 
   removeInteractions:function(ii){
     ii.remove();
-    BGV.update_tally();
+    those.update_tally();
   },
 
   update_tally:function(){
@@ -62,12 +63,12 @@ var BGV={
 
       if((values.length >= 24) &&  (line.charAt(0) != '#')) {
 	count++;
-	BGV.addInteraction(values);
+	those.addInteraction(values);
       }
     }
     if (count > 0){
       $(".lastCount").text(count);
-      BGV.update_tally();
+      those.update_tally();
     }
     $("body").css("cursor", "auto");
     $("#interactions").trigger("change");
@@ -83,12 +84,13 @@ var BGV={
   }
 
 };
+var those=BGV;
 
 $(document).ready(
   function(){
-    $("form[name=rest] [name=taxId]").html(BGV.taxa.optionTags(4932));
-    $("form[name=fetch_url]").bind("submit", BGV.fetch_url);
-    new form2URL($("form[name=rest]"),BGV.store_url);
+    $("form[name=rest] [name=taxId]").html(those.taxa.optionTags(4932));
+    $("form[name=fetch_url]").bind("submit", those.fetch_url);
+    new form2URL($("form[name=rest]"),those.store_url);
     $("input.gen").bind(
       "click",function(){
 	$("form[name=rest] [name=taxId]").trigger("submit");
@@ -127,22 +129,22 @@ $(document).ready(
     // Set up control for removeing items in the interactions table
     $("#check_all").bind(
       "click",function(){
-	BGV.check($("#interactions :checkbox"));
+	those.check($("#interactions :checkbox"));
       }
     );
     $("#check_old").bind(
       "click",function(){
-	BGV.check($("#interactions .old input:checkbox"));
+	those.check($("#interactions .old input:checkbox"));
       }
     );
     $("#check_new").bind(
       "click",function(){
-	BGV.check($("#interactions .new input:checkbox"));
+	those.check($("#interactions .new input:checkbox"));
       }
     );
     $("#remove_checked").bind(
       "click",function(){
-	BGV.removeInteractions($("#interactions input:checked").parent().parent());
+	those.removeInteractions($("#interactions input:checked").parent().parent());
       }
     );
 

@@ -1,0 +1,23 @@
+* Depends
+
+** jQuery
+
+** arbor.js
+You need to use the arbor.js fork at: https://github.com/svenmh/arbor
+
+* Browsers
+
+** Chrome
+Developed in Chromium
+
+** Safari
+
+** Firefox >= 6
+Sometimes freezes.
+
+** Others
+Let me know.
+
+* To Do List
+
+https://docs.google.com/document/d/1WmTjS-nUr0vH0LnCG5ny7ik6s1FkyCulnRQUmAJwThE/edit?hl=en_US
