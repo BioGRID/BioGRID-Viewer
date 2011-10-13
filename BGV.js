@@ -4,14 +4,28 @@ var BGV={
     $("form[name=fetch_url] [type=url]").val(url);
   },
 
+  config:function(key){
+    if((undefined!=BGV._config) && (undefined!=BGV._config[key])){
+      return BGV._config[key];
+    }
+    return "";
+  },
+
   fetch_url:function(e){
     e.preventDefault();
 
     var url = $(e.currentTarget).find("input[type=url]").val().trim();
     $("body").css("cursor", "wait");
     if (url.length > 0){
-      $.get("http://gen-sven2.princeton.edu/BioGRID-Viewer/fetch.cgi?" + url, those.parse_tab2);
-//      $.get("http://biogrid-dev.princeton.edu/cgi-bin/fetch.cgi?" + url, this.parse_tab2);
+//      $.get(BGV.config("url_prefix") + url, BGV.parse_tab2);
+
+      $.ajax(
+	{
+	  url:BGV.config("url_prefix") + url,
+	  cache:true,
+	  success:BGV.parse_tab2
+	}
+      );
     }
   },
 
@@ -44,7 +58,7 @@ var BGV={
 
   removeInteractions:function(ii){
     ii.remove();
-    those.update_tally();
+    BGV.update_tally();
   },
 
   update_tally:function(){
@@ -63,12 +77,12 @@ var BGV={
 
       if((values.length >= 24) &&  (line.charAt(0) != '#')) {
 	count++;
-	those.addInteraction(values);
+	BGV.addInteraction(values);
       }
     }
     if (count > 0){
       $(".lastCount").text(count);
-      those.update_tally();
+      BGV.update_tally();
     }
     $("body").css("cursor", "auto");
     $("#interactions").trigger("change");
@@ -84,13 +98,26 @@ var BGV={
   }
 
 };
-var those=BGV;
+
+$.ajax(
+  {
+    url: "config.json",
+    dataType: 'json',
+    success:function(data){
+      BGV._config = data;
+    },
+    error:function(a,b,c){
+      console.log(a,b,c);
+    }
+  }
+);
 
 $(document).ready(
   function(){
-    $("form[name=rest] [name=taxId]").html(those.taxa.optionTags(4932));
-    $("form[name=fetch_url]").bind("submit", those.fetch_url);
-    new form2URL($("form[name=rest]"),those.store_url);
+
+    $("form[name=rest] [name=taxId]").html(BGV.taxa.optionTags(4932));
+    $("form[name=fetch_url]").bind("submit", BGV.fetch_url);
+    new form2URL($("form[name=rest]"),BGV.store_url);
     $("input.gen").bind(
       "click",function(){
 	$("form[name=rest] [name=taxId]").trigger("submit");
@@ -129,22 +156,22 @@ $(document).ready(
     // Set up control for removeing items in the interactions table
     $("#check_all").bind(
       "click",function(){
-	those.check($("#interactions :checkbox"));
+	BGV.check($("#interactions :checkbox"));
       }
     );
     $("#check_old").bind(
       "click",function(){
-	those.check($("#interactions .old input:checkbox"));
+	BGV.check($("#interactions .old input:checkbox"));
       }
     );
     $("#check_new").bind(
       "click",function(){
-	those.check($("#interactions .new input:checkbox"));
+	BGV.check($("#interactions .new input:checkbox"));
       }
     );
     $("#remove_checked").bind(
       "click",function(){
-	those.removeInteractions($("#interactions input:checked").parent().parent());
+	BGV.removeInteractions($("#interactions input:checked").parent().parent());
       }
     );
 

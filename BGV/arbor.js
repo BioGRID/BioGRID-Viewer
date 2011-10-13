@@ -1,6 +1,6 @@
 Math.TAU = Math.PI*2;
 
-those.arbor={
+BGV.arbor={
   init:function(ps){
     this.canvas = $("canvas#graph");
     this.ctx = this.canvas.get(0).getContext("2d");
@@ -15,8 +15,8 @@ those.arbor={
 
     $(window).bind
     ("resize",function(){
-       those.arbor.setSize(those.arbor.ps);
-       those.arbor.ps.renderer.redraw(false);
+       BGV.arbor.setSize(BGV.arbor.ps);
+       BGV.arbor.ps.renderer.redraw(false);
      }
     );
 
@@ -88,8 +88,8 @@ those.arbor={
       ctx.clearRect(0,0,w,h);
     }
 
-    those.arbor.ps.eachEdge(this.drawEdge);
-    those.arbor.ps.eachNode(this.drawNode);
+    BGV.arbor.ps.eachEdge(this.drawEdge);
+    BGV.arbor.ps.eachNode(this.drawNode);
   },
 
   // // // // // // //
@@ -98,12 +98,12 @@ those.arbor={
     pt.x = Math.floor(pt.x);
     pt.y = Math.floor(pt.y);
 
-    if(0==those.arbor.ps.edgeCount(node)){
-      those.arbor.ps.pruneNode(node);
+    if(0==BGV.arbor.ps.edgeCount(node)){
+      BGV.arbor.ps.pruneNode(node);
     }else{
-      var ctx = those.arbor.ctx;
+      var ctx = BGV.arbor.ctx;
 
-      var h = those.arbor.fontHeight;
+      var h = BGV.arbor.fontHeight;
       var w = ctx.measureText(node.name).width;
 
       /*
@@ -127,7 +127,7 @@ those.arbor={
       ctx.strokeStyle = node.data.taxa.color;
       ctx.moveTo(pt.x - w/2,pt.y +1);
       ctx.lineTo(pt.x + w/2,pt.y +1);
-      ctx.lineWidth = those.arbor.fontHeight + 1;
+      ctx.lineWidth = BGV.arbor.fontHeight + 1;
       ctx.stroke();
 
       ctx.fillStyle = '#8b3b3b';
@@ -140,7 +140,7 @@ those.arbor={
     pt2.x = Math.floor(pt2.x);
     pt2.y = Math.floor(pt2.y);
 
-    var ctx = those.arbor.ctx;
+    var ctx = BGV.arbor.ctx;
 
     // Highlight if checked
     if(edge.data.checked.length>0){
@@ -173,12 +173,12 @@ those.arbor={
 };
 
 // Direct from the TSV files so, so offsets start at zero.
-those.arbor.parentAddInteraction = those.addInteraction;
-those.addInteraction=function(i){
-  var ps = those.arbor.ps;
+BGV.arbor.parentAddInteraction = BGV.addInteraction;
+BGV.addInteraction=function(i){
+  var ps = BGV.arbor.ps;
   var id = i[0];
-  var A = ps.addNode(i[7],{taxa:those.taxa.get(i[15])});
-  var B = ps.addNode(i[8],{taxa:those.taxa.get(i[16])});
+  var A = ps.addNode(i[7],{taxa:BGV.taxa.get(i[15])});
+  var B = ps.addNode(i[8],{taxa:BGV.taxa.get(i[16])});
   var edge = ps.getEdges(A,B);
 
   switch(edge.length){
@@ -201,7 +201,7 @@ those.addInteraction=function(i){
     alert("Multiple Edges found for " + A + "," + B);
   }
 
-  those.arbor.parentAddInteraction(i);
+  BGV.arbor.parentAddInteraction(i);
 
   var cb = $("input:checkbox[value=i" + id + "]");
   cb.unbind("change");
@@ -219,9 +219,9 @@ those.addInteraction=function(i){
   );
 };
 
-those.arbor.parentRemoveInteractions = those.removeInteractions;
-those.removeInteractions=function(ii){
-  var ps = those.arbor.ps;
+BGV.arbor.parentRemoveInteractions = BGV.removeInteractions;
+BGV.removeInteractions=function(ii){
+  var ps = BGV.arbor.ps;
 
   for(var l=0;l<ii.length;l++){
     var i=ii.get(l);
@@ -247,7 +247,7 @@ those.removeInteractions=function(ii){
       }
     }
   }
-  those.arbor.parentRemoveInteractions(ii);
+  BGV.arbor.parentRemoveInteractions(ii);
   ps.start();
 };
 
@@ -267,11 +267,11 @@ $(document).ready(
 	}
 	t.parent().find("span").text(v);
 
-	if(undefined!=those.arbor.ps){
+	if(undefined!=BGV.arbor.ps){
 	  var changed={};
 	  changed[t.attr("name")]=v;
-	  those.arbor.ps.parameters(changed);
-	  those.arbor.ps.start();
+	  BGV.arbor.ps.parameters(changed);
+	  BGV.arbor.ps.start();
 	}
       }
     );
@@ -302,21 +302,21 @@ $(document).ready(
       }
     );
 
-    //     onchange="those.arbor.ps.parameters({'repulsion':$(this).val()});"
+    //     onchange="BGV.arbor.ps.parameters({'repulsion':$(this).val()});"
 
-    those.arbor.ps = arbor.ParticleSystem(arborParam);
-//    those.arbor.ps = arbor.ParticleSystem({stiffness:100});
-    those.arbor.ps.renderer = those.arbor;
+    BGV.arbor.ps = arbor.ParticleSystem(arborParam);
+//    BGV.arbor.ps = arbor.ParticleSystem({stiffness:100});
+    BGV.arbor.ps.renderer = BGV.arbor;
 
 
 
     /*
-    those.arbor.ps.addEdge("A","B");
-    those.arbor.ps.addEdge("B","C");
-    those.arbor.ps.addEdge("B","D");
-    those.arbor.ps.addEdge("B","E");
-    those.arbor.ps.addEdge("E","F");
-    those.arbor.ps.addEdge("E","G");
+    BGV.arbor.ps.addEdge("A","B");
+    BGV.arbor.ps.addEdge("B","C");
+    BGV.arbor.ps.addEdge("B","D");
+    BGV.arbor.ps.addEdge("B","E");
+    BGV.arbor.ps.addEdge("E","F");
+    BGV.arbor.ps.addEdge("E","G");
      */
 
   }
