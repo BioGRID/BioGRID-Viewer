@@ -1,215 +1,36 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8" />
-<link rel="stylesheet" href="bgv.css" />
-<title>BioGRID Viewer</title>
 
+<title>BioGRID Viewer - Testing</title>
+<link rel="stylesheet" href="bgv.css" />
 
 <script src="/jquery.min.js"></script>
-<script src="/arbor/lib/arbor.js"></script>
-
-
 <script src="BGV.js"></script>
 <script src="BGV/taxa.js"></script>
-<script src="form2URL.js"></script>
 
+<script src="BGV/tab2.js"></script>
+<script src="BGV/edgeTable.js"></script>
 
-<!-- script src="/arbor/src/etc.js"></script>
-<script src="/arbor/src/kernel.js"></script>
-<script src="/arbor/src/graphics/colors.js"></script>
-<script src="/arbor/src/graphics/primitives.js"></script>
-<script src="/arbor/src/graphics/graphics.js"></script>
-<script src="/arbor/src/tween/easing.js"></script>
-<script src="/arbor/src/tween/tween.js"></script>
-<script src="/arbor/src/physics/atoms.js"></script>
-<script src="/arbor/src/physics/barnes-hut.js"></script>
-<script src="/arbor/src/physics/physics.js"></script>
-<script src="/arbor/src/physics/system.js"></script>
-<script src="/arbor/src/dev.js"></script -->
+<script src="/arbor/lib/arbor.js"></script>
+<script src="BGV/arborCanvas.js"></script>
 
-<script src="BGV/arbor.js"></script>
 
 </head><body>
 
 <header>
-<h1>BioGRID Viewer <small>(Developement)</small></h1>
-
-<nav><select name="control"></select></nav>
-
-</header>
-
-<section class="control" title="Data Acquisition">
-
-<h1>URL</h1>
-<p>Really
-any <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">BioGRID
-TAB 2.0 Formatted Downloads</a> file can go here.  Like
-the <a href="http://wiki.thebiogrid.org/doku.php/biogridrest">BioGRID
-REST Service</a> does.</p>
-
-<form name="fetch_url">
-<input type="url" />
-<input type="submit" value="Fetch URL" />
-</form>
-
-
-<h1>URL Generator</h1>
-<form name="rest" action="http://webservice.thebiogrid.org/resources/interactions/">
-
-<p>Genes (| separated):
-<input class="field" type="search" name="geneList" value="PRB1" />
-<select class="field" name="taxId"></select>
-<input type="reset"/>
-<input class="field" type="hidden" name="searchNames" value="true"/>
-<input type="submit" value="Generate"/>
-<input type="button" value="Generate &amp; Fetch" class="gen"/>
-</p>
-
-
-<fieldset>
-<legend><input type="checkbox" class="toggle" checked="checked"/>Evidence List</legend>
-
-<select class="field" name="includeEvidence">
-<option value="true" selected="selected">Include</option>
-<option value="false">Exclude</option>
-</select>
-
-<select class="field" name="evidenceList" multiple="multiple">
-<optgroup label="Physical Interactions">
-<option value="Affinity Capture-Luminescence">Affinity Capture-Luminescence</option>
-<option value="Affinity Capture-MS" selected="selected">Affinity Capture-MS</option>
-<option value="Affinity Capture-RNA">Affinity Capture-RNA</option>
-<option value="Affinity Capture-Western">Affinity Capture-Western</option>
-<option value="Biochemical Activity">Biochemical Activity</option>
-<option value="Co-crystal Structure">Co-crystal Structure</option>
-<option value="Co-fractionation">Co-fractionation</option>
-<option value="Co-localization">Co-localization</option>
-<option value="Co-purification">Co-purification</option>
-<option value="Far Western">Far Western</option>
-<option value="FRET">FRET</option>
-<option value="PCA">PCA</option>
-<option value="Protein-peptide">Protein-peptide</option>
-<option value="Protein-RNA">Protein-RNA</option>
-<option value="Reconstituted Complex">Reconstituted Complex</option>
-<option value="Two-hybrid">Two-hybrid</option>
-</optgroup><optgroup label="Genetic Interactions">
-<option value="Dosage Growth Defect">Dosage Growth Defect</option>
-<option value="Dosage Lethality">Dosage Lethality</option>
-<option value="Dosage Rescue">Dosage Rescue</option>
-<option value="Negative Genetic">Negative Genetic</option>
-<option value="Phenotypic Enhancement">Phenotypic Enhancement</option>
-<option value="Phenotypic Suppression">Phenotypic Suppression</option>
-<option value="Positive Genetic">Positive Genetic</option>
-<option value="Synthetic Growth Defect">Synthetic Growth Defect</option>
-<option value="Synthetic Haploinsufficiency">Synthetic Haploinsufficiency</option>
-<option value="Synthetic Lethality">Synthetic Lethality</option>
-<option value="Synthetic Rescue">Synthetic Rescue</option>
-</optgroup></select>
-
-</fieldset>
-
-<fieldset>
-<legend><input type="checkbox" class="toggle" checked="checked"/>Paging Controls</legend>
-
-<p>Max: <input class="field" type="number" name="max"  min="1" max="10000" value="1000" /></p>
-<p>Start: <input class="field" type="number" name="start"  min="0" max="2147483647" value="0" /></p>
-</fieldset>
-
-
-
-<p>Include Interactors: <select class="field" name="includeInteractors">
-<option value="true" selected="selected">True</option>
-<option value="false">False</option>
-</select></p>
-
-<p>Include Interactor Interactions: <select class="field" name="includeInteractorInteractions">
-<option value="true" selected="selected">True</option>
-<option value="false">False</option>
-</select></p>
-
-
-<input class="field" type="hidden" name="sourceDatabaseList" value="BioGRID" />
-
-</form>
-
-
-</section>
-
-
-<section class="control" title="Data Summary">
-<h1>Results Summary</h1>
-
 <dl>
 <dt>Total Rows</dt>
 <dd class="rowCount">0</dd>
-<dt>Rows from last Fetch</dt>
+<dt>Rows from last fetch</dt>
 <dd class="lastCount">No Downloads Yet.</dd>
 </dl>
 
-<h2>Check Results</h2>
+<select name="display"></select>
 
-<p>
-<input type="button" id="remove_checked" value="Remove Checked" />
-</p>
-<h3>Do <input type="checkbox" id="check_p" checked="checked"/> to:</h3>
+</header>
 
-<p>
-<input type="button" id="check_old" value="Old" />
-<input type="button" id="check_new" value="New" />
-<input type="button" id="check_all" value="All" />
-</p>
-
-</section>
-
-
-<section class="control" title="Graph Tweeks">
-
-<form name="arbor">
-
-<p>Repulsion:<input type="range" name="repulsion" min="0" max="10000" step="500" value="1000"/><span></span></p>
-<p>Stiffness:<input type="range" name="stiffness" min="0" max="1000" step="100" value="100"/><span></span></p>
-<p>Friction:<input type="range" name="friction" min="0" max="1" step="0.1" value="0.5"/><span></span></p>
-<p>Frames per second:<input type="range" name="fps" min="1" max="60" step="1" value="55"/><span></span></p>
-<p>DT:<input type="range" name="dt" min="0.01" max="1.00" step="0.01" value="0.02"/><span></span></p>
-<p>Precision:<input type="range" name="precision" min="0.1" max="1.0" step="0.1" value="0.6"><span></span></p>
-<p><input type="reset"/></p>
-
-</form>
-
-</section>
-
-<section class="main" title="Graph" id="main"><canvas id="graph"></canvas></section>
-
-<section class="main foo" title="Results">
-
-<table id="interactions"><thead><tr>
-<td></td>
-<th>BioGRID Interaction ID</th>
-<th>Entrez Gene ID for Interactor A</th>
-<th>Entrez Gene ID for Interactor B</th>
-<th>BioGRID ID for Interactor A</th>
-<th>BioGRID ID for Interactor B</th>
-<th>Systematic name for Interactor A</th>
-<th>Systematic name for Interactor B</th>
-<th>Official symbol for Interactor A</th>
-<th>Official symbol for Interactor B</th>
-<th>Synonyms/Aliases for Interactor A</th>
-<th>Synonyms/Aliases for Interactor B</th>
-<th>Experimental System Name</th>
-<th>Experimental System Type</th>
-<th>First author</th>
-<th>Pubmed ID</th>
-<th>Organism ID for Interactor A</th>
-<th>Organism ID for Interactor B</th>
-<th>Interaction Throughput</th>
-<th>Quantitative Score</th>
-<th>Post Translational Modification</th>
-<th>Phenotypes</th>
-<th>Qualifications</th>
-<th>Tags</th>
-<th>Source Database</th>
-</tr></thead><tbody>
-</tbody></table>
-</section>
+<section id="sources"></section>
+<section id="display"></section>
 
 </body></html>

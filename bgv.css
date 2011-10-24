@@ -1,79 +1,60 @@
-body{
-    background-color:white;
-}
-header,section.control{
+
+header,section#sources{
     background-color:#7B3B3B; /* BioGRID maroon */
     color:white;
-    padding-left:1ex;
-    padding-right:1ex;
-    padding-bottom:1ex;
-    margin-bottom:1ex;
-
-    position:relative;
-    width:40ex;
-    right:0;
 }
-section.control a{
+header a,section#sources a{
     text-decoration:none;
     font-weight:bolder;
 }
-section.control a:link{
+header a,section#sources a:link{
     color:gray;
 }
-section.control a:visited{
+header a,section#sources a:visited{
     color:silver;
 }
 
 
-.old{
-    background-color:silver;
-    background-color:rgba(192,192,192,0.5);
+header{
+    position:absolute;
+    top:0;
+    height:1in;
+    left:0;
+    right:0;
+}
+select[name=display]{
+    position:absolute;
+    left:50%;
+    top:0;
 }
 
-tbody td,thead th{
-    border:1px solid black;
-}
-thead,tbody{
-    counter-reset:cn;
-}
-thead th:before{
-    counter-increment:cn;
-    content:counter(cn) ". ";
-}
-tbody th{
-    white-space:pre;
+
+section#sources{
+    position:absolute;
+    top:1in;
+    left:0;
+    width:3in;
 }
 
-tbody th:before{
-    counter-increment:cn;
-    content:counter(cn) ".";
-}
 /*
-tbody th{
-    background-color:white;
+section#display{
+    border:1px solid green;
+    position:relative;
 }
 */
 
-section#main{
-/*    border:1px solid pink; */
-    position:fixed;
-    left:45ex;
-    top:0;
-    bottom:1in;
-}
-
-section#main[title=Graph]{
+section.main{
+    border:1ex outset silver;
+    background-color:white;
+    position:absolute;
+    top:1in;
+    left:3in;
     right:0;
+}
+section#arborCanvas.main{
     bottom:0;
 }
-
-
-#graph{
-/*    border:1px dotted black; */
+#arborCanvas>canvas{
     width:100%;
     height:100%;
-}
-
-form[name=arbor] input{
-    vertical-align:top;
 }

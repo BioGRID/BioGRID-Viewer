@@ -1,5 +1,4 @@
 
-
 var form2URL = function(form,handler){
   form2URL.handlers[form.attr("name")] = handler;
   form.bind("submit", this.generate_url);
