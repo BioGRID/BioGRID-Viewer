@@ -4,7 +4,14 @@ http://www.ncbi.nlm.nih.gov/Taxonomy/TaxIdentifier/tax_identifier.cgi
 
 BGV.defaultTaxon={
 //  color:'transparent',
-  color:'white',
+//  color:'white',
+  color:function(otherwise){
+    if('undefined' == this._color){
+      return otherwise;
+    }else{
+      return this._color;
+    }
+  },
   display:function(){
     var c = (this.common == undefined) ? Infinity : this.common.length;
     return (c < this.species.length) ? this.common : this.species;
@@ -14,7 +21,7 @@ BGV.defaultTaxon={
 BGV.Taxon=function(a,b,c){
   this.species = a;
   if (b != undefined) this.common = b;
-  if (c != undefined) this.color = c;
+  if (c != undefined) this._color = c;
 };
 BGV.Taxon.prototype = BGV.defaultTaxon;
 

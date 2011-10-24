@@ -1,0 +1,96 @@
+<section title="Fetch TAB2 Data">
+<h1>URL</h1>
+<p>Really
+any <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">BioGRID
+TAB 2.0 Formatted Downloads</a> file can go here.  Like
+the <a href="http://wiki.thebiogrid.org/doku.php/biogridrest">BioGRID
+REST Service</a> does.</p>
+
+<form name="fetch_url">
+<input type="url" />
+<input type="submit" value="Fetch URL" />
+</form>
+
+
+<h1>URL Generator</h1>
+<form name="rest" action="http://webservice.thebiogrid.org/resources/interactions/">
+
+<p>Genes (| separated):
+<input class="field" type="search" name="geneList" value="PRB1" />
+<select class="field" name="taxId"></select>
+<input type="reset"/>
+<input class="field" type="hidden" name="searchNames" value="true"/>
+<input class="field" type="hidden" name="enableCaching" value="true"/>
+<input type="submit" value="Generate"/>
+<input type="button" value="Generate &amp; Fetch" class="gen"/>
+</p>
+
+
+<fieldset>
+<legend><input type="checkbox" class="toggle" checked="checked"/>Evidence List</legend>
+
+<select class="field" name="includeEvidence">
+<option value="true" selected="selected">Include</option>
+<option value="false">Exclude</option>
+</select>
+
+<select class="field" name="evidenceList" multiple="multiple">
+<optgroup label="Physical Interactions">
+<option value="Affinity Capture-Luminescence">Affinity Capture-Luminescence</option>
+<option value="Affinity Capture-MS" selected="selected">Affinity Capture-MS</option>
+<option value="Affinity Capture-RNA">Affinity Capture-RNA</option>
+<option value="Affinity Capture-Western">Affinity Capture-Western</option>
+<option value="Biochemical Activity">Biochemical Activity</option>
+<option value="Co-crystal Structure">Co-crystal Structure</option>
+<option value="Co-fractionation">Co-fractionation</option>
+<option value="Co-localization">Co-localization</option>
+<option value="Co-purification">Co-purification</option>
+<option value="Far Western">Far Western</option>
+<option value="FRET">FRET</option>
+<option value="PCA">PCA</option>
+<option value="Protein-peptide">Protein-peptide</option>
+<option value="Protein-RNA">Protein-RNA</option>
+<option value="Reconstituted Complex">Reconstituted Complex</option>
+<option value="Two-hybrid">Two-hybrid</option>
+</optgroup><optgroup label="Genetic Interactions">
+<option value="Dosage Growth Defect">Dosage Growth Defect</option>
+<option value="Dosage Lethality">Dosage Lethality</option>
+<option value="Dosage Rescue">Dosage Rescue</option>
+<option value="Negative Genetic">Negative Genetic</option>
+<option value="Phenotypic Enhancement">Phenotypic Enhancement</option>
+<option value="Phenotypic Suppression">Phenotypic Suppression</option>
+<option value="Positive Genetic">Positive Genetic</option>
+<option value="Synthetic Growth Defect">Synthetic Growth Defect</option>
+<option value="Synthetic Haploinsufficiency">Synthetic Haploinsufficiency</option>
+<option value="Synthetic Lethality">Synthetic Lethality</option>
+<option value="Synthetic Rescue">Synthetic Rescue</option>
+</optgroup></select>
+
+</fieldset>
+
+<fieldset>
+<legend><input type="checkbox" class="toggle" checked="checked"/>Paging Controls</legend>
+
+<p>Max: <input class="field" type="number" name="max"  min="1" max="10000" value="1000" /></p>
+<p>Start: <input class="field" type="number" name="start"  min="0" max="2147483647" value="0" /></p>
+</fieldset>
+
+
+
+<p>Include Interactors: <select class="field" name="includeInteractors">
+<option value="true" selected="selected">True</option>
+<option value="false">False</option>
+</select></p>
+
+<p>Include Interactor Interactions: <select class="field" name="includeInteractorInteractions">
+<option value="true" selected="selected">True</option>
+<option value="false">False</option>
+</select></p>
+
+
+<input class="field" type="hidden" name="sourceDatabaseList" value="BioGRID" />
+
+</form>
+
+</section>
+
