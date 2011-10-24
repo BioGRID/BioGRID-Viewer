@@ -89,6 +89,22 @@ $(document).ready(
       BGV.plugins.display[d].insert(d);
     }
 
+    $("input[name=selectAll]").bind(
+      "click",function(e){
+	for(var id in BGV.edges){
+	  BGV.selectEdge(true,BGV.edges[id]);
+	}
+      }
+    );
+
+    $("input[name=deselectAll]").bind(
+      "click",function(e){
+	for(var id in BGV.edges){
+	  BGV.selectEdge(false,BGV.edges[id]);
+	}
+      }
+    );
+
 
     var display=$("select[name=display]");
     display.bind(

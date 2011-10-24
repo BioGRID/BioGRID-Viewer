@@ -157,23 +157,24 @@ BGV.constructors.arborCanvas=function(){
       that.ps.renderer.redraw(false);
   };
 
-  this.refresh=function(){
-    for(var id in BGV.edges){
-      var edge=BGV.edges[id];
-      var cEdge=that.ps.getEdges(edge.interactor(0),edge.interactor(1))[0]; // there can be only one
-      var i=cEdge.data.selected.indexOf(id);
-      switch(i){
-      case(-1):
-	if(edge.selected){
-	  cEdge.data.selected.push(id);
-	}
-	break;
-      default:
-	if(!edge.selected){
-	  cEdge.data.selected=cEdge.data.selected.slice(i,1);
-	}
+  this.refresh=function(edge){
+
+    var id=edge.id();
+    var cEdge=that.ps.getEdges(edge.interactor(0),edge.interactor(1))[0]; // there can be only one
+
+    var i=cEdge.data.selected.indexOf(id);
+    switch(i){
+    case(-1):
+      if(edge.selected){
+	cEdge.data.selected.push(id);
+      }
+      break;
+    default:
+      if(!edge.selected){
+	cEdge.data.selected.splice(i,1);
       }
     }
+
   };
 
 

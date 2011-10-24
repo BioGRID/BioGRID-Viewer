@@ -1,5 +1,5 @@
 
-header,section#sources{
+header,#sources,#sources>section{
     background-color:#7B3B3B; /* BioGRID maroon */
     color:white;
 }
@@ -24,24 +24,22 @@ header{
 }
 select[name=display]{
     position:absolute;
+    left:75%;
+    top:0;
+}
+#foo{
+    position:absolute;
     left:50%;
     top:0;
 }
-
 
 section#sources{
     position:absolute;
     top:1in;
     left:0;
     width:3in;
+    bottom:0;
 }
-
-/*
-section#display{
-    border:1px solid green;
-    position:relative;
-}
-*/
 
 section.main{
     border:1ex outset silver;

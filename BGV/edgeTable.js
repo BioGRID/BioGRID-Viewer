@@ -1,6 +1,20 @@
 BGV.constructors.edgeTable=function(){
+  var that=this;
+
+  var _tbody;
+  this.tbody=function(){
+    if(null==_tbody){
+      _tbody=$("#edgeTable tbody");
+    }
+    return _tbody;
+  };
+
+  this.edgeCheckbox=function(id){
+    return that.tbody().find("input[value=" + id + "]");
+  };
+
   this.show=function(edges){
-    var tbody = $("#edgeTable tbody");
+    var tbody=that.tbody();
 
     for(var e in edges){
       if(0 == tbody.find("input[value=" + edges[e].id() + "]").length){
@@ -17,15 +31,18 @@ BGV.constructors.edgeTable=function(){
     }
   };
 
-  /*
-  this.refresh=function(d){
-    for(var e in BGV.edges){
-      if(BGV.edges[e].selected){
-	console.log(e, "Yes");
-      }
+  this.refresh=function(edge){
+    var cb=that.edgeCheckbox(edge.id());
+
+    if(edge.selected){
+      cb.attr("checked","checked");
+    }else{
+      cb.removeAttr("checked");
     }
+
+
   },
-   */
+
 
   this.tr=function(edge){
     var colorA = edge.color(0);
