@@ -22,6 +22,18 @@ var BGV={
     }
   },
 
+  selectEdge:function(selected,edge){
+    if(selected){
+      edge.selected=true;
+    }else{
+      delete edge.selected;
+    }
+
+    for(var d in BGV.plugins.display){
+      BGV.plugins.display[d].refresh(edge);
+    }
+  },
+
   // place to put plugins that get called.
   plugins:{data:{},display:{}},
   constructors:{},
@@ -48,9 +60,7 @@ var BGV={
 	    var selected='';
 	    if($("section#" + d).hasClass('main')){
 	      selected=' selected="selected"';
-	      console.log("Yea!",d);
 	    }
-
 
 	    put.append('<option value="' + d + '"' + selected + '>' + $('section#' + d).attr('title'));
 	    // if(put.children().length>1){
@@ -61,6 +71,8 @@ var BGV={
 	);
       },
 
+
+      refresh:function(){},
       makeMain:function(){}
     }
   }//prototypes

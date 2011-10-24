@@ -51,7 +51,7 @@ section.main{
     left:3in;
     right:0;
 }
-section#arborCanvas.main{
+section.main.fullScreen{
     bottom:0;
 }
 #arborCanvas>canvas{

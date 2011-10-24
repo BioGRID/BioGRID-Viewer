@@ -2,6 +2,7 @@ Math.TAU = Math.PI*2;
 
 BGV.constructors.arborCanvas=function(){
   var that=this;
+
   this.arbor={
     init:function(ps){
       this.canvas = $("#arborCanvas canvas");
@@ -125,10 +126,9 @@ BGV.constructors.arborCanvas=function(){
       var ctx = that.arbor.ctx;
 
       // Highlight if checked
-/*
-      if(edge.data.checked.length>0){
+      if(edge.data.selected.length>0){
 	ctx.strokeStyle = 'blue';
-	ctx.lineWidth = edge.data.ids.length + 2;
+	ctx.lineWidth = edge.data.edges.length + 2;
 
 	ctx.beginPath();
 	ctx.moveTo(pt1.x,pt1.y);
@@ -137,7 +137,6 @@ BGV.constructors.arborCanvas=function(){
 			  pt2.x,pt2.y);
 	ctx.stroke();
       }
-*/
 
       // draw the normal line
       ctx.strokeStyle = '#8b3b3b';
@@ -158,6 +157,26 @@ BGV.constructors.arborCanvas=function(){
       that.ps.renderer.redraw(false);
   };
 
+  this.refresh=function(){
+    for(var id in BGV.edges){
+      var edge=BGV.edges[id];
+      var cEdge=that.ps.getEdges(edge.interactor(0),edge.interactor(1))[0]; // there can be only one
+      var i=cEdge.data.selected.indexOf(id);
+      switch(i){
+      case(-1):
+	if(edge.selected){
+	  cEdge.data.selected.push(id);
+	}
+	break;
+      default:
+	if(!edge.selected){
+	  cEdge.data.selected=cEdge.data.selected.slice(i,1);
+	}
+      }
+    }
+  };
+
+
   this.show=function(edges){
     for(var id in edges){
       var edge=edges[id];
@@ -167,7 +186,7 @@ BGV.constructors.arborCanvas=function(){
       var e = that.ps.getEdges(A,B);
       switch(e.length){
       case 0:
-	that.ps.addEdge(A,B,{edges:[edge.id()]});
+	that.ps.addEdge(A,B,{selected:[],edges:[edge.id()]});
 	break;
       case 1:
 	if(-1 == e[0].data.edges.indexOf(edge.id())){
