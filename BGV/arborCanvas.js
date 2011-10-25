@@ -23,16 +23,18 @@ BGV.constructors.arborCanvas=function(){
     },
 
     setSize:function(ps){
-      var w = that.arbor.canvas.width();
-      var h = that.arbor.canvas.height();
+      if(null!=that.arbor.canvas){
+	var w = that.arbor.canvas.width();
+	var h = that.arbor.canvas.height();
 
-      that.arbor.canvas.attr("width", w);
-      that.arbor.canvas.attr("height", h);
-      ps.screenSize(w,h);
+	that.arbor.canvas.attr("width", w);
+	that.arbor.canvas.attr("height", h);
+	ps.screenSize(w,h);
 
-      // things that get reset on resize;
-      this.ctx.textAlign = "center";
-      this.ctx.font = this.font;
+	// things that get reset on resize;
+	this.ctx.textAlign = "center";
+	this.ctx.font = this.font;
+      }
     },
 
 

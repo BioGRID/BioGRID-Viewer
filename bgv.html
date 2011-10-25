@@ -15,6 +15,11 @@
 <script src="/arbor/lib/arbor.js"></script>
 <script src="BGV/arborCanvas.js"></script>
 
+<link rel="stylesheet" href="BGV/d3marker.css" />
+<script src="/d3/d3.js"></script>
+<script src="/d3/d3.geom.js"></script>
+<script src="/d3/d3.layout.js"></script>
+<script src="BGV/d3marker.js"></script>
 
 </head><body>
 
@@ -27,13 +32,15 @@
 </dl>
 
 
-<fieldset id="foo"><legend>Selection Options</legend>
+<fieldset id="select"><legend>Selection Options</legend>
 <!-- input type="button" name="deleteSelected" value="Delete Selected"/><br/ -->
 <input type="button" name="selectAll" value="Select All"/></br/>
 <input type="button" name="deselectAll" value="Deselect All"/>
 </fieldset>
 
+<fieldset class="foo"><legend>View</legend>
 <select name="display"></select>
+</fieldset>
 
 </header>
 

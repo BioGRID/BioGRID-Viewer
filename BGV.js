@@ -72,6 +72,9 @@ var BGV={
       },
 
 
+      // Passes an array of edges to the display.
+      show:function(edges){},
+
       refresh:function(){},
       makeMain:function(){}
     }
@@ -117,6 +120,7 @@ $(document).ready(
 	    if(show==tag.attr('id')){
 //	      tag.slideDown('fast');
 	      tag.addClass("main");
+	      console.log(show, BGV.plugins.display[show]);
 	      BGV.plugins.display[show].makeMain();
 	    }else{
 //	      tag.slideUp('fast');

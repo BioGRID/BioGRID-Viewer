@@ -22,12 +22,12 @@ header{
     left:0;
     right:0;
 }
-select[name=display]{
+.foo{
     position:absolute;
     left:75%;
     top:0;
 }
-#foo{
+#select{
     position:absolute;
     left:50%;
     top:0;
@@ -52,7 +52,9 @@ section.main{
 section.main.fullScreen{
     bottom:0;
 }
+
 #arborCanvas>canvas{
     width:100%;
     height:100%;
 }
+
