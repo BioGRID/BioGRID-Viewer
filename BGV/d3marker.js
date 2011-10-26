@@ -61,6 +61,10 @@ BGV.constructors.d3marker=function(){
     var svg=d3.select("#d3marker svg");
     var svgTag=$(svg[0]);
 
+    if(null!=that.force){
+      svgTag.find('g').remove();
+    }
+
     that.force=d3.layout.force()
       .nodes(d3g.nodes)
       .links(d3g.links)
