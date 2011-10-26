@@ -28,23 +28,30 @@ BGV.constructors.d3marker=function(){
 
   };
 
+  var _links={};
+  var _nodes={};
+
   // BGV edges to d3 links and nodes
   var edges2d3g=function(edges){
-    var links=[];
     for(var id in edges){
       var edge=edges[id];
-      links.push({source:edge.interactor(0),target:edge.interactor(1)});
+      var A=edge.interactor(0);
+      var B=edge.interactor(1);
+
+      if(null==_nodes[A]){
+	_nodes[A]={name:A};
+      }
+      if(null==_nodes[B]){
+	_nodes[B]={name:B};
+      }
+
+      if(null==_links[id]){
+	_links[id]={source:_nodes[A],target:_nodes[B]};
+      }
+
     }
 
-    var nodes={};
-    links.forEach(
-      function(link) {
-	link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
-	link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
-      }
-    );
-
-    return {links:links,nodes:d3.values(nodes)};
+    return {links:d3.values(_links),nodes:d3.values(_nodes)};
   };
 
 
@@ -54,8 +61,6 @@ BGV.constructors.d3marker=function(){
     var svg=d3.select("#d3marker svg");
     var svgTag=$(svg[0]);
 
-
-//    console.log(links,d3.values(nodes));
     that.force=d3.layout.force()
       .nodes(d3g.nodes)
       .links(d3g.links)
@@ -64,23 +69,6 @@ BGV.constructors.d3marker=function(){
       .charge(-300)
       .on("tick",tick)
       .start();
-
-    /*
-    // Per-type markers, as they don't inherit styles.
-    svg.append("svg:defs").selectAll("marker")
-      .data(["suit", "licensing", "resolved"])
-      .enter().append("svg:marker")
-      .attr("id", String)
-      .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 15)
-      .attr("refY", -1.5)
-      .attr("markerWidth", 6)
-      .attr("markerHeight", 6)
-      .attr("orient", "auto")
-      .append("svg:path")
-      .attr("d", "M0,-5L10,0L0,5");
-*/
-
 
     g.path = svg.append("svg:g").selectAll("path")
       .data(that.force.links())
