@@ -4,6 +4,12 @@ BGV.constructors.d3marker=function(){
   var force=null;
   var g={}; // hold element
 
+  $(window).bind(
+    "resize",function(){
+      that.refresh(BGV.edges);
+    }
+  );
+
   var tick=function(){
     g.circle.attr(
       "transform", function(d) {
@@ -54,8 +60,11 @@ BGV.constructors.d3marker=function(){
     return {links:d3.values(_links),nodes:d3.values(_nodes)};
   };
 
+  this.refresh=function(edges){
+    if(0==edges.length){
+      return;
+    }
 
-  this.show=function(edges){
     var d3g=edges2d3g(edges);
 
     var svg=d3.select("#d3marker svg");
@@ -65,11 +74,18 @@ BGV.constructors.d3marker=function(){
       svgTag.find('g').remove();
     }
 
+
+    /*
+    var ld=(svgTag.width()/Object.keys(edges).length)*20;
+    console.log(svgTag.width(), Object.keys(edges).length, ld);
+     */
+    var ld=400;
+
     that.force=d3.layout.force()
       .nodes(d3g.nodes)
       .links(d3g.links)
       .size([svgTag.width(),svgTag.height()])
-      .linkDistance(200)
+      .linkDistance(ld)
       .charge(-300)
       .on("tick",tick)
       .start();
@@ -104,8 +120,9 @@ BGV.constructors.d3marker=function(){
       .attr("y", ".31em")
       .text(function(d) { return d.name; });
 
-
   };
+
+  this.show=this.refresh;
 };
 BGV.constructors.d3marker.prototype=BGV.prototypes.display;
 BGV.plugins.display.d3marker=new BGV.constructors.d3marker();
