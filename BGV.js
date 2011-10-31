@@ -42,7 +42,7 @@ var BGV={
     data:{
       insert:function(d,also){
 	BGV.appendContent(
-	  "BGV/" + d + "/source.html",
+	  "BGV/" + d + ".html",
 	  "section#sources",
 	  also);
       }
@@ -51,7 +51,7 @@ var BGV={
     display:{
       insert:function(d,also){
 	BGV.appendContent(
-	  "BGV/" + d + "/display.html",
+	  "BGV/" + d + ".html",
 	  "section#display",
 	  also,
 	  function(){
