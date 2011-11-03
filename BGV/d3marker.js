@@ -6,11 +6,12 @@ BGV.constructors.d3marker=function(){
 
   $(window).bind(
     "resize",function(){
-      that.refresh(BGV.edges);
+      that.show(BGV.edges);
     }
   );
 
   var tick=function(){
+//    console.log(arguments);
     g.circle.attr(
       "transform", function(d) {
 	return "translate(" + d.x + "," + d.y + ")";
@@ -60,7 +61,7 @@ BGV.constructors.d3marker=function(){
     return {links:d3.values(_links),nodes:d3.values(_nodes)};
   };
 
-  this.refresh=function(edges){
+  this.show=function(edges){
     if(0==edges.length){
       return;
     }
@@ -79,16 +80,26 @@ BGV.constructors.d3marker=function(){
     var ld=(svgTag.width()/Object.keys(edges).length)*20;
     console.log(svgTag.width(), Object.keys(edges).length, ld);
      */
-    var ld=400;
+    var ld=250;
+    var size=[svgTag.width(),svgTag.height()];
+
 
     that.force=d3.layout.force()
       .nodes(d3g.nodes)
       .links(d3g.links)
-      .size([svgTag.width(),svgTag.height()])
+      .size(size)
       .linkDistance(ld)
       .charge(-300)
       .on("tick",tick)
       .start();
+
+/*
+    that.force=d3.layout.force()
+      .nodes(d3g.nodes)
+      .links(d3g.links)
+      .size(size)
+      .start();
+*/
 
     g.path = svg.append("svg:g").selectAll("path")
       .data(that.force.links())
@@ -103,7 +114,16 @@ BGV.constructors.d3marker=function(){
       .enter()
       .append("svg:circle")
       .attr("r",6)
+      .on("mousedown",function(node){
+	    node.fixed=1;
+	  })
       .call(that.force.drag);
+
+      // .call(
+      // 	function(){
+      // 	  console.log('foo',arguments);
+      // 	}
+      // );
 
     g.text = svg.append("svg:g").selectAll("g")
       .data(that.force.nodes())
@@ -122,7 +142,9 @@ BGV.constructors.d3marker=function(){
 
   };
 
-  this.show=this.refresh;
+  this.refresh=function(edge){
+    console.log(edge);
+  };
 };
 BGV.constructors.d3marker.prototype=BGV.prototypes.display;
 BGV.plugins.display.d3marker=new BGV.constructors.d3marker();

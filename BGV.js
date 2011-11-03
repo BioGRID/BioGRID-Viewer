@@ -75,8 +75,10 @@ var BGV={
       // Passes an array of edges to the display.
       show:function(edges){},
 
-      // Called when existing edges change
-      refresh:function(edges){},
+      // Called when existing edges change.
+      refresh:function(edge){},
+
+      // Called when this is the main view.
       makeMain:function(){}
     }
   }//prototypes
