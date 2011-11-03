@@ -121,12 +121,12 @@ $(document).ready(
 	    var tag=$(t);
 
 	    if(show==tag.attr('id')){
-//	      tag.slideDown('fast');
-	      tag.addClass("main");
+	      tag.slideDown('fast');
+//	      tag.addClass("main");
 	      BGV.plugins.display[show].makeMain();
 	    }else{
-//	      tag.slideUp('fast');
-	      tag.removeClass("main");
+	      tag.slideUp('fast');
+//	      tag.removeClass("main");
 	    }
 	  }
 	);
