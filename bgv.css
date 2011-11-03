@@ -53,8 +53,8 @@ section.main.fullScreen{
     bottom:0;
 }
 
-#arborCanvas>canvas{
+section.main.fullScreen>*{
+    position:absolute;
     width:100%;
     height:100%;
 }
-
