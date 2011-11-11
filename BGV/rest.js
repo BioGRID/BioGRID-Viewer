@@ -62,11 +62,6 @@ BGV.plugins.rest=function(kv){
     }
   };
 
-  var ajax = new window.XMLHttpRequest();
-  ajax.onreadystatechange=checkAjax;
-  ajax.open('GET',url,true);
-  ajax.send();
-
   tab2Edge=function(values){
     this.values=values.split("\t");
   };
@@ -86,11 +81,11 @@ BGV.plugins.rest=function(kv){
       return this.values[15+i];
     },
     color:function(i,ifNoColor){
-      console.log(this,this.taxaID(i));
       return BGV.taxa.get(this.taxaID(i)).color(ifNoColor);
-    }
+   }
 
   };
+
 
   var parse=function(tsv){
     tsv.trim().split("\n").forEach(
@@ -104,5 +99,24 @@ BGV.plugins.rest=function(kv){
     );
     return true;
   };
+
+
+
+  var ajax;
+  if('function'==typeof window.XDomainRequest){
+    ajax=new window.XDomainRequest();
+    ajax.onload=function(){
+      parse(this.responseText);
+      BGV.update();
+    };
+  }else{
+    ajax=new window.XMLHttpRequest();
+    ajax.onreadystatechange=checkAjax;
+  }
+
+  ajax.open('GET',url,true);
+  ajax.send();
+
+
 };
 //BGV.plugins.rest(queryString);
