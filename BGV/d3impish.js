@@ -52,30 +52,41 @@ BGV.constructors.d3impish=function(){
     var returnLinks={};;
     for(var id in edges){
       var edge=edges[id];
-      var ui=edge.unorderedInteractors();
+      var uo=edge.unorderedInteractors();
 
-      if(null==_nodes[ui[0]]){
-	_nodes[ui[0]]={name:ui[0]};
+      var s=edge.interactor(uo[0]); // start
+      var e=edge.interactor(uo[1]); // end
+
+
+      if(null==_nodes[s]){
+	_nodes[s]={
+	  name:s,
+	  color:edge.color(uo[0])
+	};
+	console.log(edge.color(uo[0]));
       }
-      if(null==_nodes[ui[1]]){
-	_nodes[ui[1]]={name:ui[1]};
+      if(null==_nodes[e]){
+	_nodes[e]={
+	  name:e,
+	  color:edge.color(uo[1])
+	};
       }
 
-      if(null==_links[ui[0]]){
-	_links[ui[0]]={};
+      if(null==_links[s]){
+	_links[s]={};
       }
 
-      if(null==_links[ui[0]][ui[1]]){
-	_links[ui[0]][ui[1]]={
-	  source:_nodes[ui[0]],
-	  target:_nodes[ui[1]],
+      if(null==_links[s][e]){
+	_links[s][e]={
+	  source:_nodes[s],
+	  target:_nodes[e],
 	  ids:[id]
 	};
 
-      }else if(-1==_links[ui[0]][ui[1]].ids.indexOf(id)){
-	_links[ui[0]][ui[1]].ids.push(id);
+      }else if(-1==_links[s][e].ids.indexOf(id)){
+	_links[s][e].ids.push(id);
       }
-      returnLinks[id]=_links[ui[0]][ui[1]]; // there can be only one
+      returnLinks[id]=_links[s][e]; // there can be only one
     }
 
     return {links:d3.values(returnLinks),nodes:d3.values(_nodes)};
@@ -120,7 +131,7 @@ BGV.constructors.d3impish=function(){
 	"class", function(d) {
 	  return "link";// + d.type;
 	})
-      .attr('stroke-width', function(d){return d.ids.length})
+      .attr('stroke-width', function(d){return d.ids.length;})
 //      .attr("marker-end", function(d) { return "url(#test)"; })
     ;
 
@@ -131,9 +142,8 @@ BGV.constructors.d3impish=function(){
       .enter()
       .append("svg:circle")
       .attr("r",6)
-      .on("mousedown",function(node){
-	    node.fixed=1;
-	  })
+      .attr("fill",function(n){return n.color;})
+      .on("mousedown",function(node){node.fixed=1;})
       .call(that.force.drag);
 
     g.text = svg.append("svg:g").selectAll("g")

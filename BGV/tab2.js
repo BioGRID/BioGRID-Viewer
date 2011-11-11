@@ -10,11 +10,17 @@ BGV.constructors.tab2=function(){
       return this.column[23] + this.column[0];
     },
 
-    // return interactors sorted (for undirected graphs)
+    // return interactor numbers sorted (for undirected graphs)
     unorderedInteractors:function(){
-      return [this.interactor(0),this.interactor(1)].sort();
+      var A=this.interactor(0);
+      var B=this.interactor(1);
+
+      if (A<B){
+	return [0,1];
+      }
+      return [1,0];
     },
-    
+
     // when i is the argument 0==A 1==B
 
     interactor:function(i){

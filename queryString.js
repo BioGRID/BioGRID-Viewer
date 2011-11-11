@@ -10,7 +10,7 @@ if(null==queryString){
     function(fv){
       var svf=fv.split('=',2);
       if(null!=svf[1]){
-	queryString[svf[0]]=svf[1];
+	queryString[unescape(svf[0])]=unescape(svf[1]);
       }
     }
   );
