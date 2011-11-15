@@ -101,6 +101,7 @@ BGV.holdMe.d3force=function(){
 	.attr("r",6)
 	.attr("fill",function(n){return n.color;})
 	.on("mousedown",function(node){node.fixed=1;})
+	//.on("mouseover",function(node){console.log('hovering',node);})
 	.call(force.drag);
 
       g.text = svg.append("svg:g").selectAll("g")
@@ -123,9 +124,23 @@ BGV.holdMe.d3force=function(){
 
   };
 
-  var defaultColor='silver';
+
   var _links={};
   var _nodes={};
+
+  var newNode=function(edge,order){
+    var name=edge.interactor(order);
+
+    if(null==_nodes[name]){
+      _nodes[name]={
+	name:name,
+	color:edge.color(order,'silver')
+      };
+      return true;
+    }
+    return false;
+  };
+
   var convertEdges=function(edges){
     var fresh=false;
     var returnLinks={};
@@ -133,24 +148,15 @@ BGV.holdMe.d3force=function(){
       var edge=edges[id];
       var uo=edge.unorderedInteractors();
 
+      if(newNode(edge,uo[0])){
+	fresh=true;
+      }
+      if(newNode(edge,uo[1])){
+	fresh=true;
+      }
+
       var s=edge.interactor(uo[0]); // start
       var e=edge.interactor(uo[1]); // end
-
-
-      if(null==_nodes[s]){
-	_nodes[s]={
-	  name:s,
-	  color:edge.color(uo[0],defaultColor)
-	};
-	fresh=true;
-      }
-      if(null==_nodes[e]){
-	_nodes[e]={
-	  name:e,
-	  color:edge.color(uo[1],defaultColor)
-	};
-	fresh=true;
-      }
 
       if(null==_links[s]){
 	_links[s]={};

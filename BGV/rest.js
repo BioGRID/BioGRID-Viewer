@@ -75,7 +75,7 @@ BGV.holdMe.rest=function(){
 	return this.values[15+i];
       },
       color:function(i,ifNoColor){
-	console.log(this,this.taxaID(i),ifNoColor);
+	//console.log(this,this.taxaID(i),ifNoColor);
 	return BGV.taxa.get(this.taxaID(i)).color(ifNoColor);
       }
     };
@@ -128,5 +128,3 @@ BGV.holdMe.rest=function(){
 };
 
 BGV.plugins.rest=new BGV.holdMe.rest();
-
-//BGV.plugins.rest(queryString);
