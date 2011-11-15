@@ -39,6 +39,14 @@ BGV.holdMe.rest=function(){
       + qs + 'enableCaching=true';
     qs=qs.slice(0,-1);
 
+    if(null!=BGV.lastLink){
+      for(var l=0;l<BGV.lastLink.length;l++){
+	BGV.lastLink[l].setAttribute('href','bgv.svg?'+qs);
+      }
+    }
+
+
+
     tab2Edge=function(values){
       this.values=values.split("\t");
     };
@@ -58,7 +66,7 @@ BGV.holdMe.rest=function(){
 	return this.values[15+i];
       },
       color:function(i,ifNoColor){
-	//console.log(this,this.taxaID(i),ifNoColor);
+	console.log(this,this.taxaID(i),ifNoColor);
 	return BGV.taxa.get(this.taxaID(i)).color(ifNoColor);
       }
     };
@@ -80,12 +88,6 @@ BGV.holdMe.rest=function(){
 	  BGV.lastCount[l].textContent=edgeCount;
 	}
       }
-      if(null!=BGV.lastLink){
-	for(var l=0;l<BGV.lastLink.length;l++){
-	  BGV.lastLink[l].setAttribute('href','bgv.svg?'+qs);
-	}
-      }
-
       return true;
     };
 

@@ -9,6 +9,10 @@ BGV.holdMe.d3force=function(){
   };
 
   var tick=function(){
+    if(0==Object.keys(g).length){
+      return;
+    }
+
     g.circle.attr(
       "transform", function(d) {
 	return "translate(" + d.x + "," + d.y + ")";

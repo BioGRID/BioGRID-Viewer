@@ -62,12 +62,12 @@ BGV.taxa={
 
     // No color
     8355:new BGV.Taxon("Xenopus laevis","African clawed frog"),
-    9913:new BGV.Taxon("Bos taurus:","cattle")
+    9615:new BGV.Taxon("Canis lupus familiaris","dog"),
+    9913:new BGV.Taxon("Bos taurus","cattle")
 
     /*
     3055:new BGV.Taxon("Chlamydomonas reinhardtii"),
     4577:new BGV.Taxon("Zea mays","maize"),
-    9615:new BGV.Taxon("Canis lupus familiaris","dog"),
     10298:new BGV.Taxon("Human herpesvirus 1"),//,"Herpes simplex virus type 1"),
     10376:new BGV.Taxon("Human herpesvirus 4"),//,"Epstein-Barr virus"),
     11103:new BGV.Taxon("Hepatitis C virus"),
