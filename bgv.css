@@ -55,14 +55,18 @@ section.main.fullScreen{
     bottom:0;
 }
 
-/*
+
+
 section.main.fullScreen>*{
     position:absolute;
     width:100%;
     height:100%;
-}
-*/
-
-svg{
     border:1px solid red;
 }
+
+/*
+svg{
+    width:100%;
+    height:100%;
+}
+*/
