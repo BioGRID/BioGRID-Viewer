@@ -119,6 +119,7 @@ BGV.holdMe.d3force=function(){
 
   };
 
+  var defaultColor='silver';
   var _links={};
   var _nodes={};
   var convertEdges=function(edges){
@@ -135,14 +136,14 @@ BGV.holdMe.d3force=function(){
       if(null==_nodes[s]){
 	_nodes[s]={
 	  name:s,
-	  color:edge.color(uo[0])
+	  color:edge.color(uo[0],defaultColor)
 	};
 	fresh=true;
       }
       if(null==_nodes[e]){
 	_nodes[e]={
 	  name:e,
-	  color:edge.color(uo[1])
+	  color:edge.color(uo[1],defaultColor)
 	};
 	fresh=true;
       }

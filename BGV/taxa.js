@@ -6,7 +6,7 @@ BGV.defaultTaxon={
 //  color:'transparent',
 //  color:'white',
   color:function(otherwise){
-    if('undefined' == this._color){
+    if(null==this._color){
       return otherwise;
     }else{
       return this._color;
@@ -47,6 +47,7 @@ BGV.taxa={
   },
 
   list:{
+    // Go reference genomes colors
     3702:new BGV.Taxon("Arabidopsis thaliana","thale cress","#9ACD32"),
     4896:new BGV.Taxon("Schizosaccharomyces pombe","fission yeast","#8A2BE2"),
     4932:new BGV.Taxon("Saccharomyces cerevisiae","yeast","#00FFFF"),
@@ -57,14 +58,16 @@ BGV.taxa={
     9606:new BGV.Taxon("Homo sapiens","human","#FF6347"),
     10090:new BGV.Taxon("Mus musculus","house mouse","#C0D9D9"),
     10116:new BGV.Taxon("Rattus norvegicus","Norway rat","#FFD700"),
-    511145:new BGV.Taxon("Escherichia coli str. K-12 substr. MG1655",'E.coli',"#98FB98")
+    511145:new BGV.Taxon("Escherichia coli str. K-12 substr. MG1655",'E.coli',"#98FB98"),
+
+    // No color
+    8355:new BGV.Taxon("Xenopus laevis","African clawed frog"),
+    9913:new BGV.Taxon("Bos taurus:","cattle")
 
     /*
     3055:new BGV.Taxon("Chlamydomonas reinhardtii"),
     4577:new BGV.Taxon("Zea mays","maize"),
-    8355:new BGV.Taxon("Xenopus laevis","African clawed frog"),
     9615:new BGV.Taxon("Canis lupus familiaris","dog"),
-    9913:new BGV.Taxon("Bos taurus:","cattle"),
     10298:new BGV.Taxon("Human herpesvirus 1"),//,"Herpes simplex virus type 1"),
     10376:new BGV.Taxon("Human herpesvirus 4"),//,"Epstein-Barr virus"),
     11103:new BGV.Taxon("Hepatitis C virus"),
