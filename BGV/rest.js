@@ -39,6 +39,11 @@ BGV.holdMe.rest=function(){
       + qs + 'enableCaching=true';
     qs=qs.slice(0,-1);
 
+    if(null!=BGV.lastCount){
+      for(var l=0;l<BGV.lastCount.length;l++){
+	BGV.lastCount[l].textContent='Pending';
+      }
+    }
     if(null!=BGV.lastSVGLink){
       for(var l=0;l<BGV.lastSVGLink.length;l++){
 	BGV.lastSVGLink[l].setAttribute('href','bgv.svg?'+qs);
