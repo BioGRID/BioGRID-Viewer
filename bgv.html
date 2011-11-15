@@ -6,51 +6,32 @@
 <link rel="stylesheet" href="bgv.css" />
 
 <script src="/jquery.min.js"></script>
+
 <script src="BGV.js"></script>
+<script src="BGV/rest.js"></script>
+<script src="BGV/restForm.js"></script>
 <script src="BGV/taxa.js"></script>
 
-<script src="BGV/tab2.js"></script>
-<script src="BGV/edgeTable.js"></script>
-
-<link rel="stylesheet" href="BGV/d3marker.css" />
+<link rel="stylesheet" href="BGV/d3force.css" />
 <script src="/d3/d3.js"></script>
 <script src="/d3/d3.geom.js"></script>
 <script src="/d3/d3.layout.js"></script>
-<script src="BGV/d3marker.js"></script>
-<script src="BGV/d3impish.js"></script>
+<script src="BGV/d3force.js"></script>
 
-<!-- script src="/arbor/lib/arbor.js"></script>
-<script src="BGV/arborCanvas.js"></script -->
+</head><body onload="BGV.load()" onresize="BGV.resize()">
 
-<!-- script src="../cytoscapeweb/js/min/AC_OETags.min.js"></script>
-<script src="../cytoscapeweb/js/min/json2.min.js"></script>
-<script src="../cytoscapeweb/js/min/cytoscapeweb.min.js"></script>
-<script src="BGV/cytoscapeweb.js"></script -->
+<section id="sources">
 
-</head><body>
-
-<header>
 <dl>
 <dt>Total Rows</dt>
 <dd class="rowCount">0</dd>
 <dt>Rows from last fetch</dt>
 <dd class="lastCount">No Downloads Yet.</dd>
+<dd><a class="lastSVGLink">External SVG</a></dd>
 </dl>
 
 
-<!-- fieldset id="select"><legend>Selection Options</legend>
-<input type="button" name="deleteSelected" value="Delete Selected"/><br/>
-<input type="button" name="selectAll" value="Select All"/></br/>
-<input type="button" name="deselectAll" value="Deselect All"/>
-</fieldset -->
-
-<fieldset class="foo"><legend>View</legend>
-<select name="display"></select>
-</fieldset>
-
-</header>
-
-<section id="sources"></section>
+</section>
 <section id="display"></section>
 
 </body></html>

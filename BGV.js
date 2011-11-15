@@ -1,4 +1,59 @@
 var BGV={
+  edges:{},   // place to put edges no matter the source
+  plugins:{}, // put external objects here
+  holdMe:{},  // needed unused stuff here to not clobber the namespace
+
+  // For each plugin if run is a function execute it with pass as an
+  // argument.
+  foreachPlugin:function(run,pass){
+    for(var n in BGV.plugins){
+      var plugin=BGV.plugins[n];
+
+      if('function'==typeof(plugin[run])){
+	plugin[run](pass);
+      }
+    }
+  },
+
+
+  load:function(){
+    BGV.display=document.getElementById('display');
+    BGV.source=document.getElementById('sources');
+
+    BGV.rowCount=document.getElementsByClassName('rowCount');
+    BGV.lastCount=document.getElementsByClassName('lastCount');
+
+    // Hupmh, this should probably be in rest(Form?).js
+    BGV.lastLink=document.getElementsByClassName('lastSVGLink');
+
+    BGV.foreachPlugin('load');
+  },
+
+  start:function(){
+    BGV.foreachPlugin('start');
+  },
+
+  update:function(){
+    BGV.foreachPlugin('update',BGV.edges);
+    if(null!=BGV.rowCount){
+      for(var l=0;l<BGV.rowCount.length;l++){
+	BGV.rowCount[l].textContent=Object.keys(BGV.edges).length;
+      }
+    }
+
+  },
+
+  resize:function(){
+    BGV.foreachPlugin('resize');
+  }
+
+
+};
+
+
+
+/*
+var BGV={
   appendContent:function(url,to){
     var args=arguments;
     $.get(
@@ -136,3 +191,4 @@ $(document).ready(
   }
 
 );
+*/

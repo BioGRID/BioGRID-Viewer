@@ -2,6 +2,12 @@ BGV.holdMe.d3force=function(){
   var force=null;
   var g={};
 
+  // Only needs to be called if you don't provide your own SVG tag
+  // (like it bgv.svg does)
+   this.load=function(){
+    $(BGV.display).append('<section class="main fullScreen" title="D3 Force"><svg class="bgv"></svg></section>');
+  };
+
   var tick=function(){
     g.circle.attr(
       "transform", function(d) {
@@ -41,14 +47,13 @@ BGV.holdMe.d3force=function(){
   this.resize=function(edges){
     var e2d=convertEdges(edges);
     if(null==svg){
-      svg=d3.select("svg");
+      svg=d3.select("svg.bgv");
     }
 
-
-    var size=[window.innerWidth,window.innerHeight];
-    //var size=[svg[0][0].offsetWidth,svg[0][0].offsetHeight];
-
-    //ld=(size[0]+size[1])/8;
+    // If jQuery do this, else do that.  :-P
+    var size=('function'==typeof $)                                 ?
+      [$(svg[0][0]).parent().width(),$(svg[0][0]).parent().height()]:
+      [window.innerWidth,window.innerHeight]                        ;
     var ld=Math.min(size[0],size[1])*0.40;
 
     if(null==force){
@@ -61,6 +66,23 @@ BGV.holdMe.d3force=function(){
 	.on("tick",tick)
 	.gravity(0.5)
 	.start();
+    }else{
+      force
+	.size(size)
+	.linkDistance(ld)
+	.start();
+    }
+
+    if(e2d.fresh){
+
+      while(null!=svg[0][0].lastChild && 'g'==svg[0][0].lastChild.nodeName){
+	svg[0][0].removeChild(svg[0][0].lastChild);
+      }
+
+      force
+        .nodes(e2d.nodes)
+	.links(e2d.links)
+      	.start();
 
       g.path = svg.append("svg:g").selectAll("path")
 	.data(force.links())
@@ -92,11 +114,6 @@ BGV.holdMe.d3force=function(){
 	.attr("y", ".31em")
 	.text(function(d) { return d.name; });
 
-    }else{
-      force
-	.size(size)
-	.linkDistance(ld)
-	.start();
     }
 
 
@@ -105,6 +122,7 @@ BGV.holdMe.d3force=function(){
   var _links={};
   var _nodes={};
   var convertEdges=function(edges){
+    var fresh=false;
     var returnLinks={};
     for(var id in edges){
       var edge=edges[id];
@@ -119,12 +137,14 @@ BGV.holdMe.d3force=function(){
 	  name:s,
 	  color:edge.color(uo[0])
 	};
+	fresh=true;
       }
       if(null==_nodes[e]){
 	_nodes[e]={
 	  name:e,
 	  color:edge.color(uo[1])
 	};
+	fresh=true;
       }
 
       if(null==_links[s]){
@@ -137,13 +157,18 @@ BGV.holdMe.d3force=function(){
 	  target:_nodes[e],
 	  ids:[id]
 	};
+	fresh=true;
       }else if(-1==_links[s][e].ids.indexOf(id)){
 	_links[s][e].ids.push(id);
       }
       returnLinks[id]=_links[s][e]; // there can be only one
     }
 
-    return {links:d3.values(returnLinks),nodes:d3.values(_nodes)};
+    return {
+      links:d3.values(returnLinks),
+      nodes:d3.values(_nodes),
+      fresh:fresh
+    };
   };
 
 
