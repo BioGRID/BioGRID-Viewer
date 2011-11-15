@@ -39,12 +39,16 @@ BGV.holdMe.rest=function(){
       + qs + 'enableCaching=true';
     qs=qs.slice(0,-1);
 
-    if(null!=BGV.lastLink){
-      for(var l=0;l<BGV.lastLink.length;l++){
-	BGV.lastLink[l].setAttribute('href','bgv.svg?'+qs);
+    if(null!=BGV.lastSVGLink){
+      for(var l=0;l<BGV.lastSVGLink.length;l++){
+	BGV.lastSVGLink[l].setAttribute('href','bgv.svg?'+qs);
       }
     }
-
+    if(null!=BGV.lastRESTLink){
+      for(var l=0;l<BGV.lastRESTLink.length;l++){
+	BGV.lastRESTLink[l].setAttribute('href',url);
+      }
+    }
 
 
     tab2Edge=function(values){
