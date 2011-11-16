@@ -4,8 +4,10 @@ BGV.holdMe.d3force=function(){
 
   // Only needs to be called if you don't provide your own SVG tag
   // (like it bgv.svg does)
-   this.load=function(){
-    $(BGV.display).append('<section class="main fullScreen" title="D3 Force"><svg class="bgv"></svg></section>');
+  this.load=function(){
+    if('function'==typeof $){
+      $(BGV.display).append('<section class="main fullScreen" title="D3 Force"><svg class="bgv"></svg></section>');
+    }
   };
 
   var tick=function(){

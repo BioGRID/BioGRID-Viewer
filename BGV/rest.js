@@ -2,9 +2,11 @@
 BGV.holdMe.rest=function(){
   var qs;
 
-  this.queryString=function(){
-    return qs;
-  };
+  this.load=function(){
+    // you need to provide these elements
+    BGV.lastSVGLink=document.getElementsByClassName('lastSVGLink');
+    BGV.lastRESTLink=document.getElementsByClassName('lastRESTLink');
+  },
 
   this.start=function(kv){
     if(null==kv && 'undefined'!=typeof(queryString)){
@@ -75,28 +77,44 @@ BGV.holdMe.rest=function(){
 	return this.values[15+i];
       },
       color:function(i,ifNoColor){
-	//console.log(this,this.taxaID(i),ifNoColor);
+	console.log(this,this.taxaID(i),ifNoColor);
 	return BGV.taxa.get(this.taxaID(i)).color(ifNoColor);
       }
     };
 
     var parse=function(tsv){
       var edgeCount=0;
+      var error=false;
       tsv.trim().split("\n").forEach(
 	function(line){
 	  var edge=new tab2Edge(line);
-	  var id=edge.id();
-	  edgeCount++; // count em even if we already have them
-	  if(null==BGV.edges[id]){
-	    BGV.edges[id]=edge;
+	  if(edge.values.length<24){
+	    error=true;
+	    if(null!=BGV.lastCount){
+	      for(var l=0;l<BGV.lastCount.length;l++){
+		BGV.lastCount[l].textContent=line;
+	      }
+	    }else{
+	      alert("error:"+line);
+	    }
+ 	  }else{
+	    var id=edge.id();
+	    edgeCount++; // count em even if we already have them
+	    if(null==BGV.edges[id]){
+	      BGV.edges[id]=edge;
+	    }
 	  }
 	}
       );
-      if(null!=BGV.lastCount){
-	for(var l=0;l<BGV.lastCount.length;l++){
-	  BGV.lastCount[l].textContent=edgeCount;
+
+      if(!(error && edgeCount==0)){
+	if(null!=BGV.lastCount){
+	  for(var l=0;l<BGV.lastCount.length;l++){
+	    BGV.lastCount[l].textContent=edgeCount;
+	  }
 	}
       }
+
       return true;
     };
 

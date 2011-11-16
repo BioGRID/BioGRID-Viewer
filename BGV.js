@@ -23,10 +23,6 @@ var BGV={
     BGV.rowCount=document.getElementsByClassName('rowCount');
     BGV.lastCount=document.getElementsByClassName('lastCount');
 
-    // Hupmh, this should probably be in rest.js
-    BGV.lastSVGLink=document.getElementsByClassName('lastSVGLink');
-    BGV.lastRESTLink=document.getElementsByClassName('lastRESTLink');
-
     BGV.foreachPlugin('load');
   },
 
