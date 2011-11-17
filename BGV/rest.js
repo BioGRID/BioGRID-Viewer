@@ -4,8 +4,8 @@ BGV.holdMe.rest=function(){
 
   this.load=function(){
     // you need to provide these elements
-    BGV.lastSVGLink=document.getElementsByClassName('lastSVGLink');
-    BGV.lastRESTLink=document.getElementsByClassName('lastRESTLink');
+    BGV.e.lastSVGLink=document.getElementsByClassName('lastSVGLink');
+    BGV.e.lastRESTLink=document.getElementsByClassName('lastRESTLink');
   },
 
   this.start=function(kv){
@@ -41,22 +41,9 @@ BGV.holdMe.rest=function(){
       + qs + 'enableCaching=true';
     qs=qs.slice(0,-1);
 
-    if(null!=BGV.lastCount){
-      for(var l=0;l<BGV.lastCount.length;l++){
-	BGV.lastCount[l].textContent='Pending';
-      }
-    }
-    if(null!=BGV.lastSVGLink){
-      for(var l=0;l<BGV.lastSVGLink.length;l++){
-	BGV.lastSVGLink[l].setAttribute('href','bgv.svg?'+qs);
-      }
-    }
-    if(null!=BGV.lastRESTLink){
-      for(var l=0;l<BGV.lastRESTLink.length;l++){
-	BGV.lastRESTLink[l].setAttribute('href',url);
-      }
-    }
-
+    BGV.updateElement('lastCount','pending');
+    BGV.updateElement('lastSVGLink',{href:'bgv.svg?'+qs});
+    BGV.updateElement('lastRESTLink',{href:url});
 
     tab2Edge=function(values){
       this.values=values.split("\t");
@@ -84,19 +71,16 @@ BGV.holdMe.rest=function(){
 
     var parse=function(tsv){
       var edgeCount=0;
-      var error=false;
-      tsv.trim().split("\n").forEach(
-	function(line){
-	  var edge=new tab2Edge(line);
+      var noError=true; // if error holds message
+      var lines=tsv.trim().split("\n");
+      while(lines.length>1 && !error){
+	var line=lines.shift();
+	var edge=new tab2Edge(line);
 	  if(edge.values.length<24){
-	    error=true;
-	    if(null!=BGV.lastCount){
-	      for(var l=0;l<BGV.lastCount.length;l++){
-		BGV.lastCount[l].textContent=line;
-	      }
-	    }else{
+	    if(!BGV.updateElement('lastCount',line)){
 	      alert("error:"+line);
 	    }
+	    noError=line;
  	  }else{
 	    var id=edge.id();
 	    edgeCount++; // count em even if we already have them
@@ -104,17 +88,12 @@ BGV.holdMe.rest=function(){
 	      BGV.edges[id]=edge;
 	    }
 	  }
-	}
-      );
-
-      if(!(error && edgeCount==0)){
-	if(null!=BGV.lastCount){
-	  for(var l=0;l<BGV.lastCount.length;l++){
-	    BGV.lastCount[l].textContent=edgeCount;
-	  }
-	}
       }
 
+      if(!noError){
+	BGV.updateElement(lastCount,noErrer);
+	return false;
+      }
       return true;
     };
 
@@ -133,6 +112,11 @@ BGV.holdMe.rest=function(){
 	  haveEdges=parse(this.responseText);
 	  if(haveEdges){
 	    BGV.update();
+	  }
+	}else{
+	  var msg='Error readyState:'+this.readyState+" ☹";
+	  if(!BGV.updateElement('lastCount',msg)){
+	    alert(msg);
 	  }
 	}
       };

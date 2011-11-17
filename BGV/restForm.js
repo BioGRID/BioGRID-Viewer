@@ -32,7 +32,7 @@ BGV.holdMe.restForm=function(){
   };
 
   var initForm=function(data){
-    $(BGV.source).append(data);
+    $(BGV.e.source).append(data);
     form=$("form[name=rest]");
 
     var togs = form.find(".toggle");
