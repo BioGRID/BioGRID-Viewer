@@ -6,7 +6,13 @@ BGV.holdMe.d3force=function(){
   // (like it bgv.svg does)
   this.load=function(){
     if('function'==typeof $){
-      $(BGV.e.display).append('<section class="main fullScreen" title="D3 Force"><svg class="bgv"></svg></section>');
+      $(BGV.e.display).append
+      ('<section class="main fullScreen" title="D3 Force"><svg class="bgv">' +
+//       '<rect x="50" y="50" width="100" height="100" fill="none" stroke="red" stroke-width="2"/>' +
+       '</svg></section>');
+      console.log(BGV.e.display.lastChild.lastChild.nodeName);
+      console.log($(BGV.e.display.lastChild.lastChild).width());
+      console.log($(BGV.e.display.lastChild.lastChild).height());
     }
   };
 

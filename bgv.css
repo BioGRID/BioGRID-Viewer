@@ -45,7 +45,7 @@ section#sources{
 
 section.main{
     border:1ex outset silver;
-    background-color:white;
+/*    background-color:white;*/
     position:absolute;
     top:0; /* 1in */
     left:3in;
@@ -61,6 +61,17 @@ section.main.fullScreen>*{
     position:absolute;
     width:100%;
     height:100%;
-/*    border:1px solid red;*/
+
+/*
+    z-index:-1;
+    background-color:transparent; 
+    border:1px solid red;*/
 }
 
+
+/*
+svg{
+    background-color:pink;
+    z-index:1000;
+}
+*/
