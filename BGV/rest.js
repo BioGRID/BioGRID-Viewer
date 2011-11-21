@@ -64,7 +64,7 @@ BGV.holdMe.rest=function(){
 	return this.values[15+i];
       },
       color:function(i,ifNoColor){
-	console.log(this,this.taxaID(i),ifNoColor);
+	//console.log(this,this.taxaID(i),ifNoColor);
 	return BGV.taxa.get(this.taxaID(i)).color(ifNoColor);
       }
     };
@@ -73,7 +73,7 @@ BGV.holdMe.rest=function(){
       var edgeCount=0;
       var noError=true; // if error holds message
       var lines=tsv.trim().split("\n");
-      while(lines.length>1 && !error){
+      while(lines.length>1 && noError){
 	var line=lines.shift();
 	var edge=new tab2Edge(line);
 	  if(edge.values.length<24){
@@ -90,8 +90,10 @@ BGV.holdMe.rest=function(){
 	  }
       }
 
-      if(!noError){
-	BGV.updateElement(lastCount,noErrer);
+      if(noError){
+	BGV.updateElement('lastCount',edgeCount);
+      }else{
+	BGV.updateElement('lastCount',noErrer);
 	return false;
       }
       return true;
@@ -112,11 +114,6 @@ BGV.holdMe.rest=function(){
 	  haveEdges=parse(this.responseText);
 	  if(haveEdges){
 	    BGV.update();
-	  }
-	}else{
-	  var msg='Error readyState:'+this.readyState+" ☹";
-	  if(!BGV.updateElement('lastCount',msg)){
-	    alert(msg);
 	  }
 	}
       };

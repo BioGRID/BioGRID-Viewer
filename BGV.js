@@ -35,14 +35,14 @@ var BGV={
       return false;
     }
 
-    var stringP='string'==typeof value;
+    var objectP='object'==typeof value;
     for(var l=0;l<updateMe.length;l++){
-      if(stringP){
-	updateMe[l].textContent=value;
-      }else{
+      if(objectP){
 	for(var attr in value){
 	  updateMe[l].setAttribute(attr,value[attr]);
 	}
+      }else{
+	updateMe[l].textContent=value;
       }
     }
     return true;

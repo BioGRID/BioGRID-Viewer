@@ -6,7 +6,7 @@ BGV.holdMe.d3force=function(){
   // (like it bgv.svg does)
   this.load=function(){
     if('function'==typeof $){
-      $(BGV.display).append('<section class="main fullScreen" title="D3 Force"><svg class="bgv"></svg></section>');
+      $(BGV.e.display).append('<section class="main fullScreen" title="D3 Force"><svg class="bgv"></svg></section>');
     }
   };
 
