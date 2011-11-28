@@ -17,8 +17,22 @@ var BGV={
   },
 
 
+  loadConfig:function(){
+    var ajax=new XMLHttpRequest();
+    ajax.overrideMimeType("application/json");
+    ajax.open('GET','config.json',true);
+    ajax.onreadystatechange=function(){
+      if(ajax.readyState==4){
+	BGV.config=eval('('+ajax.responseText+')');
+      }
+    };
+    ajax.send(null);
+  },
+
   e:{}, // holds elements
   load:function(){
+    BGV.loadConfig();
+
     BGV.e.display=document.getElementById('display');
     BGV.e.source=document.getElementById('sources');
 
