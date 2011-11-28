@@ -19,7 +19,7 @@ var BGV={
 
   loadConfig:function(after){
     var ajax=new XMLHttpRequest();
-    ajax.overrideMimeType("application/json");
+    //ajax.overrideMimeType("application/json");
     ajax.open('GET','config.json',true);
     ajax.onreadystatechange=function(){
       if(ajax.readyState==4){
