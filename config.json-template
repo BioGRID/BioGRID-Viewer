@@ -1,0 +1,6 @@
+{
+ "rest":{
+    'url':'http://gen-sven2:8080/BiogridRestService/resources/interactions/?'
+    'url':'http://webservice.thebiogrid.org/resources/interactions/?'
+ }
+}
