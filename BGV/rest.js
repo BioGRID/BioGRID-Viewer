@@ -37,6 +37,7 @@ BGV.holdMe.rest=function(){
       qs+=k+'='+kv[k]+'&';
     }
 
+    //var url='http://gen-sven2:8080/BiogridRestService/resources/interactions/?'
     var url='http://webservice.thebiogrid.org/resources/interactions/?'
       + qs + 'enableCaching=true';
     qs=qs.slice(0,-1);

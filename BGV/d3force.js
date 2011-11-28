@@ -1,18 +1,17 @@
 BGV.holdMe.d3force=function(){
   var force=null;
   var g={};
+    var svg=null;
 
   // Only needs to be called if you don't provide your own SVG tag
   // (like it bgv.svg does)
   this.load=function(){
     if('function'==typeof $){
-      $(BGV.e.display).append
-      ('<section class="main fullScreen" title="D3 Force"><svg class="bgv">' +
-//       '<rect x="50" y="50" width="100" height="100" fill="none" stroke="red" stroke-width="2"/>' +
-       '</svg></section>');
-      console.log(BGV.e.display.lastChild.lastChild.nodeName);
-      console.log($(BGV.e.display.lastChild.lastChild).width());
-      console.log($(BGV.e.display.lastChild.lastChild).height());
+      svg=d3.select(BGV.e.display)
+	.append("section").attr('class','main')
+	.append("svg:svg").attr('class','bgv');
+    }else{
+      svg=d3.select('svg.bgv');
     }
   };
 
@@ -55,12 +54,9 @@ BGV.holdMe.d3force=function(){
   };
 
 
-  var svg=null;
+
   this.resize=function(edges){
     var e2d=convertEdges(edges);
-    if(null==svg){
-      svg=d3.select("svg.bgv");
-    }
 
     // If jQuery do this, else do that.  :-P
     var size=('function'==typeof $)                                 ?
