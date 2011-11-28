@@ -1,22 +1,22 @@
 * Depends
 
 ** jQuery
+Needed for the HTML5 interface but not from the SVG.
 
-** arbor.js
-You need to use the arbor.js fork at: https://github.com/svenmh/arbor
+** d3.js
+From http://mbostock.github.com/d3/
 
 * Browsers
 
 ** Chrome
-Developed in Chromium
+Developed in Chromium.
 
 ** Safari
+iOS & Mac OS X.
 
 ** Firefox >= 6
-Sometimes freezes.
 
-** Others
-Let me know.
+** IE9
 
 * To Do List
 

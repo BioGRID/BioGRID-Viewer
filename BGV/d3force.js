@@ -8,7 +8,7 @@ BGV.holdMe.d3force=function(){
   this.load=function(){
     if('function'==typeof $){
       svg=d3.select(BGV.e.display)
-	.append("section").attr('class','main')
+	.append("section").attr('class','main fullScreen')
 	.append("svg:svg").attr('class','bgv');
     }else{
       svg=d3.select('svg.bgv');
