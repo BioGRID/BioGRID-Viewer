@@ -41,6 +41,18 @@ BGV.holdMe.restForm=function(){
 
     form.find("[name=taxId]").html(BGV.taxa.optionTags(4932));
 
+    $("optgroup").click(
+      function(e){
+	var o=$(e.currentTarget).find("option");
+//	console.log(o, o.is(":selected"));
+
+	if($(e.currentTarget.parentNode).is(':enabled')){
+	  o.attr('selected','selected');
+	}
+      }
+    );
+
+
     form.bind("submit",process);
   };
 
