@@ -13,31 +13,12 @@ BGV.holdMe.rest=function(){
       kv=queryString;
     }
 
-    /*
-    var foo=function(bar){
-      for(var b in bar){
-	this[b]=bar[b];
-      }
-    };
-    foo.prototype={
-      taxId:4932,
-      searchNames:'true',
-      //max:1000,
-      //start:0,
-      includeInteractors:'true',
-      includeInteractorInteractions:'true',
-      sourceDatabaseList:'BioGRID',
-      geneList:'CCC2'
-    };
-    kv=new foo(kv);
-    */
-
     qs='';
     for(var k in kv){
       qs+=k+'='+kv[k]+'&';
     }
 
-    var url=BGV.config.rest.url+qs +'enableCaching=true';
+    var url=BGV.config.rest.url+qs+'enableCaching=true';
     qs=qs.slice(0,-1);
 
     BGV.updateElement('lastCount','pending');
@@ -91,6 +72,9 @@ BGV.holdMe.rest=function(){
 
       if(noError){
 	BGV.updateElement('lastCount',edgeCount);
+	if(edgeCount==0){
+	  alert('No edges found');
+	}
       }else{
 	BGV.updateElement('lastCount',noErrer);
 	return false;

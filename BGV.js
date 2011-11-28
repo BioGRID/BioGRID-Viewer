@@ -17,21 +17,24 @@ var BGV={
   },
 
 
-  loadConfig:function(){
+  loadConfig:function(after){
     var ajax=new XMLHttpRequest();
     ajax.overrideMimeType("application/json");
     ajax.open('GET','config.json',true);
     ajax.onreadystatechange=function(){
       if(ajax.readyState==4){
 	BGV.config=eval('('+ajax.responseText+')');
+	if('function'==typeof after){
+	  after();
+	}
       }
     };
     ajax.send(null);
   },
 
   e:{}, // holds elements
-  load:function(){
-    BGV.loadConfig();
+  load:function(afterLoadConfig){
+    BGV.loadConfig(afterLoadConfig);
 
     BGV.e.display=document.getElementById('display');
     BGV.e.source=document.getElementById('sources');
