@@ -3,15 +3,18 @@
 <h1><a href="http://wiki.thebiogrid.org/doku.php/biogridrest">REST</a> Query</h1>
 <form name="rest" action="http://webservice.thebiogrid.org/resources/interactions/">
 
-<p>Genes (| separated):
-<input class="field" type="search" name="geneList" value="CCC2" />
-<select class="field" name="taxId"></select>
+<p>
 <input type="reset"/>
-<input class="field" type="hidden" name="searchNames" value="true"/>
 <input class="field" type="hidden" name="enableCaching" value="true"/>
 <input type="submit" value="Fetch"/>
-</p>
+<p>
 
+<fieldset>
+<legend><label><input type="checkbox" class="toggle" checked="checked"/>Genes (| separated)</label></legend>
+<input class="field" type="hidden" name="searchNames" value="true"/>
+<input class="field" type="search" name="geneList" value="CCC2" />
+<select class="field" name="taxId"></select>
+</fieldset>
 
 <fieldset>
 <legend><label><input type="checkbox" class="toggle"/>Evidence List</label></legend>
