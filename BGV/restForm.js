@@ -41,17 +41,21 @@ BGV.holdMe.restForm=function(){
 
     form.find("[name=taxId]").html(BGV.taxa.optionTags(4932));
 
-    $("optgroup").click(
-      function(e){
-	var o=$(e.currentTarget).find("option");
-//	console.log(o, o.is(":selected"));
 
-	if($(e.currentTarget.parentNode).is(':enabled')){
-	  o.attr('selected','selected');
-	}
+    var sa=$("[name=selectAll]");
+    var og=sa.parent().find("optgroup");
+    sa.parent().find("optgroup").each(
+      function(idx,tag){
+	sa.append('<option value="'+idx+'">'+$(tag).attr('label')+"</option>");
       }
     );
-
+    $(".selectAll").click(
+      function(e){
+	var idx=$(e.currentTarget).siblings("[name=selectAll]").val();
+	var ogs=$(og[idx]).children();
+	ogs.attr("selected",true);
+      }
+    );
 
     form.bind("submit",process);
   };
