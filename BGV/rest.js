@@ -53,7 +53,7 @@ BGV.holdMe.rest=function(){
       var edgeCount=0;
       var noError=true; // if error holds message
       var lines=tsv.trim().split("\n");
-      while(lines.length>1 && noError){
+      while(lines.length>0 && noError){
 	var line=lines.shift();
 	var edge=new tab2Edge(line);
 	  if(edge.values.length<24){
