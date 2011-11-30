@@ -17,9 +17,17 @@
 </fieldset>
 
 <fieldset>
+<legend><label><input type="checkbox" class="toggle"/>Pubmed ID (| separated)</label></legend>
+<input class="field" type="search" name="pubmedList"/>
+<select class="field" name="excludePubmeds">
+<option value="false">Include</option>
+<option value="true">Exclude</option>
+<select>
+</fieldset>
+
+
+<fieldset>
 <legend><label><input type="checkbox" class="toggle"/>Evidence List</label></legend>
-
-
 <select class="field" name="includeEvidence">
 <option value="true" selected="selected">Include</option>
 <option value="false">Exclude</option>
