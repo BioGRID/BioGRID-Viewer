@@ -45,7 +45,7 @@ section#sources{
 section.main{
     border:1ex outset silver;
 /*    background-color:white;*/
-    position:absolute;
+    position:fixed;
     top:0; /* 1in */
     left:3in;
     right:0;
