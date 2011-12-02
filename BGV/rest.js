@@ -32,20 +32,40 @@ BGV.holdMe.rest=function(){
       id:function(){
 	return this.values[23] + this.values[0];
       },
-      interactor:function(i){
-	return this.values[7+i];
-      },
       unorderedInteractors:function(){
-	var A=this.interactor(0);
-	var B=this.interactor(1);
+	var A=this.intBioGRIDid(0);
+	var B=this.intBioGRIDid(1);
 	return (A<B)?[0,1]:[1,0];
       },
-      taxaID:function(i){
+
+      // All functions starting with 'int' you have to provide an
+      // interactor number: 0=A, 1=B
+
+      intEntrez:function(i){
+	return this.values[1+i];
+      },
+      intBioGRIDid:function(i){
+	return this.values[3+i];
+      },
+      intSystematicName:function(i){
+	return this.values[5+i];
+      },
+      intOfficalSymbol:function(i){
+	return this.values[7+i];
+      },
+      intSynonyms:function(i){
+	return this.values[9+i];
+      },
+
+      intTaxaID:function(i){
 	return this.values[15+i];
       },
-      color:function(i,ifNoColor){
+      intTaxa:function(i){
+	return BGV.taxa.get(this.intTaxaID(i));
+      },
+      intColor:function(i,ifNoColor){
 	//console.log(this,this.taxaID(i),ifNoColor);
-	return BGV.taxa.get(this.taxaID(i)).color(ifNoColor);
+	return this.intTaxa(i).color(ifNoColor);
       }
     };
 

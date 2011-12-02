@@ -1,12 +1,16 @@
 BGV.holdMe.d3force=function(){
   var force=null;
   var g={};
-    var svg=null;
+  var svg=null;
+
+  var jQueryP=function(){
+    return 'function'==typeof $;
+  };
 
   // Only needs to be called if you don't provide your own SVG tag
   // (like it bgv.svg does)
   this.load=function(){
-    if('function'==typeof $){
+    if(jQueryP){
       svg=d3.select(BGV.e.display)
 	.append("section").attr('class','main fullScreen')
 	.append("svg:svg").attr('class','bgv');
@@ -53,13 +57,44 @@ BGV.holdMe.d3force=function(){
     );
   };
 
+  var overNode=function(node){
+    if(!jQueryP()){
+      return;
+    }
 
+    var nd=$("#nodeDescription");
+
+    nd.html(node.dl());
+
+    $(document)
+      .bind(
+	'mousemove',function(e){
+	  nd
+	    .css('left',e.pageX+10)
+	    .css('top',e.pageY+10)
+	    .css('display','block');
+	}
+      )
+      .bind(
+	'mousedown',function(e){
+	  nd.css('display','none');
+	}
+      );
+  };
+
+  var outNode=function(node){
+    if(!jQueryP()){
+      return;
+    }
+    $(document).unbind('mousemove');
+    $('#nodeDescription').css('display','none');
+  };
 
   this.resize=function(edges){
     var e2d=convertEdges(edges);
 
     // If jQuery do this, else do that.  :-P
-    var size=('function'==typeof $)                                 ?
+    var size=jQueryP()                                              ?
       [$(svg[0][0]).parent().width(),$(svg[0][0]).parent().height()]:
       [window.innerWidth,window.innerHeight]                        ;
     var ld=Math.min(size[0],size[1])*0.40;
@@ -103,9 +138,12 @@ BGV.holdMe.d3force=function(){
 	.enter()
 	.append("svg:circle")
 	.attr("r",6)
-	.attr("fill",function(n){return n.color;})
-	.on("mousedown",function(node){node.fixed=1;})
-	//.on("mouseover",function(node){console.log('hovering',node);})
+	.attr("fill",function(n){return n.color();})
+	.on("mousemove",function(node){node.fixed=1;})
+	.on("mouseover",overNode)
+	.on("touchstart",overNode)
+	.on("mouseout",outNode)
+	.on("touchend",outNode)
 	.call(force.drag);
 
       g.text = svg.append("svg:g").selectAll("g")
@@ -123,26 +161,75 @@ BGV.holdMe.d3force=function(){
 	.attr("y", ".31em")
 	.text(function(d) { return d.name; });
 
+
+
+
     }
 
 
   };
 
 
+  var node=function(name,edge,order){
+    this.name=name;
+    this.count=1;
+
+    // we make the assumption that node information is always the same
+    // no matter what edge is from
+    this.edge=edge;
+    this.order=order;
+  };
+  node.prototype={
+    entrez:function(){
+      return this.edge.intEntrez(this.order);
+    },
+    bioGRIDid:function(){
+      return this.edge.intBioGRIDid(this.order);
+    },
+    systematicName:function(){
+      return this.edge.intSystematicName(this.order);
+    },
+    officalSymbol:function(){
+      return this.edge.intOfficalSymbol(this.order);
+    },
+    synonyms:function(){
+      return this.edge.intSynonyms(this.order);
+    },
+
+    taxa:function(){
+      return this.edge.intTaxa(this.order);
+    },
+    color:function(){
+      return this.taxa().color('silver');
+    },
+    species:function(){
+      return this.taxa().display();
+    },
+
+    dl:function(){
+      return "<dl>"
+	+"<dt>Entrez</dt><dd>"+this.entrez()+"</dd>"
+	+"<dt>BioGRID ID</dt><dd>"+this.bioGRIDid()+"</dd>"
+	+"<dt>Systematic Name</dt><dd>"+this.systematicName()+"</dd>"
+	+"<dt>Offical Symbol</dt><dd>"+this.officalSymbol()+"</dd>"
+	+"<dt>Organism</dt><dd>"+this.species()+"</dd>"
+	+"<dt>Edges</dt><dd>"+this.count+"</dd>"
+	+"</dl>";
+    }
+  };
+
   var _links={};
   var _nodes={};
 
   var newNode=function(edge,order){
-    var name=edge.interactor(order);
+    var name=edge.intOfficalSymbol(order);
 
     if(null==_nodes[name]){
-      _nodes[name]={
-	name:name,
-	color:edge.color(order,'silver')
-      };
-      return true;
+      _nodes[name]=new node(name,edge,order);
+      return false;
     }
-    return false;
+    _nodes[name].count++;
+    return true;
   };
 
   var convertEdges=function(edges){
@@ -159,8 +246,8 @@ BGV.holdMe.d3force=function(){
 	fresh=true;
       }
 
-      var s=edge.interactor(uo[0]); // start
-      var e=edge.interactor(uo[1]); // end
+      var s=edge.intOfficalSymbol(uo[0]); // start
+      var e=edge.intOfficalSymbol(uo[1]); // end
 
       if(null==_links[s]){
 	_links[s]={};

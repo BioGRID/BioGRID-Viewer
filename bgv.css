@@ -67,10 +67,8 @@ section.main.fullScreen>*{
     border:1px solid red;*/
 }
 
-
-/*
-svg{
+#nodeDescription{
+    position:absolute;
     background-color:pink;
-    z-index:1000;
+    opacity:.9
 }
-*/
