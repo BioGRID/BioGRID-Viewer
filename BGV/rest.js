@@ -2,13 +2,46 @@
 BGV.holdMe.rest=function(){
   var qs;
 
+  var ajaxFactory=function(whenDone){
+    var ajax;
+    if('function'==typeof window.XDomainRequest){
+      ajax=new window.XDomainRequest();
+      ajax.onload=function(){
+	whenDone(this.responseText);
+      };
+    }else{
+      var haveEdges=false;
+      ajax=new window.XMLHttpRequest();
+      ajax.onreadystatechange=function(){
+	if(false==haveEdges && 4==this.readyState){
+	  whenDone(this.responseText);
+	}
+      };
+    }
+    return ajax;
+  };
+
   this.load=function(){
     // you need to provide these elements
     BGV.e.lastSVGLink=document.getElementsByClassName('lastSVGLink');
     BGV.e.lastRESTLink=document.getElementsByClassName('lastRESTLink');
+    BGV.e.BioGRIDVersion=document.getElementsByClassName('BioGRIDVersion');
   },
 
   this.start=function(kv){
+    var url=BGV.config.rest.url+'resources/version';
+    var ajax=ajaxFactory(
+      function(rt){
+	console.log(rt)
+	BGV.updateElement('BioGRIDVersion',rt);
+      }
+    );
+    console.log(url);
+    ajax.open('GET',url,true);
+    ajax.send();
+
+
+
     if(null==kv && 'undefined'!=typeof(queryString)){
       kv=queryString;
     }
@@ -18,7 +51,8 @@ BGV.holdMe.rest=function(){
       qs+=k+'='+kv[k]+'&';
     }
 
-    var url=BGV.config.rest.url+qs+'enableCaching=true';
+    var url=BGV.config.rest.url
+      +'BiogridRestService/resources/interactions/?'+qs+'enableCaching=true';
     qs=qs.slice(0,-1);
 
     BGV.updateElement('lastCount','pending');
@@ -102,6 +136,15 @@ BGV.holdMe.rest=function(){
       return true;
     };
 
+    var ajax=ajaxFactory(
+      function(responseText){
+	if(parse(responseText)){
+	  BGV.update();
+	}
+      }
+    );
+
+    /*
     var ajax;
     if('function'==typeof window.XDomainRequest){
       ajax=new window.XDomainRequest();
@@ -121,6 +164,7 @@ BGV.holdMe.rest=function(){
 	}
       };
     }
+     */
 
     ajax.open('GET',url,true);
     ajax.send();
