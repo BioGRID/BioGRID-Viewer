@@ -29,16 +29,18 @@ BGV.holdMe.rest=function(){
   },
 
   this.start=function(kv){
-    var url=BGV.config.rest.url+'resources/version';
-    var ajax=ajaxFactory(
-      function(rt){
-	console.log(rt)
-	BGV.updateElement('BioGRIDVersion',rt);
-      }
-    );
-    console.log(url);
-    ajax.open('GET',url,true);
-    ajax.send();
+    if(BGV.e.BioGRIDVersion.length>0){
+      var url=BGV.config.rest.url+'resources/version';
+      var ajax=ajaxFactory(
+	function(rt){
+	  console.log(rt)
+	  BGV.updateElement('BioGRIDVersion',rt);
+	}
+      );
+      console.log(url);
+      ajax.open('GET',url,true);
+      ajax.send();
+    }
 
 
 
@@ -51,8 +53,7 @@ BGV.holdMe.rest=function(){
       qs+=k+'='+kv[k]+'&';
     }
 
-    var url=BGV.config.rest.url
-      +'BiogridRestService/resources/interactions/?'+qs+'enableCaching=true';
+    var url=BGV.config.rest.url+'resources/interactions/?'+qs+'enableCaching=true';
     qs=qs.slice(0,-1);
 
     BGV.updateElement('lastCount','pending');
@@ -143,28 +144,6 @@ BGV.holdMe.rest=function(){
 	}
       }
     );
-
-    /*
-    var ajax;
-    if('function'==typeof window.XDomainRequest){
-      ajax=new window.XDomainRequest();
-      ajax.onload=function(){
-	parse(this.responseText);
-	BGV.update();
-      };
-    }else{
-      var haveEdges=false;
-      ajax=new window.XMLHttpRequest();
-      ajax.onreadystatechange=function(){
-	if(false==haveEdges && 4==this.readyState){
-	  haveEdges=parse(this.responseText);
-	  if(haveEdges){
-	    BGV.update();
-	  }
-	}
-      };
-    }
-     */
 
     ajax.open('GET',url,true);
     ajax.send();

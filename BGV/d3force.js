@@ -4,13 +4,13 @@ BGV.holdMe.d3force=function(){
   var svg=null;
 
   var jQueryP=function(){
-    return 'function'==typeof $;
+    return 'function'==typeof jQuery;
   };
 
   // Only needs to be called if you don't provide your own SVG tag
   // (like it bgv.svg does)
   this.load=function(){
-    if(jQueryP){
+    if(jQueryP()){
       svg=d3.select(BGV.e.display)
 	.append("section").attr('class','main fullScreen')
 	.append("svg:svg").attr('class','bgv');
@@ -118,8 +118,10 @@ BGV.holdMe.d3force=function(){
 
     if(e2d.fresh){
 
-      while(null!=svg[0][0].lastChild && 'g'==svg[0][0].lastChild.nodeName){
-	svg[0][0].removeChild(svg[0][0].lastChild);
+      if(null!=svg[0][0] && null!=svg[0][0].lastChild){
+	while('g'==svg[0][0].lastChild.nodeName){
+	  svg[0][0].removeChild(svg[0][0].lastChild);
+	}
       }
 
       force
