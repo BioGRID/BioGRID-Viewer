@@ -66,12 +66,11 @@ BGV.holdMe.d3force=function(){
   };
 
   var clickNode=function(node,i){
-
     for(var l=0;l<g.circle[0].length;l++){
       var circle=g.circle[0][l];
       if(l==i){
 	circle.setAttribute('class','selected');
-	circle.setAttribute('r',defaultRadius+5);
+	circle.setAttribute('r',defaultRadius+7);
       }else{
 	circle.removeAttribute('class');
 	circle.setAttribute('r',defaultRadius);
@@ -84,19 +83,22 @@ BGV.holdMe.d3force=function(){
     BGV.updateElement('d3forceOfficalSymbol' ,node.officalSymbol());
     BGV.updateElement('d3forceSpecies'       ,node.species());
     BGV.updateElement('d3forceEdges'         ,node.count);
+
+    var nd=document.getElementById('nodeDescription');
+    nd.removeAttribute('class');
+//    nd.setAttribute('transform','translate('+node.px+','+node.py+')');
   };
 
-    /*
-  var outNode=function(node,i){
 
-    // deselect the circle
-    var circle=g.circle[0][i];
-    circle.removeAttribute('class');
-    circle.setAttribute('r',defaultRadius);
-
-    // neet to clear description
+  var pathOver=function(edge,i){
+    var path=g.path[0][i];
+    path.setAttribute('stroke-width', edge.ids.length+5);
   };
-*/
+  var pathOut=function(edge,i){
+    var path=g.path[0][i];
+    path.setAttribute('stroke-width', edge.ids.length);
+  };
+
 
   this.resize=function(edges){
     var e2d=convertEdges(edges);
@@ -126,10 +128,8 @@ BGV.holdMe.d3force=function(){
 
     if(e2d.fresh){
 
-      if(null!=svg[0][0] && null!=svg[0][0].lastChild){
-	while('g'==svg[0][0].lastChild.nodeName){
-	  svg[0][0].removeChild(svg[0][0].lastChild);
-	}
+      while((null!=svg[0][0].lastChild) && ('g'==svg[0][0].lastChild.nodeName)){
+	svg[0][0].removeChild(svg[0][0].lastChild);
       }
 
       force
@@ -137,11 +137,14 @@ BGV.holdMe.d3force=function(){
 	.links(e2d.links)
       	.start();
 
-      g.path = svg.append("svg:g").selectAll("path")
+      g.path=svg.append("svg:g").selectAll("path")
 	.data(force.links())
 	.enter().append("svg:path")
 	.attr("class", "link")
-	.attr('stroke-width', function(d){return d.ids.length;});
+	.attr('stroke-width', function(d){return d.ids.length;})
+//    	.on("mousemove",pathOver)
+//    	.on("mouseout",pathOut)
+      ;
 
       g.circle=svg.append("svg:g").selectAll("circle")
 	.data(force.nodes())
@@ -151,7 +154,6 @@ BGV.holdMe.d3force=function(){
 	.attr("fill",function(n){return n.color();})
 	.on("mousemove",function(node){node.fixed=1;})
 	.on("click",clickNode)
-//	.on("mouseout",outNode)
 	.call(force.drag);
 
       g.text = svg.append("svg:g")

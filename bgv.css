@@ -21,11 +21,6 @@ header{
     left:0;
     right:0;
 }
-.foo{
-    position:absolute;
-    left:75%;
-    top:0;
-}
 #select{
     position:absolute;
     left:50%;
@@ -39,7 +34,6 @@ section#sources{
     width:3in;
     bottom:0;
 }
-
 
 
 section.main{
@@ -67,8 +61,10 @@ section.main.fullScreen>*{
     border:1px solid red;*/
 }
 
+/*
 #nodeDescription{
     position:absolute;
     background-color:pink;
     opacity:.9
 }
+*/

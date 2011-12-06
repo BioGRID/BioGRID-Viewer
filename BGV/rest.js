@@ -103,16 +103,14 @@ BGV.holdMe.rest=function(){
 
     var parse=function(tsv){
       var edgeCount=0;
-      var noError=true; // if error holds message
       var lines=tsv.trim().split("\n");
-      while(lines.length>0 && noError){
+      while(lines.length>0){
 	var line=lines.shift();
 	var edge=new tab2Edge(line);
 	  if(edge.values.length<24){
 	    if(!BGV.updateElement('lastCount',line)){
 	      alert("error:"+line);
 	    }
-	    noError=line;
  	  }else{
 	    var id=edge.id();
 	    edgeCount++; // count em even if we already have them
@@ -122,13 +120,9 @@ BGV.holdMe.rest=function(){
 	  }
       }
 
-      if(noError){
-	BGV.updateElement('lastCount',edgeCount);
-	if(edgeCount==0){
-	  alert('No edges found');
-	}
-      }else{
-	BGV.updateElement('lastCount',noErrer);
+      BGV.updateElement('lastCount',edgeCount);
+      if(edgeCount==0){
+	alert('No edges found');
 	return false;
       }
       return true;

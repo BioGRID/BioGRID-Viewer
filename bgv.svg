@@ -14,13 +14,16 @@
 <script xlink:href="/d3/d3.layout.js"/>
 <script xlink:href="BGV/d3force.js"/>
 
-<g id="nodeDescription">
-<text x="5" y="12">Entrez: <tspan class="d3forceEntrez"></tspan></text>
-<text x="5" y="24">BioGRID ID: <tspan class="d3forceBioGRIDid"></tspan></text>
-<text x="5" y="36">Systematic Name: <tspan class="d3forceSystematicName"></tspan></text>
-<text x="5" y="48">Offical Symbol: <tspan class="d3forceOfficalSymbol"></tspan></text>
-<text x="5" y="60">Species: <tspan class="d3forceSpecies"></tspan></text>
-<text x="5" y="72">Edge Count: <tspan class="d3forceEdges"></tspan></text>
+
+<g id="nodeDescription" class="hidden">
+<!-- rect width="10%" height="200" fill="yellow"  / -->
+<text x="5" y="1em">Entrez: <tspan class="d3forceEntrez"></tspan></text>
+<text x="5" y="2em">BioGRID ID: <tspan class="d3forceBioGRIDid"></tspan></text>
+<text x="5" y="3em">Systematic Name: <tspan class="d3forceSystematicName"></tspan></text>
+<text x="5" y="4em">Offical Symbol: <tspan class="d3forceOfficalSymbol"></tspan></text>
+<text x="5" y="5em">Species: <tspan class="d3forceSpecies"></tspan></text>
+<text x="5" y="6em">Edge Count: <tspan class="d3forceEdges"></tspan></text>
 </g>
+
 
 </svg>
