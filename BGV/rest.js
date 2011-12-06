@@ -33,15 +33,12 @@ BGV.holdMe.rest=function(){
       var url=BGV.config.rest.url+'resources/version';
       var ajax=ajaxFactory(
 	function(rt){
-	  console.log(rt)
 	  BGV.updateElement('BioGRIDVersion',rt);
 	}
       );
-      console.log(url);
       ajax.open('GET',url,true);
       ajax.send();
     }
-
 
 
     if(null==kv && 'undefined'!=typeof(queryString)){

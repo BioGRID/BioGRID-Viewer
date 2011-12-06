@@ -2,6 +2,7 @@ BGV.holdMe.d3force=function(){
   var force=null;
   var g={};
   var svg=null;
+  var defaultRadius=6;
 
   var jQueryP=function(){
     return 'function'==typeof jQuery;
@@ -10,6 +11,13 @@ BGV.holdMe.d3force=function(){
   // Only needs to be called if you don't provide your own SVG tag
   // (like it bgv.svg does)
   this.load=function(){
+    BGV.e.d3forceEntrez        =document.getElementsByClassName("d3forceEntrez");
+    BGV.e.d3forceBioGRIDid     =document.getElementsByClassName("d3forceBioGRIDid");
+    BGV.e.d3forceSystematicName=document.getElementsByClassName("d3forceSystematicName");
+    BGV.e.d3forceOfficalSymbol =document.getElementsByClassName("d3forceOfficalSymbol");
+    BGV.e.d3forceSpecies       =document.getElementsByClassName("d3forceSpecies");
+    BGV.e.d3forceEdges         =document.getElementsByClassName("d3forceEdges");
+
     if(jQueryP()){
       svg=d3.select(BGV.e.display)
 	.append("section").attr('class','main fullScreen')
@@ -57,38 +65,38 @@ BGV.holdMe.d3force=function(){
     );
   };
 
-  var overNode=function(node){
-    if(!jQueryP()){
-      return;
+  var clickNode=function(node,i){
+
+    for(var l=0;l<g.circle[0].length;l++){
+      var circle=g.circle[0][l];
+      if(l==i){
+	circle.setAttribute('class','selected');
+	circle.setAttribute('r',defaultRadius+5);
+      }else{
+	circle.removeAttribute('class');
+	circle.setAttribute('r',defaultRadius);
+      }
     }
 
-    var nd=$("#nodeDescription");
-
-    nd.html(node.dl());
-
-    $(document)
-      .bind(
-	'mousemove',function(e){
-	  nd
-	    .css('left',e.pageX+10)
-	    .css('top',e.pageY+10)
-	    .css('display','block');
-	}
-      )
-      .bind(
-	'mousedown',function(e){
-	  nd.css('display','none');
-	}
-      );
+    BGV.updateElement('d3forceEntrez'        ,node.entrez());
+    BGV.updateElement('d3forceBioGRIDid'     ,node.bioGRIDid());
+    BGV.updateElement('d3forceSystematicName',node.systematicName());
+    BGV.updateElement('d3forceOfficalSymbol' ,node.officalSymbol());
+    BGV.updateElement('d3forceSpecies'       ,node.species());
+    BGV.updateElement('d3forceEdges'         ,node.count);
   };
 
-  var outNode=function(node){
-    if(!jQueryP()){
-      return;
-    }
-    $(document).unbind('mousemove');
-    $('#nodeDescription').css('display','none');
+    /*
+  var outNode=function(node,i){
+
+    // deselect the circle
+    var circle=g.circle[0][i];
+    circle.removeAttribute('class');
+    circle.setAttribute('r',defaultRadius);
+
+    // neet to clear description
   };
+*/
 
   this.resize=function(edges){
     var e2d=convertEdges(edges);
@@ -107,7 +115,7 @@ BGV.holdMe.d3force=function(){
 	.charge(-300)
 	.linkDistance(ld)
 	.on("tick",tick)
-	.gravity(0.5)
+	.gravity(0.3)
 	.start();
     }else{
       force
@@ -139,36 +147,30 @@ BGV.holdMe.d3force=function(){
 	.data(force.nodes())
 	.enter()
 	.append("svg:circle")
-	.attr("r",6)
+	.attr("r",defaultRadius)
 	.attr("fill",function(n){return n.color();})
 	.on("mousemove",function(node){node.fixed=1;})
-	.on("mouseover",overNode)
-	.on("touchstart",overNode)
-	.on("mouseout",outNode)
-	.on("touchend",outNode)
+	.on("click",clickNode)
+//	.on("mouseout",outNode)
 	.call(force.drag);
 
-      g.text = svg.append("svg:g").selectAll("g")
+      g.text = svg.append("svg:g")
+	.attr('class','nodeLabels')
+	.selectAll("g")
 	.data(force.nodes())
 	.enter()
 	.append("svg:g");
       // A copy of the text with a thick white stroke for legibility.
       g.text.append("svg:text")
-	.attr("x", 8)
-	.attr("y", ".31em")
+	.attr("x",".31em")
+	.attr("y",-10)
 	.attr("class", "shadow")
 	.text(function(d) { return d.name; });
       g.text.append("svg:text")
-	.attr("x", 8)
-	.attr("y", ".31em")
+	.attr("x",".31em")
+	.attr("y",-10)
 	.text(function(d) { return d.name; });
-
-
-
-
     }
-
-
   };
 
 
