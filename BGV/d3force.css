@@ -52,7 +52,11 @@ path.connected{
     display:none;
 }
 #nodeDescription{
-    fill:black
-    opacity:.9
-    z-index:1;
+    fill:black;
+    opacity:.9;
+}
+#nodeDescription rect{
+    fill:yellow;
+    stroke:blue;
+    stroke-width:.5;
 }

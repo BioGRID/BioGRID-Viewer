@@ -23,7 +23,8 @@ BGV.holdMe.d3force=function(){
 	.append("section").attr('class','main fullScreen')
 	.append("svg:svg").attr('class','bgv');
     }else{
-      svg=d3.select('svg.bgv');
+      // if no jQuery you geen a element with id="bgv", likely a g element.
+      svg=d3.select('#bgv');
     }
   };
 
@@ -86,7 +87,16 @@ BGV.holdMe.d3force=function(){
 
     var nd=document.getElementById('nodeDescription');
     nd.removeAttribute('class');
-//    nd.setAttribute('transform','translate('+node.px+','+node.py+')');
+
+    if('function'==typeof nd.getBBox){
+      var bb=nd.getBBox();
+      var box=nd.firstChild;
+      box.removeAttribute('width');
+      box.removeAttribute('height');
+      box.setAttribute('width',bb.width+10);
+      box.setAttribute('height',bb.height+5);
+    }
+    nd.setAttribute('transform','translate('+(node.px+10)+','+(node.py+10)+')');
   };
 
 

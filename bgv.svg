@@ -14,9 +14,9 @@
 <script xlink:href="/d3/d3.layout.js"/>
 <script xlink:href="BGV/d3force.js"/>
 
+<g id="bgv"></g>
 
-<g id="nodeDescription" class="hidden">
-<!-- rect width="10%" height="200" fill="yellow"  / -->
+<g id="nodeDescription" class="hidden"><rect/>
 <text x="5" y="1em">Entrez: <tspan class="d3forceEntrez"></tspan></text>
 <text x="5" y="2em">BioGRID ID: <tspan class="d3forceBioGRIDid"></tspan></text>
 <text x="5" y="3em">Systematic Name: <tspan class="d3forceSystematicName"></tspan></text>
