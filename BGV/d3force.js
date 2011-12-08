@@ -101,10 +101,7 @@ BGV.holdMe.d3force=function(){
       nd.setAttribute('transform','translate('+(node.x+offset)+','+(node.y+offset)+')');
     }else if(jQueryP()){
       // for an HTML nodeDescription
-
-      // There has gotta be a better way to get the left & top locations.
-      var p=$(g.circle[0][i]).offset();
-      nd.setAttribute('style','left:'+(p.left+(2*offset))+'px;top:'+(node.y+offset)+'px;');
+      nd.setAttribute('style','left:'+($("#sources").width()+node.x)+'px;top:'+node.y+'px;');
     }
   };
 
@@ -165,14 +162,22 @@ BGV.holdMe.d3force=function(){
 //    	.on("mouseout",pathOut)
       ;
 
+      var freeze=function(node){
+	node.fixed=1;
+      };
+
       g.circle=svg.append("svg:g").selectAll("circle")
 	.data(force.nodes())
 	.enter()
 	.append("svg:circle")
 	.attr("r",defaultRadius)
 	.attr("fill",function(n){return n.color();})
-	.on("mousedown",function(node){node.fixed=1;})
+	.on("mousedown",freeze)
 	.on("click",clickNode)
+      // iOS get all touchy-feely
+	.on("touchmove",freeze)
+	.on("touchstart",freeze)
+	.on("touchend",clickNode)
 	.call(force.drag);
 
       g.text = svg.append("svg:g")

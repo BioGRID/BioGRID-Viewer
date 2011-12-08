@@ -18,7 +18,7 @@ BGV.defaultTaxon={
   },
   display:function(){
     var gs=this.species.split(' ',3);
-    return gs[0][0] + '. ' + gs[1];
+    return gs[0][0] + '.\u00A0' + gs[1];
   }
 };
 
