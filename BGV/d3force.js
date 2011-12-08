@@ -66,6 +66,7 @@ BGV.holdMe.d3force=function(){
     );
   };
 
+  var offset=10;
   var clickNode=function(node,i){
     for(var l=0;l<g.circle[0].length;l++){
       var circle=g.circle[0][l];
@@ -89,14 +90,22 @@ BGV.holdMe.d3force=function(){
     nd.removeAttribute('class');
 
     if('function'==typeof nd.getBBox){
-      var bb=nd.getBBox();
+      // for an SVG nodeDescripton
+
       var box=nd.firstChild;
       box.removeAttribute('width');
       box.removeAttribute('height');
+      var bb=nd.getBBox();
       box.setAttribute('width',bb.width+10);
       box.setAttribute('height',bb.height+5);
+      nd.setAttribute('transform','translate('+(node.x+offset)+','+(node.y+offset)+')');
+    }else if(jQueryP()){
+      // for an HTML nodeDescription
+
+      // There has gotta be a better way to get the left & top locations.
+      var p=$(g.circle[0][i]).offset();
+      nd.setAttribute('style','left:'+(p.left+(2*offset))+'px;top:'+(node.y+offset)+'px;');
     }
-    nd.setAttribute('transform','translate('+(node.px+10)+','+(node.py+10)+')');
   };
 
 
@@ -162,7 +171,7 @@ BGV.holdMe.d3force=function(){
 	.append("svg:circle")
 	.attr("r",defaultRadius)
 	.attr("fill",function(n){return n.color();})
-	.on("mousemove",function(node){node.fixed=1;})
+	.on("mousedown",function(node){node.fixed=1;})
 	.on("click",clickNode)
 	.call(force.drag);
 

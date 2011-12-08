@@ -4,12 +4,6 @@ svg{
     height:100%;
 }
 
-/*
-rect{
-    stroke-width:.5in;
-}
-*/
-
 circle {
 /*  fill: #ccc;*/
   stroke: #333;
@@ -53,7 +47,13 @@ path.connected{
 }
 #nodeDescription{
     fill:black;
-    opacity:.9;
+    opacity:.8;
+
+    position:fixed;
+    background-color:yellow;
+    color:black;
+    border:1px solid blue;
+    z-index:1;
 }
 #nodeDescription rect{
     fill:yellow;

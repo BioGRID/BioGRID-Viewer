@@ -1,5 +1,5 @@
-* config
-Copy config.json-template to config.json and edit it to suit you needs.
+* Config
+Copy config.json-template to config.json and edit it to suit your needs.
 
 * Depends
 
@@ -12,12 +12,12 @@ From http://mbostock.github.com/d3/
 * Browsers
 
 ** Chrome
-Developed in Chromium.
+Developed in Chrome.
 
 ** Safari
 iOS & Mac OS X.
 
-** Firefox >= 6
+** Firefox >= 4
 
 ** IE9
 
