@@ -67,6 +67,44 @@ BGV.holdMe.d3force=function(){
   };
 
   var offset=10;
+  placeNodeDescription=function(node,i){
+    var nd=document.getElementById('nodeDescription');
+    nd.removeAttribute('class');
+
+    document.onmousemove=document.ontouchmove=function(){
+      placeNodeDescription(node,i);
+    };
+
+    if('function'==typeof nd.getBBox){
+      // for an SVG nodeDescripton
+      var box=nd.firstChild;
+      box.removeAttribute('width');
+      box.removeAttribute('height');
+      var bb=nd.getBBox();
+      box.setAttribute('width',bb.width+offset);
+      box.setAttribute('height',bb.height+(offset/2));
+      nd.setAttribute('transform','translate('+(node.x+offset)+','+(node.y+offset)+')');
+    }else if(jQueryP()){
+      // for an HTML nodeDescription
+      nd.setAttribute('style','left:'+($("#sources").width()+node.x)+'px;top:'+node.y+'px;');
+    }
+
+    document.onmousedown=document.ontouchstart=function(e){
+      var circle=g.circle[0][i];
+      if(e.srcElement!=circle){
+	// don't hide nodeDescription if we are dragging the node
+	document.onmousemove
+	  =document.ontouchmove
+	  =document.onmousedown
+	  =document.ontouchstart
+	  =null;
+	nd.setAttribute('class','hidden');
+	circle.removeAttribute('class');
+	circle.setAttribute('r',defaultRadius);
+      }
+    };
+  };
+
   var clickNode=function(node,i){
     for(var l=0;l<g.circle[0].length;l++){
       var circle=g.circle[0][l];
@@ -85,24 +123,13 @@ BGV.holdMe.d3force=function(){
     BGV.updateElement('d3forceOfficalSymbol' ,node.officalSymbol());
     BGV.updateElement('d3forceSpecies'       ,node.species());
     BGV.updateElement('d3forceEdges'         ,node.count);
+    placeNodeDescription(node,i);
 
-    var nd=document.getElementById('nodeDescription');
-    nd.removeAttribute('class');
+  };
 
-    if('function'==typeof nd.getBBox){
-      // for an SVG nodeDescripton
 
-      var box=nd.firstChild;
-      box.removeAttribute('width');
-      box.removeAttribute('height');
-      var bb=nd.getBBox();
-      box.setAttribute('width',bb.width+10);
-      box.setAttribute('height',bb.height+5);
-      nd.setAttribute('transform','translate('+(node.x+offset)+','+(node.y+offset)+')');
-    }else if(jQueryP()){
-      // for an HTML nodeDescription
-      nd.setAttribute('style','left:'+($("#sources").width()+node.x)+'px;top:'+node.y+'px;');
-    }
+  var freezeNode=function(node){
+    node.fixed=1;
   };
 
 
@@ -162,21 +189,17 @@ BGV.holdMe.d3force=function(){
 //    	.on("mouseout",pathOut)
       ;
 
-      var freeze=function(node){
-	node.fixed=1;
-      };
-
       g.circle=svg.append("svg:g").selectAll("circle")
 	.data(force.nodes())
 	.enter()
 	.append("svg:circle")
 	.attr("r",defaultRadius)
 	.attr("fill",function(n){return n.color();})
-	.on("mousedown",freeze)
+	.on("mousedown",freezeNode)
 	.on("click",clickNode)
       // iOS get all touchy-feely
-	.on("touchmove",freeze)
-	.on("touchstart",freeze)
+	.on("touchmove",freezeNode)
+	.on("touchstart",freezeNode)
 	.on("touchend",clickNode)
 	.call(force.drag);
 
