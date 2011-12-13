@@ -52,7 +52,7 @@ BGV.holdMe.d3force=function(){
 	dr = Math.sqrt(dx * dx + dy * dy);
 	var ets=50; // edge to self
 
-	var out = "M" + d.source.x + "," + d.source.y;
+	var out = "M"+d.source.x+","+d.source.y;
 	if(d.source===d.target){
 	  out+="C"
 	    + (d.source.x+ets) + ',' + (d.source.y) + ' '
@@ -87,13 +87,13 @@ BGV.holdMe.d3force=function(){
     }else if(jQueryP()){
       // for an HTML nodeDescription
       var o=$(svg[0][0]).parent().offset();
-      var style='left:'+(node.x+o.left+(offset/2))+'px;top:'+(node.y+o.top)+'px;';
+      var style='left:'+(node.x+o.left+offset)+'px;top:'+(node.y+o.top)+'px;';
       nd.setAttribute('style',style);
     }
 
     document.onmousedown=document.ontouchstart=function(e){
       var circle=g.circle[0][i];
-      if(e.srcElement!=circle){
+      if(e.target!=circle){
 	// don't hide nodeDescription if we are dragging the node
 	document.onmousemove
 	  =document.ontouchmove
