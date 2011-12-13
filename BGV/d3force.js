@@ -86,7 +86,9 @@ BGV.holdMe.d3force=function(){
       nd.setAttribute('transform','translate('+(node.x+offset)+','+(node.y+offset)+')');
     }else if(jQueryP()){
       // for an HTML nodeDescription
-      nd.setAttribute('style','left:'+($("#sources").width()+node.x)+'px;top:'+node.y+'px;');
+      var o=$(svg[0][0]).parent().offset();
+      var style='left:'+(node.x+o.left+(offset/2))+'px;top:'+(node.y+o.top)+'px;';
+      nd.setAttribute('style',style);
     }
 
     document.onmousedown=document.ontouchstart=function(e){

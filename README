@@ -3,8 +3,9 @@ Copy config.json-template to config.json and edit it to suit your needs.
 
 * Depends
 
-** jQuery
-Needed for the HTML5 interface but not from the SVG.
+** jQuery >= 1.7
+Needed for the HTML5 interface but not from the SVG. jQuery 1.6.x will
+work, put will possition some things incorrectly.
 
 ** d3.js
 From http://mbostock.github.com/d3/
@@ -15,12 +16,11 @@ From http://mbostock.github.com/d3/
 Developed in Chrome.
 
 ** Safari
-iOS & Mac OS X.
+*** Mac OS X
+*** iOS
+Only tested in Apple's iOS simulator.
 
 ** Firefox >= 4
 
 ** IE9
 
-* To Do List
-
-https://docs.google.com/document/d/1WmTjS-nUr0vH0LnCG5ny7ik6s1FkyCulnRQUmAJwThE/edit?hl=en_US
