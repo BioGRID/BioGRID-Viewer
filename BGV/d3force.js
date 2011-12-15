@@ -11,13 +11,6 @@ BGV.holdMe.d3force=function(){
   // Only needs to be called if you don't provide your own SVG tag
   // (like it bgv.svg does)
   this.load=function(){
-    BGV.e.d3forceEntrez        =document.getElementsByClassName("d3forceEntrez");
-    BGV.e.d3forceBioGRIDid     =document.getElementsByClassName("d3forceBioGRIDid");
-    BGV.e.d3forceSystematicName=document.getElementsByClassName("d3forceSystematicName");
-    BGV.e.d3forceOfficalSymbol =document.getElementsByClassName("d3forceOfficalSymbol");
-    BGV.e.d3forceSpecies       =document.getElementsByClassName("d3forceSpecies");
-    BGV.e.d3forceEdges         =document.getElementsByClassName("d3forceEdges");
-
     if(jQueryP()){
       svg=d3.select(BGV.e.display)
 	.append("section").attr('class','main fullScreen')
@@ -119,12 +112,7 @@ BGV.holdMe.d3force=function(){
       }
     }
 
-    BGV.updateElement('d3forceEntrez'        ,node.entrez());
-    BGV.updateElement('d3forceBioGRIDid'     ,node.bioGRIDid());
-    BGV.updateElement('d3forceSystematicName',node.systematicName());
-    BGV.updateElement('d3forceOfficalSymbol' ,node.officalSymbol());
-    BGV.updateElement('d3forceSpecies'       ,node.species());
-    BGV.updateElement('d3forceEdges'         ,node.count);
+    node.updateRestElements();
     placeNodeDescription(node,i);
 
   };
@@ -216,109 +204,53 @@ BGV.holdMe.d3force=function(){
 	.attr("x",".31em")
 	.attr("y",-10)
 	.attr("class", "shadow")
-	.text(function(d) { return d.name; });
+	.text(function(d){return d.display();});
       g.text.append("svg:text")
 	.attr("x",".31em")
 	.attr("y",-10)
-	.text(function(d) { return d.name; });
-    }
-  };
-
-
-  var node=function(name,edge,order){
-    this.name=name;
-    this.count=1;
-
-    // we make the assumption that node information is always the same
-    // no matter what edge is from
-    this.edge=edge;
-    this.order=order;
-  };
-  node.prototype={
-    entrez:function(){
-      return this.edge.intEntrez(this.order);
-    },
-    bioGRIDid:function(){
-      return this.edge.intBioGRIDid(this.order);
-    },
-    systematicName:function(){
-      return this.edge.intSystematicName(this.order);
-    },
-    officalSymbol:function(){
-      return this.edge.intOfficalSymbol(this.order);
-    },
-    synonyms:function(){
-      return this.edge.intSynonyms(this.order);
-    },
-
-    taxa:function(){
-      return this.edge.intTaxa(this.order);
-    },
-    color:function(){
-      return this.taxa().color('silver');
-    },
-    species:function(){
-      return this.taxa().display();
-    },
-
-    dl:function(){
-      return "<dl>"
-	+"<dt>Entrez</dt><dd>"+this.entrez()+"</dd>"
-	+"<dt>BioGRID ID</dt><dd>"+this.bioGRIDid()+"</dd>"
-	+"<dt>Systematic Name</dt><dd>"+this.systematicName()+"</dd>"
-	+"<dt>Offical Symbol</dt><dd>"+this.officalSymbol()+"</dd>"
-	+"<dt>Organism</dt><dd>"+this.species()+"</dd>"
-	+"<dt>Edges</dt><dd>"+this.count+"</dd>"
-	+"</dl>";
+	.text(function(d){return d.display();});
     }
   };
 
   var _links={};
   var _nodes={};
 
-  var newNode=function(edge,order){
-    var name=edge.intOfficalSymbol(order);
-
-    if(null==_nodes[name]){
-      _nodes[name]=new node(name,edge,order);
-      return false;
-    }
-    _nodes[name].count++;
-    return true;
-  };
-
   var convertEdges=function(edges){
     var fresh=false;
     var returnLinks={};
     for(var id in edges){
       var edge=edges[id];
-      var uo=edge.unorderedInteractors();
+      var nodes=edge.iUn();
 
-      if(newNode(edge,uo[0])){
-	fresh=true;
+      nodes.forEach(
+	function(node){
+	  var id=node.id();
+	  if(null==_nodes[id]){
+	    _nodes[id]=node;
+	  }else{
+	    fresh=true;
+	  }
+	}
+      );
+
+      var Sid=nodes[0].id(); // start
+      var Eid=nodes[1].id(); // end
+
+      if(null==_links[Sid]){
+	_links[Sid]={};
       }
-      if(newNode(edge,uo[1])){
-	fresh=true;
-      }
 
-      var s=edge.intOfficalSymbol(uo[0]); // start
-      var e=edge.intOfficalSymbol(uo[1]); // end
-
-      if(null==_links[s]){
-	_links[s]={};
-      }
-
-      if(null==_links[s][e]){
-	_links[s][e]={
-	  source:_nodes[s],
-	  target:_nodes[e],
+      if(null==_links[Sid][Eid]){
+	_links[Sid][Eid]={
+	  source:_nodes[Sid],
+	  target:_nodes[Eid],
 	  ids:[id]
 	};
 	fresh=true;
-      }else if(-1==_links[s][e].ids.indexOf(id)){
-	_links[s][e].ids.push(id);
+      }else if(-1==_links[Sid][Eid].ids.indexOf(id)){
+	_links[Sid][Eid].ids.push(id);
       }
-      returnLinks[id]=_links[s][e]; // there can be only one
+      returnLinks[id]=_links[Sid][Eid]; // there can be only one
     }
 
     return {

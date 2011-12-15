@@ -17,12 +17,12 @@
 <g id="bgv"></g>
 
 <g id="nodeDescription" class="hidden"><rect/>
-<text x="5" y="1em">Entrez: <tspan class="d3forceEntrez"></tspan></text>
-<text x="5" y="2em">BioGRID ID: <tspan class="d3forceBioGRIDid"></tspan></text>
-<text x="5" y="3em">Systematic Name: <tspan class="d3forceSystematicName"></tspan></text>
-<text x="5" y="4em">Offical Symbol: <tspan class="d3forceOfficalSymbol"></tspan></text>
-<text x="5" y="5em">Species: <tspan class="d3forceSpecies"></tspan></text>
-<text x="5" y="6em">Edge Count: <tspan class="d3forceEdges"></tspan></text>
+<text x="5" y="1em">Entrez: <tspan class="restNodeEntrez"></tspan></text>
+<text x="5" y="2em">BioGRID ID: <tspan class="restNodeBioGridId"></tspan></text>
+<text x="5" y="3em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
+<text x="5" y="4em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
+<text x="5" y="5em">Species: <tspan class="restNodeSpecies"></tspan></text>
+<text x="5" y="6em">Edge Count: <tspan class="restNodeEdges"></tspan></text>
 </g>
 
 
