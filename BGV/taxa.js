@@ -17,6 +17,10 @@ BGV.defaultTaxon={
     return (c < this.species.length) ? this.common : this.species;
   },
   display:function(){
+    if(this.species==false){
+      return this.common;
+    }
+
     var gs=this.species.split(' ',3);
     return gs[0][0] + '.\u00A0' + gs[1];
   }
@@ -43,7 +47,12 @@ BGV.taxa={
   },
 
   get:function(id){
-    return BGV.taxa.list[id];
+    var out=BGV.taxa.list[id];
+    if(undefined==out){
+      BGV.taxa.list[id]=new BGV.Taxon(false,"Unkonwn (Taxa ID:"+id+")");
+      out=BGV.taxa.list[id];
+    }
+    return out;
   },
 
   list:{
@@ -63,7 +72,8 @@ BGV.taxa={
     // No color
     8355:new BGV.Taxon("Xenopus laevis","African clawed frog"),
     9615:new BGV.Taxon("Canis lupus familiaris","dog"),
-    9913:new BGV.Taxon("Bos taurus","cattle")
+    9913:new BGV.Taxon("Bos taurus","cattle"),
+    11676:new BGV.Taxon(false,"Human immunodeficiency virus 1")
 
     /*
     3055:new BGV.Taxon("Chlamydomonas reinhardtii"),
@@ -71,7 +81,6 @@ BGV.taxa={
     10298:new BGV.Taxon("Human herpesvirus 1"),//,"Herpes simplex virus type 1"),
     10376:new BGV.Taxon("Human herpesvirus 4"),//,"Epstein-Barr virus"),
     11103:new BGV.Taxon("Hepatitis C virus"),
-    11676:new BGV.Taxon("Human immunodeficiency virus 1"),
     36329:new BGV.Taxon("Plasmodium falciparum 3D7"),
     237561:new BGV.Taxon("Candida albicans SC531"),
     224308:new BGV.Taxon("Bacillus subtilis subsp. subtilis str. 168"),
