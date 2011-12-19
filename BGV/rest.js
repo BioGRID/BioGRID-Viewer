@@ -123,7 +123,7 @@ BGV.holdMe.rest=function(){
       this.ExperimentalSystemType=values[12];
       this.PaperReference=values[13];
       this.PubmedID=values[14];
-      this.InteractionThroughput=values[17]; // |
+      this.InteractionThroughput=values[17].split('|');
       this.QuantitativeScore=values[18];
       this.PostTranslationalModification=values[19];
       this.Phenotypes=values[20]; // |
@@ -143,7 +143,7 @@ BGV.holdMe.rest=function(){
 	  }else{
 	    that.interactor[i]=nodes[id];
 	  }
-	    nodes[id].addEdge(that);
+	  nodes[id].addEdge(that);
 	}
       );
 
@@ -168,8 +168,25 @@ BGV.holdMe.rest=function(){
 	var A=this.iA();
 	var B=this.iB();
 	return (A.id()<B.id())?[A,B]:[B,A];
-      }
+      },
 
+      _match:function(field,seek){
+	return this[field].indexOf(seek)!=-1;
+      },
+
+      highThroughput:function(){
+	return this._match('InteractionThroughput','High Throughput');
+      },
+      lowThroughput:function(){
+	return this._match('InteractionThroughput','Low Throughput');
+      },
+
+      genetic:function(){
+	return (this.ExperimentalSystemType=='genetic');
+      },
+      physical:function(){
+	return (this.ExperimentalSystemType=='physical');
+      }
     };
 
     var parse=function(tsv){

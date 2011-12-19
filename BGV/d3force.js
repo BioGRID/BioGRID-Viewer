@@ -43,16 +43,23 @@ BGV.holdMe.d3force=function(){
 	var dx = d.target.x - d.source.x,
 	dy = d.target.y - d.source.y,
 	dr = Math.sqrt(dx * dx + dy * dy);
-	var ets=50; // edge to self
 
 	var out = "M"+d.source.x+","+d.source.y;
 	if(d.source===d.target){
+	  var ets=d.flag?-50:50; // edge to self
+
+
 	  out+="C"
 	    + (d.source.x+ets) + ',' + (d.source.y) + ' '
 	    + (d.source.x) + ',' + (d.source.y+ets) + ' '
 	    + d.target.x + ',' + d.target.y;
 	}else{
-	  out+="L" + d.target.x + "," + d.target.y;
+//	  out+="L" + d.target.x + "," + d.target.y;
+
+	  var dx = d.target.x - d.source.x;
+	  var dy = d.target.y - d.source.y;
+	  var dr = Math.sqrt(dx * dx + dy * dy);
+	  out += "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
 	}
 	return out;
       }
@@ -173,8 +180,12 @@ BGV.holdMe.d3force=function(){
       g.path=svg.append("svg:g").selectAll("path")
 	.data(force.links())
 	.enter().append("svg:path")
-	.attr("class", "link")
-	.attr('stroke-width', function(d){return d.ids.length;})
+	.attr(
+	  "class",function(e){
+	    return "link "+e.tag;
+	  }
+	)
+	.attr('stroke-width',function(d){return d.ids.length;})
 //    	.on("mousemove",pathOver)
 //    	.on("mouseout",pathOut)
       ;
@@ -215,9 +226,39 @@ BGV.holdMe.d3force=function(){
   var _links={};
   var _nodes={};
 
+  var nodeMap=function(edgeId,s,e,tag,flag){
+    var Sid=s.id(); // start
+    var Eid=e.id(); // end
+
+    if(null==_links[tag]){
+      _links[tag]={};
+    }
+
+    if(null==_links[tag][Sid]){
+      _links[tag][Sid]={};
+    }
+
+    if(null==_links[tag][Sid][Eid]){
+      _links[tag][Sid][Eid]={
+	source:_nodes[Sid],
+	target:_nodes[Eid],
+	ids:[edgeId],
+	tag:tag,
+	flag:flag // only used if Sid==Eid
+      };
+      fresh=true;
+    }else if(-1==_links[tag][Sid][Eid].ids.indexOf(edgeId)){
+      _links[tag][Sid][Eid].ids.push(edgeId);
+    }
+    return _links[tag][Sid][Eid]; // there can be only one
+
+  };
+
   var convertEdges=function(edges){
     var fresh=false;
-    var returnLinks={};
+//    var allLinks={};
+    var links01={};
+    var links10={};
     for(var id in edges){
       var edge=edges[id];
       var nodes=edge.iUn();
@@ -233,28 +274,33 @@ BGV.holdMe.d3force=function(){
 	}
       );
 
-      var Sid=nodes[0].id(); // start
-      var Eid=nodes[1].id(); // end
+      var edgeUnique=nodes[0].id()+','+nodes[1].id();
 
-      if(null==_links[Sid]){
-	_links[Sid]={};
+
+      //allLinks[edgeUnique]=nodeMap(id,nodes[0],nodes[1]);
+
+      /*
+      if(edge.highThroughput()){
+	links01[edgeUnique]=nodeMap(id,nodes[0],nodes[1],'gen',true);
+      }
+      if(edge.lowThroughput()){
+	links10[edgeUnique]=nodeMap(id,nodes[1],nodes[0],'phy',false);
+      }
+       */
+
+      if(edge.genetic()){
+	links01[edgeUnique]=nodeMap(id,nodes[0],nodes[1],'gen',true);
+      }else if(edge.physical()){
+	links10[edgeUnique]=nodeMap(id,nodes[1],nodes[0],'phy',false);
+      }else{
+	console.log('Edge '+id+' is neither phy or gen.');
       }
 
-      if(null==_links[Sid][Eid]){
-	_links[Sid][Eid]={
-	  source:_nodes[Sid],
-	  target:_nodes[Eid],
-	  ids:[id]
-	};
-	fresh=true;
-      }else if(-1==_links[Sid][Eid].ids.indexOf(id)){
-	_links[Sid][Eid].ids.push(id);
-      }
-      returnLinks[id]=_links[Sid][Eid]; // there can be only one
     }
 
     return {
-      links:d3.values(returnLinks),
+      //links:d3.values(allLinks),
+      links:d3.values(links01).concat(d3.values(links10)),
       nodes:d3.values(_nodes),
       fresh:fresh
     };
