@@ -148,7 +148,7 @@ BGV.holdMe.d3force=function(){
     var size=jQueryP()                                              ?
       [$(svg[0][0]).parent().width(),$(svg[0][0]).parent().height()]:
       [window.innerWidth,window.innerHeight]                        ;
-    var ld=Math.min(size[0],size[1])*0.40;
+//    var ld=Math.min(size[0],size[1])*0.40;
 
     if(null==force){
       force=d3.layout.force()
@@ -156,14 +156,15 @@ BGV.holdMe.d3force=function(){
 	.links(e2d.links)
 	.size(size)
 	.charge(-300)
-	.linkDistance(ld)
+	.linkDistance(150)
+	.linkStrength(1)
 	.on("tick",tick)
-	.gravity(0.3)
+	.gravity(0.1)
 	.start();
     }else{
       force
 	.size(size)
-	.linkDistance(ld)
+//	.linkDistance(ld)
 	.start();
     }
 
