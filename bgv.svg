@@ -17,8 +17,8 @@
 <g id="bgv"></g>
 
 <g id="nodeDescription" class="hidden"><rect/>
-<text x="5" y="1em">Entrez: <tspan class="restNodeEntrez"></tspan></text>
-<text x="5" y="2em">BioGRID ID: <tspan class="restNodeBioGridId"></tspan></text>
+<text x="5" y="1em">Entrez: <a xlink:href="" class="restNodeEntrez"></a></text>
+<text x="5" y="2em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"></a></text>
 <text x="5" y="3em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
 <text x="5" y="4em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
 <text x="5" y="5em">Species: <tspan class="restNodeSpecies"></tspan></text>

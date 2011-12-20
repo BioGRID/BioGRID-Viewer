@@ -40,26 +40,19 @@ BGV.holdMe.d3force=function(){
 
     g.path.attr(
       "d", function(d) {
-	var dx = d.target.x - d.source.x,
-	dy = d.target.y - d.source.y,
-	dr = Math.sqrt(dx * dx + dy * dy);
-
 	var out = "M"+d.source.x+","+d.source.y;
 	if(d.source===d.target){
 	  var ets=d.flag?-50:50; // edge to self
-
-
 	  out+="C"
 	    + (d.source.x+ets) + ',' + (d.source.y) + ' '
 	    + (d.source.x) + ',' + (d.source.y+ets) + ' '
 	    + d.target.x + ',' + d.target.y;
 	}else{
-//	  out+="L" + d.target.x + "," + d.target.y;
-
-	  var dx = d.target.x - d.source.x;
-	  var dy = d.target.y - d.source.y;
-	  var dr = Math.sqrt(dx * dx + dy * dy);
-	  out += "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+	  var dx=d.target.x-d.source.x;
+	  var dy=d.target.y-d.source.y;
+	  var dr=Math.sqrt((dx*dx)+(dy*dy));
+	  out += "M" + d.source.x + "," + d.source.y +
+	    "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
 	}
 	return out;
       }
@@ -94,6 +87,14 @@ BGV.holdMe.d3force=function(){
     document.onmousedown=document.ontouchstart=function(e){
       var circle=g.circle[0][i];
       if(e.target!=circle){
+	var tag=e.target;
+	while(undefined!=tag.getAttribute){
+	  if('nodeDescription'==tag.getAttribute('id')){
+	    return;
+	  }
+	  tag=tag.parentNode;
+	}
+
 	// don't hide nodeDescription if we are dragging the node
 	document.onmousemove
 	  =document.ontouchmove

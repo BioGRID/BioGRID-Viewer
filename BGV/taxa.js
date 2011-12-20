@@ -73,7 +73,7 @@ BGV.taxa={
     8355:new BGV.Taxon("Xenopus laevis","African clawed frog"),
     9615:new BGV.Taxon("Canis lupus familiaris","dog"),
     9913:new BGV.Taxon("Bos taurus","cattle"),
-    11676:new BGV.Taxon(false,"Human immunodeficiency virus 1")
+    11676:new BGV.Taxon(false,"HIV 1") // Human immunodeficiency virus 1
 
     /*
     3055:new BGV.Taxon("Chlamydomonas reinhardtii"),

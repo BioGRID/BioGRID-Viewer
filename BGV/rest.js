@@ -101,8 +101,18 @@ BGV.holdMe.rest=function(){
       },
 
       updateRestElements:function(){
-	BGV.updateElement('restNodeEntrez'        ,this.Entrez);
-	BGV.updateElement('restNodeBioGridId'     ,this.BioGridId);
+	var url='http://thebiogrid.org/'+this.BioGridId+'/';
+	BGV.updateElement(
+	  'restNodeBioGridId',
+	  {href:url,'xlink:href':url},
+	  this.BioGridId);
+
+	url='http://www.ncbi.nlm.nih.gov/gene/'+this.Entrez;
+	BGV.updateElement(
+	  'restNodeEntrez',
+	  {href:url,'xlink:href':url},
+          this.Entrez);
+	
 	BGV.updateElement('restNodeSystematicName',this.SystematicName);
 	BGV.updateElement('restNodeOfficialSymbol',this.OfficialSymbol);
 	BGV.updateElement('restNodeSpecies'       ,this.species());

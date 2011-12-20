@@ -45,7 +45,7 @@ var BGV={
     BGV.foreachPlugin('load');
   },
 
-  updateElement:function(e,value){
+  updateElement:function(e,value,other){
     var updateMe=BGV.e[e];
 
     if(null==updateMe){
@@ -57,6 +57,9 @@ var BGV={
       if(objectP){
 	for(var attr in value){
 	  updateMe[l].setAttribute(attr,value[attr]);
+	}
+	if(null!=other){
+	  updateMe[l].textContent=other;
 	}
       }else{
 	updateMe[l].textContent=value;
