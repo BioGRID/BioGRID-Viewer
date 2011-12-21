@@ -1,4 +1,3 @@
-
 BGV.holdMe.rest=function(){
   var qs;
 
@@ -112,7 +111,7 @@ BGV.holdMe.rest=function(){
 	  'restNodeEntrez',
 	  {href:url,'xlink:href':url},
           this.Entrez);
-	
+
 	BGV.updateElement('restNodeSystematicName',this.SystematicName);
 	BGV.updateElement('restNodeOfficialSymbol',this.OfficialSymbol);
 	BGV.updateElement('restNodeSpecies'       ,this.species());

@@ -23,6 +23,7 @@
 <text x="5" y="4em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
 <text x="5" y="5em">Species: <tspan class="restNodeSpecies"></tspan></text>
 <text x="5" y="6em">Edge Count: <tspan class="restNodeEdges"></tspan></text>
+<text x="5" y="7em" onclick="BGV.plugins.d3force.unfreezeSelected()">Un Stick</text>
 </g>
 
 

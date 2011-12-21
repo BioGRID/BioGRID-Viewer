@@ -60,7 +60,7 @@ BGV.holdMe.d3force=function(){
   };
 
   var offset=10;
-  placeNodeDescription=function(node,i){
+  var placeNodeDescription=function(node,i){
     var nd=document.getElementById('nodeDescription');
     nd.removeAttribute('class');
 
@@ -108,7 +108,12 @@ BGV.holdMe.d3force=function(){
     };
   };
 
+  var selected;
   var clickNode=function(node,i){
+    selected={
+      node:node,
+      circle:g.circle[0][i]
+    };
     for(var l=0;l<g.circle[0].length;l++){
       var circle=g.circle[0][l];
       if(l==i){
@@ -125,6 +130,18 @@ BGV.holdMe.d3force=function(){
 
   };
 
+  this.unfreezeSelected=function(){
+    selected.node.fixed=0;
+    selected.circle.removeAttribute('class');
+    selected.circle.setAttribute('r',defaultRadius);
+    document.getElementById('nodeDescription').setAttribute('class','hidden');
+
+    document.onmousemove
+      =document.ontouchmove
+      =document.onmousedown
+      =document.ontouchstart
+      =null;
+  };
 
   var freezeNode=function(node){
     node.fixed=1;
