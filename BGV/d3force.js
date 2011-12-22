@@ -115,7 +115,7 @@ BGV.holdMe.d3force=function(){
       }else if(jQueryP()){
 	// for an HTML nodeDescription
 	var o=$(svg[0][0]).parent().offset();
-	var style='left:'+(node.x+o.left+offset)+'px;top:'+(node.y+o.top)+'px;';
+	var style='left:'+(this.node.x+o.left+offset)+'px;top:'+(this.node.y+o.top)+'px;';
 	this.info.setAttribute('style',style);
       }
     },

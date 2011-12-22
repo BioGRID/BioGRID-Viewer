@@ -17,7 +17,7 @@
 <g id="bgv"></g>
 
 <g id="nodeDescription" class="hidden"><rect/>
-<text x="5" y="1em">[<a onclick="BGV.plugins.d3force.meltSelected()">Un Stick</a>]</text>
+<text x="5" y="1em">[<a onclick="BGV.plugins.d3force.meltSelected()">Unstick</a>]</text>
 <text x="5" y="2em">Entrez: <a xlink:href="" class="restNodeEntrez"></a></text>
 <text x="5" y="3em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"></a></text>
 <text x="5" y="4em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
