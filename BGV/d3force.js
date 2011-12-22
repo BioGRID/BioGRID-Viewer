@@ -59,31 +59,28 @@ BGV.holdMe.d3force=function(){
     );
   };
 
-  var offset=10;
-  var placeNodeDescription=function(node,i){
-    var nd=document.getElementById('nodeDescription');
-    nd.removeAttribute('class');
 
-    document.onmousemove=document.ontouchmove=function(){
-      placeNodeDescription(node,i);
-    };
+  var selected=null;
+  var selectNode=function(node,i){
+    this.node=node;
+    this.circle=g.circle[0][i];
+    this.info=document.getElementById('nodeDescription');
 
-    if('function'==typeof nd.getBBox){
-      // for an SVG nodeDescripton
-      var box=nd.firstChild;
-      box.removeAttribute('width');
-      box.removeAttribute('height');
-      var bb=nd.getBBox();
-      box.setAttribute('width',bb.width+offset);
-      box.setAttribute('height',bb.height+(offset/2));
-      nd.setAttribute('transform','translate('+(node.x+offset)+','+(node.y+offset)+')');
-    }else if(jQueryP()){
-      // for an HTML nodeDescription
-      var o=$(svg[0][0]).parent().offset();
-      var style='left:'+(node.x+o.left+offset)+'px;top:'+(node.y+o.top)+'px;';
-      nd.setAttribute('style',style);
+    if(null!=selected){
+      selected.deselect();
     }
 
+    this.node.updateRestElements();
+    this.circle.setAttribute('class','selected');
+    this.circle.setAttribute('r',defaultRadius+7);
+    this.placeInfo();
+
+
+    document.onmousemove=document.ontouchmove=function(){
+      selected.placeInfo();
+    };
+
+    // Only deselect if we did not click in the node description tag
     document.onmousedown=document.ontouchstart=function(e){
       var circle=g.circle[0][i];
       if(e.target!=circle){
@@ -94,55 +91,57 @@ BGV.holdMe.d3force=function(){
 	  }
 	  tag=tag.parentNode;
 	}
-
-	// don't hide nodeDescription if we are dragging the node
-	document.onmousemove
-	  =document.ontouchmove
-	  =document.onmousedown
-	  =document.ontouchstart
-	  =null;
-	nd.setAttribute('class','hidden');
-	circle.removeAttribute('class');
-	circle.setAttribute('r',defaultRadius);
+	selected.deselect();
       }
     };
   };
+  selectNode.prototype={
+    offset:10,
 
-  var selected;
-  var clickNode=function(node,i){
-    selected={
-      node:node,
-      circle:g.circle[0][i]
-    };
-    for(var l=0;l<g.circle[0].length;l++){
-      var circle=g.circle[0][l];
-      if(l==i){
-	circle.setAttribute('class','selected');
-	circle.setAttribute('r',defaultRadius+7);
-      }else{
-	circle.removeAttribute('class');
-	circle.setAttribute('r',defaultRadius);
+    placeInfo:function(){
+      var offset=this.offset;
+      this.info.removeAttribute('class');
+      if('function'==typeof this.info.getBBox){
+	// for an SVG nodeDescripton
+	var box=this.info.firstChild;
+	box.removeAttribute('width');
+	box.removeAttribute('height');
+	var bb=this.info.getBBox();
+	box.setAttribute('width',bb.width+offset);
+	box.setAttribute('height',bb.height+(offset/2));
+	this.info.setAttribute(
+	  'transform','translate('+(this.node.x+offset)+','+(this.node.y+offset)+')'
+	);
+      }else if(jQueryP()){
+	// for an HTML nodeDescription
+	var o=$(svg[0][0]).parent().offset();
+	var style='left:'+(node.x+o.left+offset)+'px;top:'+(node.y+o.top)+'px;';
+	this.info.setAttribute('style',style);
       }
+    },
+
+    deselect:function(){
+      document.onmousemove=
+	document.ontouchmove=
+	document.onmousedown=
+	document.ontouchstart=null;
+      this.info.setAttribute('class','hidden');
+      this.circle.removeAttribute('class');
+      this.circle.setAttribute('r',defaultRadius);
+      delete selected;
+      selected=null;
     }
 
-    node.updateRestElements();
-    placeNodeDescription(node,i);
-
   };
 
-  this.unfreezeSelected=function(){
+
+  this.meltSelected=function(){
     selected.node.fixed=0;
-    selected.circle.removeAttribute('class');
-    selected.circle.setAttribute('r',defaultRadius);
-    document.getElementById('nodeDescription').setAttribute('class','hidden');
-
-    document.onmousemove
-      =document.ontouchmove
-      =document.onmousedown
-      =document.ontouchstart
-      =null;
+    selected.deselect();
   };
-
+  var clickNode=function(node,i){
+    selected=new selectNode(node,i);
+  };
   var freezeNode=function(node){
     node.fixed=1;
   };

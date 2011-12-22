@@ -17,13 +17,13 @@
 <g id="bgv"></g>
 
 <g id="nodeDescription" class="hidden"><rect/>
-<text x="5" y="1em">Entrez: <a xlink:href="" class="restNodeEntrez"></a></text>
-<text x="5" y="2em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"></a></text>
-<text x="5" y="3em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
-<text x="5" y="4em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
-<text x="5" y="5em">Species: <tspan class="restNodeSpecies"></tspan></text>
-<text x="5" y="6em">Edge Count: <tspan class="restNodeEdges"></tspan></text>
-<text x="5" y="7em" onclick="BGV.plugins.d3force.unfreezeSelected()">Un Stick</text>
+<text x="5" y="1em">[<a onclick="BGV.plugins.d3force.meltSelected()">Un Stick</a>]</text>
+<text x="5" y="2em">Entrez: <a xlink:href="" class="restNodeEntrez"></a></text>
+<text x="5" y="3em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"></a></text>
+<text x="5" y="4em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
+<text x="5" y="5em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
+<text x="5" y="6em">Species: <tspan class="restNodeSpecies"></tspan></text>
+<text x="5" y="7em">Edge Count: <tspan class="restNodeEdges"></tspan></text>
 </g>
 
 
