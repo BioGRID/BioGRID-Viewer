@@ -16,7 +16,8 @@ var BGV={
     }
   },
 
-
+  // If loading the config file is sucessful the function after will
+  // be executed
   loadConfig:function(after){
     var ajax=new XMLHttpRequest();
     //ajax.overrideMimeType("application/json");

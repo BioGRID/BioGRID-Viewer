@@ -20,15 +20,16 @@ text{
 }
 
 g.nodeLabels text{
+    fill:white;
     text-anchor:middle;
     pointer-events:none;
     font-weight:bold;
 }
 
 text.shadow {
-  stroke: #fff;
-  stroke-width: 3px;
-  stroke-opacity: .8;
+    stroke:black;
+    stroke-width: 3px;
+    stroke-opacity: .8;
 } 
 
 

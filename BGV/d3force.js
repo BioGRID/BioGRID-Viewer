@@ -135,7 +135,7 @@ BGV.holdMe.d3force=function(){
   };
 
 
-  this.meltSelected=function(){
+  this.meltSelectedNode=function(){
     selected.node.fixed=0;
     selected.deselect();
   };
