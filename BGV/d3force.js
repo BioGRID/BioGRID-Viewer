@@ -155,7 +155,9 @@ BGV.holdMe.d3force=function(){
     var path=g.path[0][i];
     path.setAttribute('stroke-width', edge.ids.length);
   };
-
+  var pathClick=function(node,i){
+    console.log(node);
+  };
 
   this.resize=function(edges){
     var e2d=convertEdges(edges);
@@ -206,6 +208,7 @@ BGV.holdMe.d3force=function(){
 	.attr('stroke-width',function(d){return d.ids.length;})
 //    	.on("mousemove",pathOver)
 //    	.on("mouseout",pathOut)
+	//.on("click",pathClick)
       ;
 
       g.circle=svg.append("svg:g").selectAll("circle")
@@ -244,6 +247,21 @@ BGV.holdMe.d3force=function(){
   var _links={};
   var _nodes={};
 
+  var anEdge=function(s,t,e,tag,f){
+    this.source=_nodes[s];
+    this.target=_nodes[t];
+    this.ids=[e];
+    this.tag=tag;
+    this.flag=f;
+  };
+  /*
+  anEdge.profile={
+    foo:function(id){
+      // sven
+    }
+  };
+   */
+
   var nodeMap=function(edgeId,s,e,tag,flag){
     var Sid=s.id(); // start
     var Eid=e.id(); // end
@@ -257,13 +275,7 @@ BGV.holdMe.d3force=function(){
     }
 
     if(null==_links[tag][Sid][Eid]){
-      _links[tag][Sid][Eid]={
-	source:_nodes[Sid],
-	target:_nodes[Eid],
-	ids:[edgeId],
-	tag:tag,
-	flag:flag // only used if Sid==Eid
-      };
+      _links[tag][Sid][Eid]=new anEdge(Sid,Eid,edgeId,tag,flag);
       fresh=true;
     }else if(-1==_links[tag][Sid][Eid].ids.indexOf(edgeId)){
       _links[tag][Sid][Eid].ids.push(edgeId);
