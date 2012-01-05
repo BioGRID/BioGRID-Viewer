@@ -254,13 +254,13 @@ BGV.holdMe.d3force=function(){
     this.tag=tag;
     this.flag=f;
   };
-  /*
-  anEdge.profile={
-    foo:function(id){
-      // sven
+  anEdge.prototype={
+    addEdgeId:function(id){
+      if(-1==this.ids.indexOf(id)){
+	this.ids.push(id);
+      }
     }
   };
-   */
 
   var nodeMap=function(edgeId,s,e,tag,flag){
     var Sid=s.id(); // start
@@ -277,8 +277,8 @@ BGV.holdMe.d3force=function(){
     if(null==_links[tag][Sid][Eid]){
       _links[tag][Sid][Eid]=new anEdge(Sid,Eid,edgeId,tag,flag);
       fresh=true;
-    }else if(-1==_links[tag][Sid][Eid].ids.indexOf(edgeId)){
-      _links[tag][Sid][Eid].ids.push(edgeId);
+    }else{
+      _links[tag][Sid][Eid].addEdgeId(edgeId);
     }
     return _links[tag][Sid][Eid]; // there can be only one
 
