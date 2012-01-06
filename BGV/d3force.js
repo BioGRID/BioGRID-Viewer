@@ -207,7 +207,6 @@ BGV.holdMe.d3force=function(){
     var size=jQueryP()                                              ?
       [$(svg[0][0]).parent().width(),$(svg[0][0]).parent().height()]:
       [window.innerWidth,window.innerHeight]                        ;
-//    var ld=Math.min(size[0],size[1])*0.40;
 
     if(null==force){
       force=d3.layout.force()
@@ -223,7 +222,6 @@ BGV.holdMe.d3force=function(){
     }else{
       force
 	.size(size)
-//	.linkDistance(ld)
 	.start();
     }
 
