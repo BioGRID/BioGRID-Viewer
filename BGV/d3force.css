@@ -74,3 +74,8 @@ path.connected{
 .phy{
     stroke:#FFCC00;
 }
+
+a{
+    fill:blue;
+    text-decoration:underline;
+}
