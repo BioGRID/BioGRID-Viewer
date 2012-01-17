@@ -217,6 +217,10 @@ BGV.holdMe.rest=function(){
 	  }
       }
 
+      if(this.totalEdges!=edgeCount){
+	edgeCount+=' of '+this.totalEdges;
+      };
+
       BGV.updateElement('lastCount',edgeCount);
       if(edgeCount==0){
 	alert('No edges found');
@@ -225,19 +229,28 @@ BGV.holdMe.rest=function(){
       return true;
     };
 
-    var ajax=ajaxFactory(
+
+    var fetchCount=ajaxFactory(
       function(responseText){
-	if(parse(responseText)){
-	  BGV.update();
-	}
+	this.totalEdges=responseText;
+
+	var fetchTab2=ajaxFactory(
+	  function(responseText){
+	    if(parse(responseText)){
+	      BGV.update();
+	    }
+	  }
+	);
+
+	fetchTab2.open('GET',url,true);
+	fetchTab2.send();
       }
     );
 
-    ajax.open('GET',url,true);
-    ajax.send();
+    fetchCount.open('GET',url+"&format=count",true);
+    fetchCount.send();
+
   };
-
-
 };
 
 BGV.plugins.rest=new BGV.holdMe.rest();
