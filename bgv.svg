@@ -27,8 +27,9 @@
 </g>
 
 <g id="control">
-<text x="5" y="1em" onclick="BGV.plugins.d3force.toggleUnicodeCheckbox('phy',this.firstChild)"><tspan>☒</tspan> Physical</text>
-<text x="5" y="2em" onclick="BGV.plugins.d3force.toggleUnicodeCheckbox('gen',this.firstChild)"><tspan>☒</tspan> Genetic</text>
+<text x="5" y="1em">Displaying <tspan class="lastCount">none</tspan>.</text>
+<text x="5" y="3em" onclick="BGV.plugins.d3force.toggleUnicodeCheckbox('phy',this.firstChild)"><tspan>☒</tspan> Physical</text>
+<text x="5" y="4em" onclick="BGV.plugins.d3force.toggleUnicodeCheckbox('gen',this.firstChild)"><tspan>☒</tspan> Genetic</text>
 </g>
 
 </svg>
