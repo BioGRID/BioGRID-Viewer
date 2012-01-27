@@ -24,6 +24,7 @@ BGV.holdMe.rest=function(){
   this.load=function(){
     // you need to provide these elements
     BGV.e.lastSVGLink=document.getElementsByClassName('lastSVGLink');
+    BGV.e.lastBundleLink=document.getElementsByClassName('lastBundleLink');
     BGV.e.lastRESTLink=document.getElementsByClassName('lastRESTLink');
     BGV.e.BioGRIDVersion=document.getElementsByClassName('BioGRIDVersion');
 
@@ -62,6 +63,7 @@ BGV.holdMe.rest=function(){
 
     BGV.updateElement('lastCount','pending');
     BGV.updateElement('lastSVGLink',{href:'bgv.svg?'+qs});
+    BGV.updateElement('lastBundleLink',{href:'bundle.svg?'+qs});
     BGV.updateElement('lastRESTLink',{href:url});
 
     // i==0 means A, i==1 B
@@ -139,22 +141,20 @@ BGV.holdMe.rest=function(){
       this.Qualifications=values[21]; // |
       this.Tags=values[22];
       this.SourceDatabase=values[23];
-      this.interactor=[];
 
-      var that=this;
-      [0,1].forEach(
-	function(i){
-	  var iI=new tab2node(values,i);
-	  var id=iI.id();
-	  if(null==nodes[id]){
-	    nodes[id]=iI;
-	    that.interactor[i]=iI;
-	  }else{
-	    that.interactor[i]=nodes[id];
-	  }
-	  nodes[id].addEdge(that);
-	}
-      );
+      // interactions
+      var s=new tab2node(values,0);
+      var t=new tab2node(values,1);
+
+      if(null==nodes[s.id()]){
+	nodes[s.id()]=s;
+      }
+      this.source=nodes[s.id()];
+
+      if(null==nodes[t.id()]){
+	nodes[t.id()]=t;
+      }
+      this.target=nodes[t.id()];
 
       return this;
     };
@@ -166,10 +166,10 @@ BGV.holdMe.rest=function(){
 	return (Object.keys(this).length==0);
       },
       iA:function(){
-	return this.interactor[0];
+	return this.source;
       },
       iB:function(){
-	return this.interactor[1];
+	return this.target;
       },
 
       // Get the nodes for use is an unordered graph

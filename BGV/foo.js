@@ -62,7 +62,7 @@ this.update=function(){
     .enter().append("path")
     .attr('fill','none')
     .attr('stroke','steelblue')
-    .attr('stroke-opacity','.4')
+    .attr('stroke-opacity','.1')
     .attr("d", line);
 
 

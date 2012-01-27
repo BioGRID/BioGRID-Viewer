@@ -80,8 +80,36 @@ var BGV={
 
   resize:function(){
     BGV.foreachPlugin('resize');
-  }
+  },
 
+  // returs a list of nodes sorted by species and then BioGRID id.
+  nodes:function(){
+    var out=[];
+
+    for(var id in BGV.edges){
+      var edge=BGV.edges[id];
+      var AB=[edge.iA(),edge.iB()];
+      AB.forEach(
+	function(node){
+	  if(-1==out.indexOf(node)){
+	    out.push(node);
+ 	  }else{
+	    console.log('dup',node.display());
+	  }
+	}
+      );
+    }
+
+    out.sort(
+      function(a,b){
+	if(a.taxa().species==b.taxa.species){
+	  return a.id()<b.id()?a:b;
+	}
+	return a.taxa().species<b.taxa.species?a:b;
+      }
+    );
+    return out;
+  }
 
 };
 
