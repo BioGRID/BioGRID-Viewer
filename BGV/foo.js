@@ -16,14 +16,20 @@ this.update=function(){
   ;
   var line=d3.svg.line.radial()
     .interpolate("bundle")
-    .tension(.85)
+    .tension(.5)
     .radius(function(d){return d.y;})
     .angle(function(d){return d.x / 180 * Math.PI;})
   ;
 
-  var blank={
-    children:nodes
-  };
+  var blank={children:nodes};
+  if((queryString.geneList.length>2) && (-1==queryString.geneList.indexOf('|'))){
+    var node=BGV.node(queryString.geneList);
+    nodes.splice(nodes.indexOf(node),1);
+    node.children=nodes;
+    blank=node;
+  }
+  console.log(blank);
+
 
   var ring=cluster.nodes(blank);
 
@@ -38,8 +44,14 @@ this.update=function(){
 
 
   svg.selectAll("g.node")
-    .data(ring.filter(function(n) {
-			 return !n.children; }))
+    .data(
+      ring
+	.filter(
+	  function(n) {
+	    return !(!n.BioGridId);
+	  }
+	)
+    )
     .enter().append("g")
     .attr("class", "node")
     .attr("transform", function(d) {

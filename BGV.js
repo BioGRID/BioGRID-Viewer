@@ -82,6 +82,29 @@ var BGV={
     BGV.foreachPlugin('resize');
   },
 
+  node:function(os){ // OfficalSymbol
+    os=os.toLowerCase();
+    for(var id in BGV.edges){
+      var edge=BGV.edges[id];
+      var AB=[edge.iA(),edge.iB()];
+      var out=null;
+
+      AB.forEach(
+	function(node){
+	  if(os==node.OfficialSymbol.toLowerCase()){
+	    out=node;
+	    return;
+	  }
+	}
+      );
+
+      if(null!=out){
+	return out;
+      }
+    }
+    return null;
+  },
+
   // returs a list of nodes sorted by species and then BioGRID id.
   nodes:function(){
     var out=[];
@@ -93,8 +116,6 @@ var BGV={
 	function(node){
 	  if(-1==out.indexOf(node)){
 	    out.push(node);
- 	  }else{
-	    console.log('dup',node.display());
 	  }
 	}
       );
