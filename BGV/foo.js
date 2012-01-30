@@ -2,39 +2,11 @@ BGV.holdMe.foo=function(){
 
 this.update=function(){
   var nodes=BGV.nodes();
-  /*
-  [
-    { food:'apple' },
-    { food:'banana' },
-    { food:'cake' },
-    { food:'daikin' },
-    { food:'endive' },
-    { food:'fig' }
-  ];
-*/
-
   var edges=d3.values(BGV.edges);
-  /*
-  [
-    {source:nodes[0],target:nodes[1]},
-    {source:nodes[0],target:nodes[2]},
-    {source:nodes[2],target:nodes[3]},
-    {source:nodes[4],target:nodes[5]}
-  ];
-*/
-
   var r=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
 
   var svg=d3.select("#bgv").append("g")
-    .attr("transform","translate("+r+","+r+")");
-
-  /*
-  var bla=function(a,b){
-    var A=a.food.charAt(a.food.length-1);
-    var B=b.food.charAt(b.food.length-1);
-    return (Math.random()<.5);
-  };
-*/
+    .attr("transform","translate("+(window.innerWidth/2)+","+r+")");
 
   var bundle=d3.layout.bundle();
   var cluster=d3.layout.cluster()
@@ -50,7 +22,6 @@ this.update=function(){
   ;
 
   var blank={
-//    food:"",
     children:nodes
   };
 
