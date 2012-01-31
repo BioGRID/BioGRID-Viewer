@@ -1,6 +1,6 @@
 {
  "rest":{
   'url':'http://webservice.thebiogrid.org/',
-  'url':'http://gen-sven2.princeton.edu:8080/BiogridRestService/'
+  'url':'http://biogridrest.princeton.edu:8080/BiogridRestService/'
  }
 }
