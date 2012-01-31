@@ -209,6 +209,8 @@ BGV.holdMe.rest=function(){
 	      alert("error:"+line);
 	    }
  	  }else{
+	    edge.source.addEdge(edge);
+	    edge.target.addEdge(edge);
 	    var id=edge.id();
 	    edgeCount++; // count em even if we already have them
 	    if(null==BGV.edges[id]){
