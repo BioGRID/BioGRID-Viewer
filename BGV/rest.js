@@ -101,6 +101,22 @@ BGV.holdMe.rest=function(){
 	return this.taxa().color(ifNoColor);
       },
 
+      // returns a list of nodes are connected to, with this is
+      // element zero
+      nodes:function(){
+	var out=[this];
+	for(id in this.edges){
+	  var edge=this.edges[id];
+	  if(-1==out.indexOf(edge.iA())){
+	    out.push(edge.iA());
+	  }
+	  if(-1==out.indexOf(edge.iB())){
+	    out.push(edge.iB());
+	  }
+	}
+	return out
+      },
+
       updateRestElements:function(){
 	var url='http://thebiogrid.org/'+this.BioGridId+'/';
 	BGV.updateElement(

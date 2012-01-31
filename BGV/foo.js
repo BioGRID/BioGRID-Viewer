@@ -55,20 +55,30 @@ BGV.holdMe.foo=function(){
       .attr('stroke-opacity','.1')
       .attr(
 	'd',//line
-	function(e){
+	function(n){
 	  var out=null;
-	  if(e.length==1){
-	    var p1={x:e[0].x+10,y:e[0].y+100};
-	    var p2={x:e[0].x-10,y:e[0].y+100};
-	    out=line([e[0],p1,p2,e[0]]);
+	  if(n.length==1){
+	    var p1={x:n[0].x+10,y:n[0].y+100};
+	    var p2={x:n[0].x-10,y:n[0].y+100};
+	    out=line([n[0],p1,p2,n[0]]);
 	  }else{
-	    out=line(e);
+	    out=line(n);
 	  }
 	  return out;
 	}
       );
 
-    svg.selectAll("g.node")
+    var toggleClass=function(nodes,clazz,tf){
+      var svg=[];
+      nodes.forEach(
+	function(node){
+	  svg.push(node.SVGText);
+	}
+      );
+      d3.selectAll(svg).classed(clazz,tf);
+    };
+
+    var texts=svg.selectAll("g.node")
       .data(
 	ring
 	  .filter(function(n){
@@ -82,15 +92,25 @@ BGV.holdMe.foo=function(){
 	  return "rotate("+(n.x-90)+")translate("+n.y+")";
 	})
       .append("text")
+      .on(
+	'mouseover',function(n){
+	  toggleClass(n.nodes(),'foo',true);
+	}
+      ).on(
+	'mouseout',function(n){
+	  toggleClass(n.nodes(),'foo',false);
+	}
+      )
       .attr("dx",function(n){return (n.x<180)?8:-8;})
       .attr("dy", ".31em")
       .attr("text-anchor",function(n){return (n.x<180)?"start":"end";})
       .attr(
-	"transform", function(d) {
-	  if(!!d.children){
+	"transform", function(n,i) {
+	  n.SVGText=this;
+	  if(!!n.children){
 	    // center the middle node
 	    return "rotate(-90)";
-	  }else if(d.x>=180){
+	  }else if(n.x>=180){
 	    return "rotate(180)";
 	  }else{
 	    return null;
@@ -99,7 +119,6 @@ BGV.holdMe.foo=function(){
       )
       .text(function(d) {
 	      return d.display(); });
-
   };
 };
 
