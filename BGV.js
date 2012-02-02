@@ -121,22 +121,33 @@ var BGV={
       );
     }
 
-
-/*
-    return out.sort(
+    out.sort(
       function(a,b){
-	if(a.taxa().species==b.taxa.species){
-	  return a.OfficialSymbol<b.OfficialSymbol?a:b;
+	var as=a.taxa().species;
+	var bs=b.taxa().species;
+	if(as==bs){
+	  var ad=a.display();
+	  var bd=b.display();
+
+	  if(ad<bd){
+	    return -1;
+	  }else if(ad>bd){
+	    return 1;
+	  }
+	}else{
+	  if(as<bs){
+	    return -1;
+	  }else if(as>bs){
+	    return 1;
+	  }
 	}
-	return a.taxa().species<b.taxa.species?a:b;
+	return 0;
       }
     );
 
-*/
-
 
     return out;
-  }
 
+  }
 };
 
