@@ -1,2 +1,5 @@
 text{font-size:10px;font-family:sans-serif}
-.foo{font-size:15px;font-weight:bold}
+text.foo{font-size:15px;font-weight:bold}
+
+path{stroke:steelblue;stroke-opacity:.1;fill:none}
+path.foo{stroke:red;stroke-opacity:.2}

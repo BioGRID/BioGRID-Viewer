@@ -12,7 +12,6 @@ BGV.holdMe.foo=function(){
     var cluster=d3.layout.cluster()
       .size([360, r-120])
       .sort(null)
-    //    .value(function(d){return d.size;})
     ;
     var line=d3.svg.line.radial()
       .interpolate("bundle")
@@ -34,7 +33,7 @@ BGV.holdMe.foo=function(){
     var ring=cluster.nodes(blank);
 
     var splines=bundle(edges);
-    svg.selectAll("path.link")
+    svg.selectAll("path")//.link")
       .data(splines)
       .enter().append("path")
       // .on(
@@ -50,12 +49,21 @@ BGV.holdMe.foo=function(){
       // 	  console.log(out);
       // 	}
       // )
-      .attr('fill','none')
-      .attr('stroke','steelblue')
-      .attr('stroke-opacity','.1')
       .attr(
 	'd',//line
 	function(n){
+	  var that=this;
+
+	  // skip the center point
+	  ((n.length==3)?[n[0],n[2]]:n).forEach(
+	    function(node){
+	      if(null==node.SVGPath){
+		node.SVGPath=[that];
+	      }else if(-1==node.SVGPath.indexOf(that)){
+		node.SVGPath.push(that);
+	      }
+	    }
+	  );
 	  var out=null;
 	  if(n.length==1){
 	    var p1={x:n[0].x+10,y:n[0].y+100};
@@ -68,17 +76,16 @@ BGV.holdMe.foo=function(){
 	}
       );
 
-    var toggleClass=function(nodes,clazz,tf){
-      var svg=[];
+    var toggleClass=function(nodes,also,clazz,tf){
       nodes.forEach(
 	function(node){
-	  svg.push(node.SVGText);
+	  also.push(node.SVGText);
 	}
       );
-      d3.selectAll(svg).classed(clazz,tf);
+      d3.selectAll(also).classed(clazz,tf);
     };
 
-    var texts=svg.selectAll("g.node")
+    svg.selectAll("g.node")
       .data(
 	ring
 	  .filter(function(n){
@@ -86,7 +93,7 @@ BGV.holdMe.foo=function(){
 		  })
       )
       .enter().append("g")
-      .attr("class", "node")
+//      .attr("class", "node")
       .attr(
 	"transform",function(n){
 	  return "rotate("+(n.x-90)+")translate("+n.y+")";
@@ -94,11 +101,11 @@ BGV.holdMe.foo=function(){
       .append("text")
       .on(
 	'mouseover',function(n){
-	  toggleClass(n.nodes(),'foo',true);
+	  toggleClass(n.nodes(),n.SVGPath,'foo',true);
 	}
       ).on(
 	'mouseout',function(n){
-	  toggleClass(n.nodes(),'foo',false);
+	  toggleClass(n.nodes(),n.SVGPath,'foo',false);
 	}
       )
       .attr("dx",function(n){return (n.x<180)?8:-8;})

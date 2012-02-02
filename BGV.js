@@ -121,14 +121,20 @@ var BGV={
       );
     }
 
-    out.sort(
+
+/*
+    return out.sort(
       function(a,b){
 	if(a.taxa().species==b.taxa.species){
-	  return a.id()<b.id()?a:b;
+	  return a.OfficialSymbol<b.OfficialSymbol?a:b;
 	}
 	return a.taxa().species<b.taxa.species?a:b;
       }
     );
+
+*/
+
+
     return out;
   }
 
