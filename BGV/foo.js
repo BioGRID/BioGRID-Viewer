@@ -108,6 +108,7 @@ BGV.holdMe.foo=function(){
 	  toggleClass(n.nodes(),n.SVGPath,'foo',false);
 	}
       )
+      .attr("fill",function(n){return n.taxa().color();})
       .attr("dx",function(n){return (n.x<180)?8:-8;})
       .attr("dy", ".31em")
       .attr("text-anchor",function(n){return (n.x<180)?"start":"end";})
@@ -126,6 +127,9 @@ BGV.holdMe.foo=function(){
       )
       .text(function(d) {
 	      return d.display(); });
+
+    var arc=d3.svg.arc();
+    console.log(arc(r,r+10));
   };
 };
 

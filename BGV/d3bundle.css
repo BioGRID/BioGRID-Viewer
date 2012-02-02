@@ -1,5 +1,7 @@
+svg{background-color:#002b36}
+
 text{font-size:10px;font-family:sans-serif}
 text.foo{font-size:15px;font-weight:bold}
 
-path{stroke:steelblue;stroke-opacity:.1;fill:none}
-path.foo{stroke:red;stroke-opacity:.2}
+path{stroke:#268bd2;stroke-opacity:.1;fill:none}
+path.foo{stroke:#dc322f;stroke-opacity:.2}
