@@ -1,7 +1,11 @@
-svg{background-color:#002b36}
+svg{background-color:#eee8d5;fill:#839496}
 
 text{font-size:10px;font-family:sans-serif}
 text.foo{font-size:15px;font-weight:bold}
 
 path{stroke:#268bd2;stroke-opacity:.1;fill:none}
+/*
+path.physical{stroke:#859900}
+path.genetic{stroke:#cb4b16}
+*/
 path.foo{stroke:#dc322f;stroke-opacity:.2}

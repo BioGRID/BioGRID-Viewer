@@ -1,16 +1,16 @@
 BGV.holdMe.foo=function(){
+  var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
 
   this.update=function(){
     var nodes=BGV.nodes();
     var edges=d3.values(BGV.edges);
-    var r=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
 
     var svg=d3.select("#bgv").append("g")
-      .attr("transform","translate("+(window.innerWidth/2)+","+r+")");
+      .attr("transform","translate("+(window.innerWidth/2)+","+radius+")");
 
     var bundle=d3.layout.bundle();
     var cluster=d3.layout.cluster()
-      .size([360, r-120])
+      .size([360, radius-120])
       .sort(null)
     ;
     var line=d3.svg.line.radial()
@@ -49,6 +49,11 @@ BGV.holdMe.foo=function(){
       // 	  console.log(out);
       // 	}
       // )
+      .attr(
+	'class',function(n,i){
+	  return edges[i].ExperimentalSystemType;
+	}
+      )
       .attr(
 	'd',//line
 	function(n){
@@ -93,7 +98,6 @@ BGV.holdMe.foo=function(){
 		  })
       )
       .enter().append("g")
-//      .attr("class", "node")
       .attr(
 	"transform",function(n){
 	  return "rotate("+(n.x-90)+")translate("+n.y+")";
@@ -108,8 +112,8 @@ BGV.holdMe.foo=function(){
 	  toggleClass(n.nodes(),n.SVGPath,'foo',false);
 	}
       )
-      .attr("fill",function(n){return n.taxa().color();})
-      .attr("dx",function(n){return (n.x<180)?8:-8;})
+//      .attr("fill",function(n){return n.taxa().color();})
+      .attr("dx",function(n){return (n.x<180)?15:-15;})
       .attr("dy", ".31em")
       .attr("text-anchor",function(n){return (n.x<180)?"start":"end";})
       .attr(
@@ -125,12 +129,24 @@ BGV.holdMe.foo=function(){
 	  }
 	}
       )
-      .text(function(d) {
-	      return d.display(); });
+      .text(function(d){return d.display();})
+    ;
 
-    var arc=d3.svg.arc();
-    console.log(arc(r,r+10));
+    var orgarc=this.groups(nodes);
+
+    radius-=110;
+    svg
+      .selectAll("path.species")
+      .data(orgarc)
+      .enter().append("path")
+      .style("fill",function(g){return g.taxa.color();})
+      .style("stroke",'black')
+      .attr("d",d3.svg.arc().innerRadius(radius-10).outerRadius(radius))
+      .on("mouseover",function(g){console.log(g.taxa.display());})
+    ;
+
+
   };
 };
-
+BGV.holdMe.foo.prototype=BGV.holdMe.d3;
 BGV.plugins.foo=new BGV.holdMe.foo();

@@ -6,6 +6,7 @@
 <script xlink:href="queryString.js"/>
 
 <script xlink:href="BGV.js"/>
+<script xlink:href="BGV/d3.js"/>
 <script xlink:href="BGV/rest.js"/>
 <script xlink:href="BGV/taxa.js"/>
 
