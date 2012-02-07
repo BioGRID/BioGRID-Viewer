@@ -21,7 +21,7 @@ BGV.holdMe.d3={
       groups[0].startAngle=0;
       groups[0].endAngle=Math.TAU;
     }else{
-      var gap=Math.TAU/1000;
+      var gap=Math.TAU/500;
       var slice=Math.TAU/nodes.length;
       var rad=gap/2;
       groups.forEach(
@@ -34,7 +34,7 @@ BGV.holdMe.d3={
       );
     }
 
-    return groups
+    return groups;
   }
 
 

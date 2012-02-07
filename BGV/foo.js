@@ -1,21 +1,46 @@
 BGV.holdMe.foo=function(){
   var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
+  var arcWidth=10;
+  var svg,nodes;
+
+  // @#$% Firefox
+  var mozPadding='';
+  if('function'==typeof window.navigator.mozIsLocallyAvailable){
+    var nbsp=String.fromCharCode(0x00a0);
+    mozPadding=nbsp+nbsp+nbsp+nbsp+nbsp;
+  }
+
+
+  this.speciesRing=function(r){
+    var groups=this.groups(nodes);
+    svg
+      .selectAll("path.species")
+      .data(groups)
+      .enter().append("path")
+      .style("fill",function(g){return g.taxa.color();})
+      .style("stroke",'black')
+      .attr("d",d3.svg.arc().innerRadius(r-arcWidth).outerRadius(r))
+//      .on("mouseover",function(x,i){console.log(groups[i]);})
+    ;
+
+
+  };
 
   this.update=function(){
-    var nodes=BGV.nodes();
     var edges=d3.values(BGV.edges);
 
-    var svg=d3.select("#bgv").append("g")
+    nodes=BGV.nodes();
+    svg=d3.select("#bgv").append("g")
       .attr("transform","translate("+(window.innerWidth/2)+","+radius+")");
 
     var bundle=d3.layout.bundle();
     var cluster=d3.layout.cluster()
-      .size([360, radius-120])
+      .size([360,radius-120])
       .sort(null)
     ;
     var line=d3.svg.line.radial()
       .interpolate("bundle")
-      .tension(.5)
+      .tension(.3)
       .radius(function(d){return d.y;})
       .angle(function(d){return d.x/180*Math.PI;})
     ;
@@ -29,6 +54,9 @@ BGV.holdMe.foo=function(){
     	blank=node;
       }
     }
+
+
+    this.speciesRing(radius-110);
 
     var ring=cluster.nodes(blank);
 
@@ -55,7 +83,7 @@ BGV.holdMe.foo=function(){
 	}
       )
       .attr(
-	'd',//line
+	'd',
 	function(n){
 	  var that=this;
 
@@ -71,8 +99,8 @@ BGV.holdMe.foo=function(){
 	  );
 	  var out=null;
 	  if(n.length==1){
-	    var p1={x:n[0].x+10,y:n[0].y+100};
-	    var p2={x:n[0].x-10,y:n[0].y+100};
+	    var p1={x:n[0].x+10,y:n[0].y-100};
+	    var p2={x:n[0].x-10,y:n[0].y-100};
 	    out=line([n[0],p1,p2,n[0]]);
 	  }else{
 	    out=line(n);
@@ -114,36 +142,26 @@ BGV.holdMe.foo=function(){
       )
 //      .attr("fill",function(n){return n.taxa().color();})
       .attr("dx",function(n){return (n.x<180)?15:-15;})
-      .attr("dy", ".31em")
+      .attr("dy",".31em")
       .attr("text-anchor",function(n){return (n.x<180)?"start":"end";})
       .attr(
 	"transform", function(n,i) {
+
 	  n.SVGText=this;
 	  if(!!n.children){
 	    // center the middle node
 	    return "rotate(-90)";
 	  }else if(n.x>=180){
-	    return "rotate(180)";
+//	    return 'translate('+arcWidth+')rotate(180)';
+	    return 'rotate(180)';
 	  }else{
 	    return null;
 	  }
 	}
       )
-      .text(function(d){return d.display();})
+      .text(function(d){return d.display()+mozPadding;})
     ;
 
-    var orgarc=this.groups(nodes);
-
-    radius-=110;
-    svg
-      .selectAll("path.species")
-      .data(orgarc)
-      .enter().append("path")
-      .style("fill",function(g){return g.taxa.color();})
-      .style("stroke",'black')
-      .attr("d",d3.svg.arc().innerRadius(radius-10).outerRadius(radius))
-      .on("mouseover",function(g){console.log(g.taxa.display());})
-    ;
 
 
   };
