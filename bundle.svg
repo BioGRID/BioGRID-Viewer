@@ -16,7 +16,7 @@
 
 <script xlink:href="BGV/foo.js"/>
 
-<g id="bgv"></g>
+<g id="bgv"><g id="speciesRing"></g><g id="edges"></g><g id="nodeLabels"></g></g>
 <g id="info">
 <text x="5" y="1em">Species: <tspan class="species"></tspan></text>
 </g>

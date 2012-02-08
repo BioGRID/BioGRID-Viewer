@@ -13,8 +13,8 @@ BGV.holdMe.foo=function(){
 
   this.speciesRing=function(r){
     var groups=this.groups(nodes);
-    svg
-      .selectAll("path.species")
+    svg.select("g#speciesRing")
+      .selectAll("path")
       .data(groups)
       .enter().append("path")
       .style("fill",function(g){return g.taxa.color('#fdf6e3');}) // base3
@@ -23,15 +23,13 @@ BGV.holdMe.foo=function(){
       .on("mouseover",function(x,i){BGV.updateElement('species',groups[i].taxa.display());})
       .on("mouseout",function(){BGV.updateElement('species','');})
     ;
-
-
   };
 
   this.update=function(){
     var edges=d3.values(BGV.edges);
 
     nodes=BGV.nodes();
-    svg=d3.select("#bgv").append("g")
+    svg=d3.select("#bgv")
       .attr("transform","translate("+(window.innerWidth/2)+","+radius+")");
 
     var bundle=d3.layout.bundle();
@@ -67,8 +65,9 @@ BGV.holdMe.foo=function(){
 	}
       );
 
-    var splines=bundle(edges); // PIK3R1
-    svg.selectAll("path")//.link")
+    var splineCount=0;
+    var splines=bundle(edges);
+    svg.select("g#edges").selectAll("path")
       .data(splines)
       .enter().append("path")
       // .on(
@@ -93,7 +92,8 @@ BGV.holdMe.foo=function(){
 	'd',
 	function(n){
 	  var that=this;
-//	  console.log(splines,n);
+
+	  splineCount++;
 
 	  // skip the center point
 	  ((n.length==3)?[n[0],n[2]]:n).forEach(
@@ -116,6 +116,9 @@ BGV.holdMe.foo=function(){
 	  return out;
 	}
       );
+    if (splines.length!=splineCount){
+      alert("Warning: Drew "+splineCount+" of "+splines.length+" splines.");
+    }
 
 
     var toggleClass=function(nodes,also,clazz,tf){
@@ -128,7 +131,8 @@ BGV.holdMe.foo=function(){
       d3.selectAll(also).classed(clazz,tf);
     };
 
-    svg.selectAll("g.node")
+    svg.select("g#nodeLabels")
+      .selectAll('g')
       .data(foo)
       .enter().append("g")
       .attr(
