@@ -1,6 +1,10 @@
 Math.TAU=2*Math.PI;
 
 BGV.holdMe.d3={
+  load:function(){
+    BGV.e.species=document.getElementsByClassName('species');
+  },
+
   groups:function(nodes){
     var groups=[];
 

@@ -1,7 +1,7 @@
 BGV.holdMe.foo=function(){
   var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
   var arcWidth=10;
-  var svg,nodes;
+  var nodes;
 
   // @#$% Firefox
   var mozPadding='';
@@ -17,10 +17,11 @@ BGV.holdMe.foo=function(){
       .selectAll("path.species")
       .data(groups)
       .enter().append("path")
-      .style("fill",function(g){return g.taxa.color();})
+      .style("fill",function(g){return g.taxa.color('#fdf6e3');}) // base3
       .style("stroke",'black')
       .attr("d",d3.svg.arc().innerRadius(r-arcWidth).outerRadius(r))
-//      .on("mouseover",function(x,i){console.log(groups[i]);})
+      .on("mouseover",function(x,i){BGV.updateElement('species',groups[i].taxa.display());})
+      .on("mouseout",function(){BGV.updateElement('species','');})
     ;
 
 
@@ -34,10 +35,6 @@ BGV.holdMe.foo=function(){
       .attr("transform","translate("+(window.innerWidth/2)+","+radius+")");
 
     var bundle=d3.layout.bundle();
-    var cluster=d3.layout.cluster()
-      .size([360,radius-120])
-      .sort(null)
-    ;
     var line=d3.svg.line.radial()
       .interpolate("bundle")
       .tension(.3)
@@ -58,9 +55,19 @@ BGV.holdMe.foo=function(){
 
     this.speciesRing(radius-110);
 
+    var cluster=d3.layout.cluster()
+      .size([360,radius-120])
+      .sort(null)
+    ;
     var ring=cluster.nodes(blank);
+    var foo=ring
+      .filter(
+	function(n){
+	  return !!n.BioGridId;
+	}
+      );
 
-    var splines=bundle(edges);
+    var splines=bundle(edges); // PIK3R1
     svg.selectAll("path")//.link")
       .data(splines)
       .enter().append("path")
@@ -86,6 +93,7 @@ BGV.holdMe.foo=function(){
 	'd',
 	function(n){
 	  var that=this;
+//	  console.log(splines,n);
 
 	  // skip the center point
 	  ((n.length==3)?[n[0],n[2]]:n).forEach(
@@ -109,7 +117,9 @@ BGV.holdMe.foo=function(){
 	}
       );
 
+
     var toggleClass=function(nodes,also,clazz,tf){
+//      console.log(arguments);
       nodes.forEach(
 	function(node){
 	  also.push(node.SVGText);
@@ -119,12 +129,7 @@ BGV.holdMe.foo=function(){
     };
 
     svg.selectAll("g.node")
-      .data(
-	ring
-	  .filter(function(n){
-		    return !!n.BioGridId;
-		  })
-      )
+      .data(foo)
       .enter().append("g")
       .attr(
 	"transform",function(n){
@@ -133,10 +138,12 @@ BGV.holdMe.foo=function(){
       .append("text")
       .on(
 	'mouseover',function(n){
+	  BGV.updateElement('species',n.taxa().display());
 	  toggleClass(n.nodes(),n.SVGPath,'foo',true);
 	}
       ).on(
 	'mouseout',function(n){
+	  BGV.updateElement('species','');
 	  toggleClass(n.nodes(),n.SVGPath,'foo',false);
 	}
       )
@@ -152,7 +159,6 @@ BGV.holdMe.foo=function(){
 	    // center the middle node
 	    return "rotate(-90)";
 	  }else if(n.x>=180){
-//	    return 'translate('+arcWidth+')rotate(180)';
 	    return 'rotate(180)';
 	  }else{
 	    return null;
