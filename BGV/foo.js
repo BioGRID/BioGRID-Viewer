@@ -107,8 +107,8 @@ BGV.holdMe.foo=function(){
 	  );
 	  var out=null;
 	  if(n.length==1){
-	    var p1={x:n[0].x+10,y:n[0].y-100};
-	    var p2={x:n[0].x-10,y:n[0].y-100};
+	    var p1={x:n[0].x+75,y:n[0].y-10};
+	    var p2={x:n[0].x-75,y:n[0].y-10};
 	    out=line([n[0],p1,p2,n[0]]);
 	  }else{
 	    out=line(n);
