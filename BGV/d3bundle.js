@@ -10,26 +10,26 @@ BGV.holdMe.foo=function(){
     mozPadding=nbsp+nbsp+nbsp+nbsp+nbsp;
   }
 
-
+  // draw the species ring
   this.speciesRing=function(r){
-    var groups=this.groups(nodes);
-    svg.select("g#speciesRing")
+    this.svg.select("g#speciesRing")
       .selectAll("path")
-      .data(groups)
+      .data(this.groups(nodes))
       .enter().append("path")
       .style("fill",function(g){return g.taxa.color('#fdf6e3');}) // base3
       .style("stroke",'black')
       .attr("d",d3.svg.arc().innerRadius(r-arcWidth).outerRadius(r))
-      .on("mouseover",function(x,i){BGV.updateElement('species',groups[i].taxa.display());})
+      .on("mouseover",function(a){BGV.updateElement('species',a.taxa.display());})
       .on("mouseout",function(){BGV.updateElement('species','');})
     ;
   };
+
 
   this.update=function(){
     var edges=d3.values(BGV.edges);
 
     nodes=BGV.nodes();
-    svg=d3.select("#bgv")
+    this.svg=d3.select("#bgv")
       .attr("transform","translate("+(window.innerWidth/2)+","+radius+")");
 
     var bundle=d3.layout.bundle();
@@ -37,37 +37,20 @@ BGV.holdMe.foo=function(){
       .interpolate("bundle")
       .tension(.3)
       .radius(function(d){return d.y;})
-      .angle(function(d){return d.x/180*Math.PI;})
+      .angle(function(d){return (d.x/180)*Math.PI;})
     ;
-
-    var blank={children:nodes};
-    if((queryString.geneList.length>2) && (-1==queryString.geneList.indexOf('|'))){
-      var node=BGV.node(queryString.geneList);
-      if(node!=null){
-    	nodes.splice(nodes.indexOf(node),1);
-    	node.children=nodes;
-    	blank=node;
-      }
-    }
 
 
     this.speciesRing(radius-110);
-
-    var cluster=d3.layout.cluster()
+    var labelRing=d3.layout.cluster()
       .size([360,radius-120])
       .sort(null)
+      .nodes(this.tree(nodes,queryString.geneList))
     ;
-    var ring=cluster.nodes(blank);
-    var foo=ring
-      .filter(
-	function(n){
-	  return !!n.BioGridId;
-	}
-      );
 
     var splineCount=0;
     var splines=bundle(edges);
-    svg.select("g#edges").selectAll("path")
+    this.svg.select("g#edges").selectAll("path")
       .data(splines)
       .enter().append("path")
       // .on(
@@ -122,7 +105,6 @@ BGV.holdMe.foo=function(){
 
 
     var toggleClass=function(nodes,also,clazz,tf){
-//      console.log(arguments);
       nodes.forEach(
 	function(node){
 	  also.push(node.SVGText);
@@ -131,9 +113,9 @@ BGV.holdMe.foo=function(){
       d3.selectAll(also).classed(clazz,tf);
     };
 
-    svg.select("g#nodeLabels")
+    this.svg.select("g#nodeLabels")
       .selectAll('g')
-      .data(foo)
+      .data(labelRing.filter(function(n){return !!n.BioGridId;}))
       .enter().append("g")
       .attr(
 	"transform",function(n){

@@ -5,6 +5,24 @@ BGV.holdMe.d3={
     BGV.e.species=document.getElementsByClassName('species');
   },
 
+  // takes a list of start.tab2node objects and returns an object
+  // suitable for input into d3's cluster.nodes() function.  If match
+  // specified it will *try* to make that one a center.
+  tree:function(nodes,match){
+    var tree={children:nodes};
+    if((undefined!=match) && (match.length>2) && (-1==match.indexOf('|'))){
+      var node=BGV.node(match);
+      if(node!=null){
+    	nodes.splice(nodes.indexOf(node),1);
+    	node.children=nodes;
+    	tree=node;
+      }
+    }
+    return tree;
+  },
+
+  // take a list of start.tab2node objects and returns a list of
+  // elements seporated by species. Suitable for use with d3.svg.arc()
   groups:function(nodes){
     var groups=[];
 

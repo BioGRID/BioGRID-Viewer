@@ -14,7 +14,7 @@
 <script xlink:href="/d3/d3.js"/>
 <script xlink:href="/d3/d3.layout.js"/>
 
-<script xlink:href="BGV/foo.js"/>
+<script xlink:href="BGV/d3bundle.js"/>
 
 <g id="bgv"><g id="speciesRing"></g><g id="edges"></g><g id="nodeLabels"></g></g>
 <g id="info">
