@@ -123,9 +123,10 @@ var BGV={
 
     out.sort(
       function(a,b){
-	var as=a.taxa().species;
-	var bs=b.taxa().species;
-	if(as==bs){
+	var at=a.taxa().speciesName();
+	var bt=b.taxa().speciesName();
+
+	if(at==bt){
 	  var ad=a.display();
 	  var bd=b.display();
 
@@ -135,9 +136,9 @@ var BGV={
 	    return 1;
 	  }
 	}else{
-	  if(as<bs){
+	  if(at<bt){
 	    return -1;
-	  }else if(as>bs){
+	  }else if(bt<at){
 	    return 1;
 	  }
 	}

@@ -12,9 +12,11 @@ BGV.defaultTaxon={
       return this._color;
     }
   },
+  speciesName:function(){
+    return (false==this.species)?this.common:this.species;
+  },
   commonName:function(){
-    var c = (this.common == undefined) ? Infinity : this.common.length;
-    return (c < this.species.length) ? this.common : this.species;
+    return this.common;
   },
   display:function(){
     if(this.species==false){
