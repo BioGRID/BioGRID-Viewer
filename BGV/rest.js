@@ -62,7 +62,7 @@ BGV.holdMe.rest=function(){
     qs=qs.slice(0,-1);
 
     BGV.updateElement('lastCount','pending');
-    BGV.updateElement('lastSVGLink',{href:'bgv.svg?'+qs});
+    BGV.updateElement('lastSVGLink',{href:'force.svg?'+qs});
     BGV.updateElement('lastBundleLink',{href:'bundle.svg?'+qs});
     BGV.updateElement('lastRESTLink',{href:url});
 
