@@ -1,9 +1,9 @@
 svg{background-color:#eee8d5;fill:#839496} /* base2 base0 */
 
 text{font-size:10px;font-family:sans-serif}
-text.foo{font-size:15px;font-weight:bold}
+text.over{font-size:15px;font-weight:bold}
 
 path{stroke:#268bd2;stroke-opacity:.1;fill:none} /* blue */
 /* path.physical{stroke:#859900} green */
 /* path.genetic{stroke:#cb4b16} orange */
-path.foo{stroke:#dc322f;stroke-opacity:.2} /* red */
+path.over{stroke:#dc322f;stroke-opacity:.2} /* red */

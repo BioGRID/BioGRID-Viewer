@@ -19,8 +19,8 @@ BGV.holdMe.foo=function(){
       .style("fill",function(g){return g.taxa.color('#fdf6e3');}) // base3
       .style("stroke",'black')
       .attr("d",d3.svg.arc().innerRadius(r-arcWidth).outerRadius(r))
-      .on("mouseover",function(a){BGV.updateElement('species',a.taxa.display());})
-      .on("mouseout",function(){BGV.updateElement('species','');})
+      .on("mouseover",function(a){BGV.updateElement('restNodeSpecies',a.taxa.display());})
+      .on("mouseout",function(){BGV.updateElement('restNodeSpecies','');})
     ;
   };
 
@@ -124,13 +124,13 @@ BGV.holdMe.foo=function(){
       .append("text")
       .on(
 	'mouseover',function(n){
-	  BGV.updateElement('species',n.taxa().display());
-	  toggleClass(n.nodes(),n.SVGPath,'foo',true);
+	  n.updateRestElements();
+	  toggleClass(n.nodes(),n.SVGPath,'over',true);
 	}
       ).on(
 	'mouseout',function(n){
-	  BGV.updateElement('species','');
-	  toggleClass(n.nodes(),n.SVGPath,'foo',false);
+	  n.clearRestElements();
+	  toggleClass(n.nodes(),n.SVGPath,'over',false);
 	}
       )
 //      .attr("fill",function(n){return n.taxa().color();})

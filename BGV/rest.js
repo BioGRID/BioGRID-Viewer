@@ -134,7 +134,19 @@ BGV.holdMe.rest=function(){
 	BGV.updateElement('restNodeOfficialSymbol',this.OfficialSymbol);
 	BGV.updateElement('restNodeSpecies'       ,this.species());
 	BGV.updateElement('restNodeEdges'         ,this.edgeCount());
+      },
+
+
+      clearRestElements:function(){
+	['restNodeBioGridId', 'restNodeEntrez',
+	 'restNodeSystematicName', 'restNodeOfficialSymbol',
+	 'restNodeSpecies', 'restNodeEdges'].forEach(
+	   function(clear){
+	     BGV.updateElement(clear,'');
+	   }
+	 );
       }
+
     };
 
     var nodes={};
