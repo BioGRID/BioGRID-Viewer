@@ -142,7 +142,7 @@ BGV.holdMe.rest=function(){
 	 'restNodeSystematicName', 'restNodeOfficialSymbol',
 	 'restNodeSpecies', 'restNodeEdges'].forEach(
 	   function(clear){
-	     BGV.updateElement(clear,'');
+	     BGV.updateElement(clear,' ');
 	   }
 	 );
       }

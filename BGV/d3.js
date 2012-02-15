@@ -1,8 +1,17 @@
 Math.TAU=2*Math.PI;
 
 BGV.holdMe.d3={
+
   load:function(){
+    this.links=document.getElementById('links');
     BGV.e.species=document.getElementsByClassName('species');
+
+    // var that=this;
+    // this.links.onmouseout=function(){
+    //   console.log(that,this,arguments);
+    //   d3.select(this).classed('hidden',true);
+    //   that.deselectNode(this);
+    // };
   },
 
   // takes a list of start.tab2node objects and returns an object
@@ -57,7 +66,21 @@ BGV.holdMe.d3={
     }
 
     return groups;
-  }
+  },
 
+  /// svg stuff
+
+
+
+  rectChild:function(g){
+    var fc=g.firstChild;
+    if('rect'==fc.nodeName){
+      fc.removeAttribute('width');
+      fc.removeAttribute('height');
+      var bb=g.getBBox();
+      fc.setAttribute('width',bb.width+7);
+      fc.setAttribute('height',bb.height+3);
+    }
+  }
 
 };

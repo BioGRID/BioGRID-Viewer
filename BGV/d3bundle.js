@@ -1,4 +1,5 @@
 BGV.holdMe.foo=function(){
+  var that=this;
   var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
   var arcWidth=10;
   var nodes;
@@ -113,26 +114,41 @@ BGV.holdMe.foo=function(){
       d3.selectAll(also).classed(clazz,tf);
     };
 
+    var displayedLinks=null;
+    var displayLinks=function(n){
+      if(null!=displayedLinks){
+	deselectNode(displayedLinks);
+	selectNode(n);
+      }
+      displayedLinks=n;
+      var links=document.getElementById('links');
+      d3.select(links).classed('hidden',false);
+      that.rectChild(links);
+      var t=n.SVGText.getScreenCTM();
+      links.setAttribute('transform','translate('+t.e+','+t.f+')');
+    };
+    var selectNode=function(n){
+      n.updateRestElements();
+      toggleClass(n.nodes(),n.SVGPath,'over',true);
+    };
+    var deselectNode=function(n){
+      n.clearRestElements();
+      toggleClass(n.nodes(),n.SVGPath,'over',false);
+    };
+
     this.svg.select("g#nodeLabels")
-      .selectAll('g')
+      .selectAll('g.label')
       .data(labelRing.filter(function(n){return !!n.BioGridId;}))
       .enter().append("g")
+      .attr('class','label')
       .attr(
 	"transform",function(n){
 	  return "rotate("+(n.x-90)+")translate("+n.y+")";
 	})
       .append("text")
-      .on(
-	'mouseover',function(n){
-	  n.updateRestElements();
-	  toggleClass(n.nodes(),n.SVGPath,'over',true);
-	}
-      ).on(
-	'mouseout',function(n){
-	  n.clearRestElements();
-	  toggleClass(n.nodes(),n.SVGPath,'over',false);
-	}
-      )
+      .on('mouseover',function(n){if(null==displayedLinks){selectNode(n);}})
+      .on('mouseout',function(n){if(null==displayedLinks){deselectNode(n);}})
+      .on('click',displayLinks)
 //      .attr("fill",function(n){return n.taxa().color();})
       .attr("dx",function(n){return (n.x<180)?15:-15;})
       .attr("dy",".31em")

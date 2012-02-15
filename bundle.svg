@@ -16,8 +16,7 @@
 
 <script xlink:href="BGV/d3bundle.js"/>
 
-<g id="bgv"><g id="speciesRing"></g><g id="edges"></g><g id="nodeLabels"></g></g>
-<g id="info">
+<g class="nodeDescription">
 <text x="5" y="1em">Displaying <tspan class="lastCount">none</tspan> edges.</text>
 <text x="5" y="3em">Species: <tspan class="restNodeSpecies"></tspan></text>
 <text x="5" y="4em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
@@ -25,6 +24,13 @@
 <text x="5" y="6em">Entrez: <tspan class="restNodeEntrez"></tspan></text>
 <text x="5" y="7em">BioGRID ID: <tspan class="restNodeBioGridId"></tspan></text>
 <text x="5" y="8em">Edge Count: <tspan class="restNodeEdges"></tspan></text>
+</g>
+
+<g id="bgv"><g id="speciesRing"></g><g id="edges"></g><g id="nodeLabels"></g></g>
+
+<g class="nodeDescription hidden" id="links"><rect/>
+<text x="5" y="1em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
+<text x="5" y="2em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
 </g>
 
 </svg>

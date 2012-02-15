@@ -7,3 +7,16 @@ path{stroke:#268bd2;stroke-opacity:.1;fill:none} /* blue */
 /* path.physical{stroke:#859900} green */
 /* path.genetic{stroke:#cb4b16} orange */
 path.over{stroke:#dc322f;stroke-opacity:.2} /* red */
+
+#links text{
+    fill:black;
+}
+#links rect{
+   opacity:.9;
+   fill:#b58900; /* yellow */
+   stroke:#6c71c4; /* violet */
+   stroke-width:.5;
+}
+
+
+.hidden{display:none;}
