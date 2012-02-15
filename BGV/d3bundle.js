@@ -3,6 +3,7 @@ BGV.holdMe.foo=function(){
   var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
   var arcWidth=10;
   var nodes;
+  var displayedLinks=null;
 
   // @#$% Firefox
   var mozPadding='';
@@ -20,8 +21,20 @@ BGV.holdMe.foo=function(){
       .style("fill",function(g){return g.taxa.color('#fdf6e3');}) // base3
       .style("stroke",'black')
       .attr("d",d3.svg.arc().innerRadius(r-arcWidth).outerRadius(r))
-      .on("mouseover",function(a){BGV.updateElement('restNodeSpecies',a.taxa.display());})
-      .on("mouseout",function(){BGV.updateElement('restNodeSpecies','');})
+      .on(
+	"mouseover",function(a){
+	  if(null==displayedLinks){
+	    BGV.updateElement('restNodeSpecies',a.taxa.display());
+	  }
+	}
+      )
+      .on(
+	"mouseout",function(){
+	  if(null==displayedLinks){
+	    BGV.updateElement('restNodeSpecies','');
+	  }
+	}
+      )
     ;
   };
 
@@ -114,7 +127,6 @@ BGV.holdMe.foo=function(){
       d3.selectAll(also).classed(clazz,tf);
     };
 
-    var displayedLinks=null;
     var displayLinks=function(n){
       if(null!=displayedLinks){
 	deselectNode(displayedLinks);
