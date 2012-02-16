@@ -1,7 +1,6 @@
 Math.TAU=2*Math.PI;
 
 BGV.holdMe.d3={
-
   load:function(){
     this.links=document.getElementById('links');
     BGV.e.species=document.getElementsByClassName('species');
@@ -68,10 +67,10 @@ BGV.holdMe.d3={
     return groups;
   },
 
-  /// svg stuff
+  // svg utils
 
 
-
+  // If the first child of the argument is a <rect> wrap it around.
   rectChild:function(g){
     var fc=g.firstChild;
     if('rect'==fc.nodeName){
@@ -81,6 +80,20 @@ BGV.holdMe.d3={
       fc.setAttribute('width',bb.width+7);
       fc.setAttribute('height',bb.height+3);
     }
+  },
+
+
+  // For displaying the linkout box. The this.display variable is set in the this.load function.
+
+  currentlyDisplaying:null,
+
+  displayLinks:function(displayMe){
+    this.currentlyDisplaying=displayMe;
+    d3.select(this.links).classed('hidden',false);
+    this.rectChild(this.links);
+    var t=displayMe.SVGText.getScreenCTM();
+    this.links.setAttribute('transform','translate('+t.e+','+t.f+')');
   }
+
 
 };

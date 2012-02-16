@@ -1,9 +1,8 @@
-BGV.holdMe.foo=function(){
-  var that=this;
+BGV.holdMe.d3bundle=function(){
   var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
   var arcWidth=10;
+  var select=null;
   var nodes;
-  var displayedLinks=null;
 
   // @#$% Firefox
   var mozPadding='';
@@ -14,6 +13,8 @@ BGV.holdMe.foo=function(){
 
   // draw the species ring
   this.speciesRing=function(r){
+    var that=this;
+
     this.svg.select("g#speciesRing")
       .selectAll("path")
       .data(this.groups(nodes))
@@ -23,14 +24,14 @@ BGV.holdMe.foo=function(){
       .attr("d",d3.svg.arc().innerRadius(r-arcWidth).outerRadius(r))
       .on(
 	"mouseover",function(a){
-	  if(null==displayedLinks){
+	  if(null==that.currentlyDisplaying){
 	    BGV.updateElement('restNodeSpecies',a.taxa.display());
 	  }
 	}
       )
       .on(
 	"mouseout",function(){
-	  if(null==displayedLinks){
+	  if(null==that.currentlyDisplaying){
 	    BGV.updateElement('restNodeSpecies','');
 	  }
 	}
@@ -40,6 +41,7 @@ BGV.holdMe.foo=function(){
 
 
   this.update=function(){
+    var that=this;
     var edges=d3.values(BGV.edges);
 
     nodes=BGV.nodes();
@@ -127,8 +129,9 @@ BGV.holdMe.foo=function(){
       d3.selectAll(also).classed(clazz,tf);
     };
 
+    /*
     var displayLinks=function(n){
-      if(null!=displayedLinks){
+      if(null!=this.displa){
 	deselectNode(displayedLinks);
 	selectNode(n);
       }
@@ -139,13 +142,19 @@ BGV.holdMe.foo=function(){
       var t=n.SVGText.getScreenCTM();
       links.setAttribute('transform','translate('+t.e+','+t.f+')');
     };
+*/
     var selectNode=function(n){
-      n.updateRestElements();
-      toggleClass(n.nodes(),n.SVGPath,'over',true);
+      if(null==that.currentlyDisplaying){
+	n.updateRestElements();
+	toggleClass(n.nodes(),n.SVGPath,'over',true);
+	select=n;
+      }
     };
-    var deselectNode=function(n){
-      n.clearRestElements();
-      toggleClass(n.nodes(),n.SVGPath,'over',false);
+    var deselectNode=function(){
+      if((null==that.currentlyDisplaying)&&(null!=select)){
+	select.clearRestElements();
+	toggleClass(select.nodes(),select.SVGPath,'over',false);
+      }
     };
 
     this.svg.select("g#nodeLabels")
@@ -158,9 +167,16 @@ BGV.holdMe.foo=function(){
 	  return "rotate("+(n.x-90)+")translate("+n.y+")";
 	})
       .append("text")
-      .on('mouseover',function(n){if(null==displayedLinks){selectNode(n);}})
-      .on('mouseout',function(n){if(null==displayedLinks){deselectNode(n);}})
-      .on('click',displayLinks)
+      .on('mouseover',selectNode)
+      .on('mouseout',deselectNode)
+      .on(
+	'click',function(n){
+	  that.currentlyDisplaying=null;
+	  deselectNode();
+	  selectNode(n);
+	  that.displayLinks(n);
+	}
+      )
 //      .attr("fill",function(n){return n.taxa().color();})
       .attr("dx",function(n){return (n.x<180)?15:-15;})
       .attr("dy",".31em")
@@ -186,5 +202,5 @@ BGV.holdMe.foo=function(){
 
   };
 };
-BGV.holdMe.foo.prototype=BGV.holdMe.d3;
-BGV.plugins.foo=new BGV.holdMe.foo();
+BGV.holdMe.d3bundle.prototype=BGV.holdMe.d3;
+BGV.plugins.d3bundle=new BGV.holdMe.d3bundle();
