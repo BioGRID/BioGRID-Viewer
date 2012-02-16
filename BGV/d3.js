@@ -3,7 +3,6 @@ Math.TAU=2*Math.PI;
 BGV.holdMe.d3={
   load:function(){
     this.links=document.getElementById('links');
-    BGV.e.species=document.getElementsByClassName('species');
 
     // var that=this;
     // this.links.onmouseout=function(){

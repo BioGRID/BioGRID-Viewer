@@ -129,20 +129,6 @@ BGV.holdMe.d3bundle=function(){
       d3.selectAll(also).classed(clazz,tf);
     };
 
-    /*
-    var displayLinks=function(n){
-      if(null!=this.displa){
-	deselectNode(displayedLinks);
-	selectNode(n);
-      }
-      displayedLinks=n;
-      var links=document.getElementById('links');
-      d3.select(links).classed('hidden',false);
-      that.rectChild(links);
-      var t=n.SVGText.getScreenCTM();
-      links.setAttribute('transform','translate('+t.e+','+t.f+')');
-    };
-*/
     var selectNode=function(n){
       if(null==that.currentlyDisplaying){
 	n.updateRestElements();
@@ -177,7 +163,7 @@ BGV.holdMe.d3bundle=function(){
 	  that.displayLinks(n);
 	}
       )
-//      .attr("fill",function(n){return n.taxa().color();})
+      //.attr("fill",function(n){return n.taxa().color();})
       .attr("dx",function(n){return (n.x<180)?15:-15;})
       .attr("dy",".31em")
       .attr("text-anchor",function(n){return (n.x<180)?"start":"end";})

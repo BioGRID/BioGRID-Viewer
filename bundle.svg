@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="BGV/d3bundle.css" type="text/css"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg class="bgv" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" onload="BGV.load(BGV.start)">
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" onload="BGV.load(BGV.start)">
 
 <script xlink:href="queryString.js"/>
 
@@ -16,7 +16,7 @@
 
 <script xlink:href="BGV/d3bundle.js"/>
 
-<g class="nodeDescription">
+<g>
 <text x="5" y="1em">Displaying <tspan class="lastCount">none</tspan> edges.</text>
 <text x="5" y="3em">Species: <tspan class="restNodeSpecies"></tspan></text>
 <text x="5" y="4em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
@@ -28,7 +28,7 @@
 
 <g id="bgv"><g id="speciesRing"></g><g id="edges"></g><g id="nodeLabels"></g></g>
 
-<g class="nodeDescription hidden" id="links"><rect/>
+<g class="hidden" id="links"><rect/>
 <text x="5" y="1em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
 <text x="5" y="2em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
 </g>

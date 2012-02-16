@@ -12,7 +12,7 @@ path.over{stroke:#dc322f;stroke-opacity:.2} /* red */
     fill:black;
 }
 #links rect{
-   opacity:.9;
+   opacity:.8;
    fill:#b58900; /* yellow */
    stroke:#6c71c4; /* violet */
    stroke-width:.5;
