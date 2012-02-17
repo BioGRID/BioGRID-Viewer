@@ -4,12 +4,6 @@ BGV.holdMe.d3={
   load:function(){
     this.links=document.getElementById('links');
 
-    // var that=this;
-    // this.links.onmouseout=function(){
-    //   console.log(that,this,arguments);
-    //   d3.select(this).classed('hidden',true);
-    //   that.deselectNode(this);
-    // };
   },
 
   // takes a list of start.tab2node objects and returns an object
@@ -92,7 +86,11 @@ BGV.holdMe.d3={
     this.rectChild(this.links);
     var t=displayMe.SVGText.getScreenCTM();
     this.links.setAttribute('transform','translate('+t.e+','+t.f+')');
-  }
+  },
 
+  hideLinks:function(){
+    d3.select(this.links).classed('hidden',true);
+    this.currentlyDisplaying=null;
+  }
 
 };
