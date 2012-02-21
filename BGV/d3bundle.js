@@ -40,29 +40,17 @@ BGV.holdMe.d3bundle=function(){
   };
 
 
-
   this.update=function(){
     var that=this;
     var edges=d3.values(BGV.edges);
 
-
-    // dirty hack to get around event passing
-    var hideOK=false;
-    this.links.onmouseout=function(e){
-      hideOK=true;
-      setTimeout(
-	function(){
-	  if(hideOK){
-	    that.hideLinks();
-	    deselectNode();
-	  }
-	},1000
-      );
+    // clears the the links box on iPad and normal browsers
+    document.onmousedown=function(e){
+      if('svg'==e.target.nodeName){
+	deselectNode();
+	that.hideLinks();
+      }
     };
-    this.links.onmouseover=function(){
-      hideOK=false;
-    };
-
 
     nodes=BGV.nodes();
     this.svg=d3.select("#bgv")
