@@ -73,24 +73,6 @@ BGV.holdMe.d3={
       fc.setAttribute('width',bb.width+7);
       fc.setAttribute('height',bb.height+3);
     }
-  },
-
-
-  // For displaying the linkout box. The this.display variable is set in the this.load function.
-
-  currentlyDisplaying:null,
-
-  displayLinks:function(displayMe){
-    this.currentlyDisplaying=displayMe;
-    d3.select(this.links).classed('hidden',false);
-    this.rectChild(this.links);
-    var t=displayMe.SVGText.getScreenCTM();
-    this.links.setAttribute('transform','translate('+t.e+','+t.f+')');
-  },
-
-  hideLinks:function(){
-    d3.select(this.links).classed('hidden',true);
-    this.currentlyDisplaying=null;
   }
 
 };

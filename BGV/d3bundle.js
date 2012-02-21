@@ -1,8 +1,11 @@
 BGV.holdMe.d3bundle=function(){
   var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
   var arcWidth=10;
-  var select=null;
   var nodes;
+
+  var foo=null;
+  var bar=true;
+
 
   // @#$% Firefox
   var mozPadding='';
@@ -24,14 +27,14 @@ BGV.holdMe.d3bundle=function(){
       .attr("d",d3.svg.arc().innerRadius(r-arcWidth).outerRadius(r))
       .on(
 	"mouseover",function(a){
-	  if(null==that.currentlyDisplaying){
+	  if(bar){
 	    BGV.updateElement('restNodeSpecies',a.taxa.display());
 	  }
 	}
       )
       .on(
 	"mouseout",function(){
-	  if(null==that.currentlyDisplaying){
+	  if(bar){
 	    BGV.updateElement('restNodeSpecies','');
 	  }
 	}
@@ -46,9 +49,9 @@ BGV.holdMe.d3bundle=function(){
 
     // clears the the links box on iPad and normal browsers
     document.onmousedown=function(e){
-      if('svg'==e.target.nodeName){
-	deselectNode();
-	that.hideLinks();
+      if(!bar&&('svg'==e.target.nodeName)){
+	bar=true;
+	defooNode();
       }
     };
 
@@ -134,20 +137,31 @@ BGV.holdMe.d3bundle=function(){
 	  also.push(node.SVGText);
 	}
       );
-      d3.selectAll(also).classed(clazz,tf);
+
+      // d3's classed doesn't seem to work correctly on an iPod
+      //d3.selectAll(also).classed(clazz,tf);
+      also.forEach(
+	function(node){
+	  if(tf){
+	    node.setAttribute('class',clazz);
+	  }else{
+	    node.removeAttribute('class');
+	  }
+	}
+      );
     };
 
-    var selectNode=function(n){
-      if(null==that.currentlyDisplaying){
+    var fooNode=function(n){
+      if(bar){
 	n.updateRestElements();
 	toggleClass(n.nodes(),n.SVGPath,'over',true);
-	select=n;
+	foo=n;
       }
     };
-    var deselectNode=function(){
-      if((null==that.currentlyDisplaying)&&(null!=select)){
-	select.clearRestElements();
-	toggleClass(select.nodes(),select.SVGPath,'over',false);
+    var defooNode=function(){
+      if(bar&&foo!=null){
+	foo.clearRestElements();
+	toggleClass(foo.nodes(),foo.SVGPath,'over',false);
       }
     };
 
@@ -161,14 +175,14 @@ BGV.holdMe.d3bundle=function(){
 	  return "rotate("+(n.x-90)+")translate("+n.y+")";
 	})
       .append("text")
-      .on('mouseover',selectNode)
-      .on('mouseout',deselectNode)
+      .on('mouseover',fooNode)
+      .on('mouseout',defooNode)
       .on(
 	'click',function(n){
-	  that.currentlyDisplaying=null;
-	  deselectNode();
-	  selectNode(n);
-	  that.displayLinks(n);
+	  bar=true;
+	  defooNode();
+	  fooNode(n);
+	  bar=false;
 	}
       )
       //.attr("fill",function(n){return n.taxa().color();})
