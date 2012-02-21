@@ -1,4 +1,5 @@
 BGV.holdMe.d3force=function(){
+  var that=this;
   var force=null;
   var g={};
   var svg=null;
@@ -95,6 +96,7 @@ BGV.holdMe.d3force=function(){
       }
     };
   };
+
   selectNode.prototype={
     offset:10,
 
@@ -103,12 +105,7 @@ BGV.holdMe.d3force=function(){
       this.info.removeAttribute('class');
       if('function'==typeof this.info.getBBox){
 	// for an SVG nodeDescripton
-	var box=this.info.firstChild;
-	box.removeAttribute('width');
-	box.removeAttribute('height');
-	var bb=this.info.getBBox();
-	box.setAttribute('width',bb.width+offset);
-	box.setAttribute('height',bb.height+(offset/2));
+	that.rectChild(this.info,offset,offset/2);
 	this.info.setAttribute(
 	  'transform','translate('+(this.node.x+offset)+','+(this.node.y+offset)+')'
 	);
@@ -375,4 +372,5 @@ BGV.holdMe.d3force=function(){
 
   this.update=this.resize;
 };
+BGV.holdMe.d3force.prototype=BGV.holdMe.d3;
 BGV.plugins.d3force=new BGV.holdMe.d3force();

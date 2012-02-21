@@ -64,14 +64,14 @@ BGV.holdMe.d3={
 
 
   // If the first child of the argument is a <rect> wrap it around.
-  rectChild:function(g){
+  rectChild:function(g,w,h){
     var fc=g.firstChild;
     if('rect'==fc.nodeName){
       fc.removeAttribute('width');
       fc.removeAttribute('height');
       var bb=g.getBBox();
-      fc.setAttribute('width',bb.width+7);
-      fc.setAttribute('height',bb.height+3);
+      fc.setAttribute('width',bb.width+w);
+      fc.setAttribute('height',bb.height+h);
     }
   }
 
