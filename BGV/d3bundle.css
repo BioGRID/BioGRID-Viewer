@@ -1,5 +1,6 @@
 svg{background-color:#eee8d5;fill:#839496;} /* base2 base0 */
 
+a{text-decoration:underline;fill:#268bd2;} /* blue */
 text{font-size:10px;font-family:sans-serif;}
 text.over{font-size:15px;font-weight:bold;}
 
