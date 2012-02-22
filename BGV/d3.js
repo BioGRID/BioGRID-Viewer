@@ -1,11 +1,6 @@
 Math.TAU=2*Math.PI;
 
 BGV.holdMe.d3={
-  load:function(){
-    this.links=document.getElementById('links');
-
-  },
-
   // takes a list of start.tab2node objects and returns an object
   // suitable for input into d3's cluster.nodes() function.  If match
   // specified it will *try* to make that one a center.
@@ -62,6 +57,18 @@ BGV.holdMe.d3={
 
   // svg utils
 
+  unicodeCheckbox:function(tag){
+    var off='☐';
+    var on='☒'; // ☑
+
+    var vis=tag.firstChild;
+    if(vis.textContent==on){
+      vis.textContent=off;
+      return false;
+    }
+    vis.textContent=on;
+    return true;
+  },
 
   // If the first child of the argument is a <rect> wrap it around.
   rectChild:function(g,w,h){

@@ -14,6 +14,18 @@ BGV.holdMe.d3bundle=function(){
     mozPadding=nbsp+nbsp+nbsp+nbsp+nbsp;
   }
 
+  this.load=function(){
+    var that=this;
+
+    // set up toggles
+    d3.selectAll(".unicodeCheckbox").on(
+      "click",function(){
+	var clazz='.'+this.getAttribute('id');
+	d3.selectAll(clazz).classed('hidden',!that.unicodeCheckbox(this));
+      }
+    );
+  };
+
   // draw the species ring
   this.speciesRing=function(r){
     var that=this;
@@ -95,7 +107,13 @@ BGV.holdMe.d3bundle=function(){
       // )
       .attr(
 	'class',function(n,i){
-	  return edges[i].ExperimentalSystemType;
+	  //return edges[i].ExperimentalSystemType;
+	  if(edges[i].genetic()){
+	    return 'gen';
+	  }else if(edges[i].physical()){
+	    return 'phy';
+	  }
+	  return null;
 	}
       )
       .attr(
@@ -138,8 +156,9 @@ BGV.holdMe.d3bundle=function(){
 	}
       );
 
-      // d3's classed doesn't seem to work correctly on an iPod
-      //d3.selectAll(also).classed(clazz,tf);
+      // d3's classed doesn't seem to work correctly on an iPad
+      d3.selectAll(also).classed(clazz,tf);
+      /*
       also.forEach(
 	function(node){
 	  if(tf){
@@ -149,6 +168,7 @@ BGV.holdMe.d3bundle=function(){
 	  }
 	}
       );
+       */
     };
 
     var fooNode=function(n){

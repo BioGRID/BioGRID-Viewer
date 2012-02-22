@@ -20,6 +20,15 @@ BGV.holdMe.d3force=function(){
       // if no jQuery you geen a element with id="bgv", likely a g element.
       svg=d3.select('#bgv');
     }
+
+    // set up toggles
+    d3.selectAll(".unicodeCheckbox").on(
+      "click",function(){
+	var clazz='.'+this.getAttribute('id');
+	d3.selectAll(clazz).classed('hidden',!that.unicodeCheckbox(this));
+      }
+    );
+
   };
 
   var tick=function(){
@@ -130,48 +139,6 @@ BGV.holdMe.d3force=function(){
     }
 
   };
-
-  this.toggleUnicodeCheckbox=function(tog,tag){
-    var hidden='hidden';
-    var off='☐';
-    var on='☒'; // ☑
-
-    if(tag.textContent==on){
-      // hide edges
-      tag.textContent=off;
-
-      g.path[0].forEach(
-	function(tag){
-	  var classes=tag.getAttribute('class').split(' ');
-	  if(-1!=classes.indexOf(tog)){
-	    classes.push(hidden);
-	    tag.setAttribute('class',classes.join(' '));
-	  }
-	}
-      );
-
-    }else{
-      // show edges
-      tag.textContent=on;
-
-      g.path[0].forEach(
-	function(tag){
-	  var classes=tag.getAttribute('class').split(' ');
-	  if(-1!=classes.indexOf(tog)){
-	    var i=classes.indexOf(hidden);
-	    if(-1!=i){
-	      classes.splice(i,1);
-	      tag.setAttribute('class',classes.join(' '));
-	    }
-	  }
-	}
-      );
-
-    }
-  };
-
-
-
 
   this.meltSelectedNode=function(){
     selected.node.fixed=0;
@@ -341,15 +308,6 @@ BGV.holdMe.d3force=function(){
       );
 
       var edgeUnique=nodes[0].id()+','+nodes[1].id();
-
-
-      // allLinks[edgeUnique]=nodeMap(id,nodes[0],nodes[1]);
-      // if(edge.highThroughput()){
-      // 	links01[edgeUnique]=nodeMap(id,nodes[0],nodes[1],'gen',true);
-      // }
-      // if(edge.lowThroughput()){
-      // 	links10[edgeUnique]=nodeMap(id,nodes[1],nodes[0],'phy',false);
-      // }
 
       if(edge.genetic()){
 	links01[edgeUnique]=nodeMap(id,nodes[0],nodes[1],'gen',true);

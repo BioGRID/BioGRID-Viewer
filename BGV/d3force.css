@@ -1,3 +1,4 @@
+@import url('d3.css');
 
 svg{
     width:100%;
@@ -42,10 +43,6 @@ path.link{
 
 path.connected{
   stroke-dasharray:10;
-}
-
-.hidden{
-    display:none;
 }
 
 #nodeDescription{
