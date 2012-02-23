@@ -59,7 +59,7 @@ BGV.holdMe.d3bundle=function(){
     var that=this;
     var edges=d3.values(BGV.edges);
 
-    // clears the the links box on iPad and normal browsers
+    // clear the links box and makes mouseover work again
     document.onmousedown=function(e){
       if(!bar&&('svg'==e.target.nodeName)){
 	bar=true;
@@ -156,19 +156,38 @@ BGV.holdMe.d3bundle=function(){
 	}
       );
 
-      // d3's classed doesn't seem to work correctly on an iPad
-      d3.selectAll(also).classed(clazz,tf);
-      /*
-      also.forEach(
-	function(node){
-	  if(tf){
-	    node.setAttribute('class',clazz);
-	  }else{
-	    node.removeAttribute('class');
+      if(BGV.IOSp()){
+	// d3's classed doesn't seem to work correctly on an iPad
+	also.forEach(
+	  function(node){
+	    var cl=node.getAttribute('class');
+	    if(null==cl){
+	      cl=[];
+	    }else{
+	      cl=cl.split(' ');
+	    }
+	    var i=cl.indexOf(clazz);
+
+	    if(-1==i){
+	      if(tf){
+		cl.push(clazz);
+	      }else{
+		return;
+	      }
+	    }else{
+	      if(tf){
+		return;
+	      }else{
+		cl.splice(i,1);
+	      }
+	    }
+	    node.setAttribute('class',cl.join(' '));
 	  }
-	}
-      );
-       */
+	);
+      }else{
+	d3.selectAll(also).classed(clazz,tf);
+      }
+
     };
 
     var fooNode=function(n){

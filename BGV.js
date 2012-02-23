@@ -3,6 +3,11 @@ var BGV={
   plugins:{}, // put external objects here
   holdMe:{},  // needed unused stuff here to not clobber the namespace
 
+  // return true if we are on iOS.
+  IOSp:function(){
+    return (('iPod'==navigator.platform)||('iPad'===navigator.platform));
+  },
+
   // For each plugin if run is a function execute it with pass as an
   // argument.
   foreachPlugin:function(run,pass){
