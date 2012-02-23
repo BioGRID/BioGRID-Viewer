@@ -9,11 +9,7 @@
 <script xlink:href="BGV/d3.js"/>
 <script xlink:href="BGV/rest.js"/>
 <script xlink:href="BGV/taxa.js"/>
-
-
-<script xlink:href="/d3/d3.js"/>
-<script xlink:href="/d3/d3.layout.js"/>
-
+<script xlink:href="/d3/d3.v2.min.js"/>
 <script xlink:href="BGV/d3bundle.js"/>
 
 <g>
