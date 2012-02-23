@@ -6,6 +6,15 @@ BGV.holdMe.d3bundle=function(){
   var foo=null;
   var bar=true;
 
+  var not=function(x){return !x;};
+  var is=function(x){return x;};
+
+  var checkboxes={
+    phy:{match:['path.phy'],toggle:'hidden',on:not},
+    gen:{match:['path.gen'],toggle:'hidden',on:not},
+    color:{match:['.phy','.gen'],toggle:'color',on:is}
+  };
+
 
   // @#$% Firefox
   var mozPadding='';
@@ -20,8 +29,14 @@ BGV.holdMe.d3bundle=function(){
     // set up toggles
     d3.selectAll(".unicodeCheckbox").on(
       "click",function(){
-	var clazz='.'+this.getAttribute('id');
-	d3.selectAll(clazz).classed('hidden',!that.unicodeCheckbox(this));
+	var tag=this;
+	var rule=checkboxes[this.getAttribute('id')];
+	var tf=rule.on(that.unicodeCheckbox(tag));
+	rule.match.forEach(
+	  function(match){
+	    d3.selectAll(match).classed(rule.toggle,tf);
+	  }
+	);
       }
     );
   };

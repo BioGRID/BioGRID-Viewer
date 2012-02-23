@@ -20,8 +20,9 @@
 <text x="5" y="6em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
 <text x="5" y="7em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
 <text x="5" y="8em">Edge Count: <tspan class="restNodeEdges"></tspan></text>
-<text x="5" y="10em" class="unicodeCheckbox" id="phy"><tspan>☒</tspan> Physical</text>
-<text x="5" y="11em" class="unicodeCheckbox" id="gen"><tspan>☒</tspan> Genetic</text>
+<text x="5" y="10em" class="unicodeCheckbox" id="color"><tspan>☐</tspan> Colorize</text>
+<text x="5" y="11em" class="unicodeCheckbox phy" id="phy"><tspan>☒</tspan> Physical</text>
+<text x="5" y="12em" class="unicodeCheckbox gen" id="gen"><tspan>☒</tspan> Genetic</text>
 </g>
 
 <g id="bgv"><g id="speciesRing"></g><g id="edges"></g><g id="nodeLabels"></g></g>
