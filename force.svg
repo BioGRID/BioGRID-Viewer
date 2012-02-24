@@ -21,13 +21,14 @@
 <text x="5" y="4em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
 <text x="5" y="5em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
 <text x="5" y="6em">Species: <tspan class="restNodeSpecies"></tspan></text>
-<text x="5" y="7em">Edge Count: <tspan class="restNodeEdges"></tspan></text>
+<text x="5" y="7em">Interactions: <tspan class="restNodeEdges"></tspan></text>
 </g>
 
 <g id="control">
-<text x="5" y="1em">Displaying <tspan class="lastCount">none</tspan>.</text>
-<text x="5" y="3em" class="unicodeCheckbox" id="phy"><tspan>☒</tspan> Physical</text>
-<text x="5" y="4em" class="unicodeCheckbox" id="gen"><tspan>☒</tspan> Genetic</text>
+<text x="5" y="1em">Interactions:<tspan class="lastCount">none</tspan>.</text>
+<text x="5" y="2em">Physical:<tspan class="lastPhy">none</tspan> Genetic:<tspan class="lastGen">none</tspan></text>
+<text x="5" y="4em" class="unicodeCheckbox" id="phy"><tspan>☒</tspan> Physical</text>
+<text x="5" y="5em" class="unicodeCheckbox" id="gen"><tspan>☒</tspan> Genetic</text>
 </g>
 
 </svg>

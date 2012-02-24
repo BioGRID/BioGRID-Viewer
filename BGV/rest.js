@@ -28,6 +28,9 @@ BGV.holdMe.rest=function(){
     BGV.e.lastRESTLink=document.getElementsByClassName('lastRESTLink');
     BGV.e.BioGRIDVersion=document.getElementsByClassName('BioGRIDVersion');
 
+    BGV.e.lastPhy=document.getElementsByClassName('lastPhy');
+    BGV.e.lastGen=document.getElementsByClassName('lastGen');
+
     BGV.e.restNodeEntrez        =document.getElementsByClassName("restNodeEntrez");
     BGV.e.restNodeBioGridId     =document.getElementsByClassName("restNodeBioGridId");
     BGV.e.restNodeSystematicName=document.getElementsByClassName("restNodeSystematicName");
@@ -228,6 +231,9 @@ BGV.holdMe.rest=function(){
 
     var parse=function(tsv){
       var edgeCount=0;
+      var lastPhy=0;
+      var lastGen=0;
+
       var lines=tsv.trim().split("\n");
       while(lines.length>0){
 	var line=lines.shift();
@@ -241,6 +247,12 @@ BGV.holdMe.rest=function(){
 	    edge.target.addEdge(edge);
 	    var id=edge.id();
 	    edgeCount++; // count em even if we already have them
+	    if(edge.genetic()){
+	      lastGen++;
+	    }else if(edge.physical()){
+	      lastPhy++;
+	    }
+
 	    if(null==BGV.edges[id]){
 	      BGV.edges[id]=edge;
 	    }
@@ -252,6 +264,8 @@ BGV.holdMe.rest=function(){
       };
 
       BGV.updateElement('lastCount',edgeCount);
+      BGV.updateElement('lastGen',lastPhy);
+      BGV.updateElement('lastPhy',lastGen);
       if(edgeCount==0){
 	alert('No edges found');
 	return false;
