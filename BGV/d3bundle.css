@@ -12,6 +12,7 @@ text.phy.color{fill:#859900;} /* green */
 text.gen.color{fill:#cb4b16;} /* orange */
 
 path{stroke:#268bd2;stroke-opacity:.1;fill:none;} /* blue */
-path.over{stroke:#dc322f!important;stroke-opacity:.4;} /* red */
+path.over{stroke:#dc322f;stroke-opacity:.4;} /* red */
+path.over.color{stroke:#268bd2!important;} /* blue */
 
 .unicodeCheckbox{cursor:pointer;}
