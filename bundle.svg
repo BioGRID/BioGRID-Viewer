@@ -13,17 +13,16 @@
 <script xlink:href="BGV/d3bundle.js"/>
 
 <g>
-<text x="5" y="1em">Interactions:<tspan class="lastCount">none</tspan></text>
-<text x="5" y="2em">Physical:<tspan class="lastPhy">none</tspan> Genetic:<tspan class="lastGen">none</tspan></text>
-<text x="5" y="4em">Species: <tspan class="restNodeSpecies"></tspan></text>
-<text x="5" y="5em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
-<text x="5" y="6em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
-<text x="5" y="7em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
-<text x="5" y="8em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
-<text x="5" y="9em">Interactions: <tspan class="restNodeEdges"></tspan></text>
-<text x="5" y="11em" class="unicodeCheckbox" id="color"><tspan>☐</tspan> Colorize</text>
-<text x="5" y="12em" class="unicodeCheckbox phy" id="phy"><tspan>☒</tspan> Physical</text>
-<text x="5" y="13em" class="unicodeCheckbox gen" id="gen"><tspan>☒</tspan> Genetic</text>
+<text x="5" y="1em">Total Interactions:<tspan class="lastCount">none</tspan></text>
+<text x="5" y="3em">Species: <tspan class="restNodeSpecies"></tspan></text>
+<text x="5" y="4em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
+<text x="5" y="5em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
+<text x="5" y="6em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
+<text x="5" y="7em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
+<text x="5" y="8em">Interactions: <tspan class="restNodeEdges"></tspan></text>
+<text x="5" y="10em" class="unicodeCheckbox" id="color"><tspan>☐</tspan> Colorize</text>
+<text x="5" y="11em" class="unicodeCheckbox phy" id="phy"><tspan>☒</tspan> Physical (<tspan class="lastPhy">none</tspan>)</text>
+<text x="5" y="12em" class="unicodeCheckbox gen" id="gen"><tspan>☒</tspan> Genetic (<tspan class="lastGen">none</tspan>)</text>
 </g>
 
 <g id="bgv"><g id="speciesRing"></g><g id="edges"></g><g id="nodeLabels"></g></g>
