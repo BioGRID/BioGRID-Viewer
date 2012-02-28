@@ -3,7 +3,6 @@ Math.TAU=2*Math.PI;
 BGV.holdMe.d3={
   load:function(){
     var that=this;
-    console.log(this.checkboxes);
 
     // set up toggles
     d3.selectAll(".unicodeCheckbox").on(
