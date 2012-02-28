@@ -3,8 +3,8 @@ BGV.holdMe.d3bundle=function(){
   var arcWidth=10;
   var nodes;
 
-  var foo=null;
-  var bar=true;
+  var hover=null;
+  var hoverp=true;
 
   var checkboxes={
     phy:{match:['path.phy'],toggle:'hidden',on:this.unicodeCheckboxNot},
@@ -50,14 +50,14 @@ BGV.holdMe.d3bundle=function(){
       .attr("d",d3.svg.arc().innerRadius(r-arcWidth).outerRadius(r))
       .on(
 	"mouseover",function(a){
-	  if(bar){
+	  if(hoverp){
 	    BGV.updateElement('restNodeSpecies',a.taxa.display());
 	  }
 	}
       )
       .on(
 	"mouseout",function(){
-	  if(bar){
+	  if(hoverp){
 	    BGV.updateElement('restNodeSpecies','');
 	  }
 	}
@@ -72,9 +72,9 @@ BGV.holdMe.d3bundle=function(){
 
     // clear the links box and makes mouseover work again
     document.onmousedown=function(e){
-      if(!bar&&('svg'==e.target.nodeName)){
-	bar=true;
-	defooNode();
+      if(!hoverp&&('svg'==e.target.nodeName)){
+	hoverp=true;
+	dehoverNode();
       }
     };
 
@@ -189,17 +189,17 @@ BGV.holdMe.d3bundle=function(){
 
     };
 
-    var fooNode=function(n){
-      if(bar){
+    var hoverNode=function(n){
+      if(hoverp){
 	n.updateRestElements();
 	toggleClass(n.nodes(),n.SVGPath,'over',true);
-	foo=n;
+	hover=n;
       }
     };
-    var defooNode=function(){
-      if(bar&&foo!=null){
-	foo.clearRestElements();
-	toggleClass(foo.nodes(),foo.SVGPath,'over',false);
+    var dehoverNode=function(){
+      if(hoverp&&hover!=null){
+	hover.clearRestElements();
+	toggleClass(hover.nodes(),hover.SVGPath,'over',false);
       }
     };
 
@@ -213,14 +213,14 @@ BGV.holdMe.d3bundle=function(){
 	  return "rotate("+(n.x-90)+")translate("+n.y+")";
 	})
       .append("text")
-      .on('mouseover',fooNode)
-      .on('mouseout',defooNode)
+      .on('mouseover',hoverNode)
+      .on('mouseout',dehoverNode)
       .on(
 	'click',function(n){
-	  bar=true;
-	  defooNode();
-	  fooNode(n);
-	  bar=false;
+	  hoverp=true;
+	  dehoverNode();
+	  hoverNode(n);
+	  hoverp=false;
 	}
       )
       //.attr("fill",function(n){return n.taxa().color();})
