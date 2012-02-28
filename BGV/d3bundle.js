@@ -107,19 +107,7 @@ BGV.holdMe.d3bundle=function(){
     this.svg.select("g#edges").selectAll("path")
       .data(splines)
       .enter().append("path")
-      // .on(
-      // 	'mouseover',function(n){
-      // 	  var out=[];
-      // 	  n.forEach(
-      // 	    function(node){
-      // 	      if(undefined!=node.OfficialSymbol){
-      // 		out.push(node.OfficialSymbol);
-      // 	      }
-      // 	    }
-      // 	  );
-      // 	  console.log(out);
-      // 	}
-      // )
+      .on('mouseover',function(n,i){console.log(edges[i]);})
       .attr(
 	'class',function(n,i){
 	  //return edges[i].ExperimentalSystemType;

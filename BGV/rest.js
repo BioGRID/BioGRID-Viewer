@@ -264,8 +264,8 @@ BGV.holdMe.rest=function(){
       };
 
       BGV.updateElement('lastCount',edgeCount);
-      BGV.updateElement('lastGen',lastPhy);
-      BGV.updateElement('lastPhy',lastGen);
+      BGV.updateElement('lastGen',lastGen);
+      BGV.updateElement('lastPhy',lastPhy);
       if(edgeCount==0){
 	alert('No edges found');
 	return false;
