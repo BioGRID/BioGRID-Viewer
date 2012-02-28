@@ -57,7 +57,7 @@ BGV.holdMe.d3={
 
   // svg utils
 
-  unicodeCheckbox:function(tag){
+  unicodeCheckbox:function(that,tag){
     var off='☐';
     var on='☒'; // ☑
 
@@ -68,6 +68,10 @@ BGV.holdMe.d3={
     }
     vis.textContent=on;
     return true;
+  },
+
+  unicodeCheckboxNot:function(that,tag){
+    return !that.unicodeCheckbox(that,tag);
   },
 
   // If the first child of the argument is a <rect> wrap it around.

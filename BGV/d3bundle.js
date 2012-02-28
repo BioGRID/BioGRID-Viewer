@@ -6,15 +6,11 @@ BGV.holdMe.d3bundle=function(){
   var foo=null;
   var bar=true;
 
-  var not=function(x){return !x;};
-  var is=function(x){return x;};
-
   var checkboxes={
-    phy:{match:['path.phy'],toggle:'hidden',on:not},
-    gen:{match:['path.gen'],toggle:'hidden',on:not},
-    color:{match:['.phy','.gen'],toggle:'color',on:is}
+    phy:{match:['path.phy'],toggle:'hidden',on:this.unicodeCheckboxNot},
+    gen:{match:['path.gen'],toggle:'hidden',on:this.unicodeCheckboxNot},
+    color:{match:['.phy','.gen'],toggle:'color',on:this.unicodeCheckbox}
   };
-
 
   // @#$% Firefox
   var mozPadding='';
@@ -31,7 +27,7 @@ BGV.holdMe.d3bundle=function(){
       "click",function(){
 	var tag=this;
 	var rule=checkboxes[this.getAttribute('id')];
-	var tf=rule.on(that.unicodeCheckbox(tag));
+	var tf=rule.on(that,tag);
 	rule.match.forEach(
 	  function(match){
 	    d3.selectAll(match).classed(rule.toggle,tf);
@@ -107,7 +103,7 @@ BGV.holdMe.d3bundle=function(){
     this.svg.select("g#edges").selectAll("path")
       .data(splines)
       .enter().append("path")
-      .on('mouseover',function(n,i){console.log(edges[i]);})
+      //.on('mouseover',function(n,i){console.log(edges[i]);})
       .attr(
 	'class',function(n,i){
 	  //return edges[i].ExperimentalSystemType;
