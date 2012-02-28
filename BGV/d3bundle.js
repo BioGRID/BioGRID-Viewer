@@ -1,15 +1,17 @@
 BGV.holdMe.d3bundle=function(){
   var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
+  var padding=90;
   var arcWidth=10;
+
   var nodes;
 
   var hover=null;
   var hoverp=true;
 
   var checkboxes={
-    phy:{match:['path.phy'],toggle:'hidden',on:this.unicodeCheckboxNot},
-    gen:{match:['path.gen'],toggle:'hidden',on:this.unicodeCheckboxNot},
-    color:{match:['.phy','.gen'],toggle:'color',on:this.unicodeCheckbox}
+    phy:{match:'path.phy',toggle:'hidden',do:this.unicodeCheckboxNot},
+    gen:{match:'path.gen',toggle:'hidden',do:this.unicodeCheckboxNot},
+    color:{match:'.phy,.gen',toggle:'color',do:this.unicodeCheckbox}
   };
 
   // @#$% Firefox
@@ -27,12 +29,8 @@ BGV.holdMe.d3bundle=function(){
       "click",function(){
 	var tag=this;
 	var rule=checkboxes[this.getAttribute('id')];
-	var tf=rule.on(that,tag);
-	rule.match.forEach(
-	  function(match){
-	    d3.selectAll(match).classed(rule.toggle,tf);
-	  }
-	);
+	var tf=rule.do(that,tag);
+	d3.selectAll(rule.match).classed(rule.toggle,tf);
       }
     );
   };
@@ -91,9 +89,9 @@ BGV.holdMe.d3bundle=function(){
     ;
 
 
-    this.speciesRing(radius-110);
+    this.speciesRing((radius-padding)+arcWidth);
     var labelRing=d3.layout.cluster()
-      .size([360,radius-120])
+      .size([360,radius-padding])
       .sort(null)
       .nodes(this.tree(nodes,queryString.geneList))
     ;
