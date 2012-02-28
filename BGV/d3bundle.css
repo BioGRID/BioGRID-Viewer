@@ -6,10 +6,10 @@ a{text-decoration:underline;fill:#268bd2;} /* blue */
 text{font-size:10px;font-family:sans-serif;}
 text.over{font-size:15px;font-weight:bold}
 
-path.phy.color{stroke:#859900;} /* green */
-path.gen.color{stroke:#cb4b16;} /* orange */
-text.phy.color{fill:#859900;} /* green */
-text.gen.color{fill:#cb4b16;} /* orange */
+path.gen.color{stroke:#859900;} /* green */
+path.phy.color{stroke:#cb4b16;} /* orange */
+text.gen.color{fill:#859900;} /* green */
+text.phy.color{fill:#cb4b16;} /* orange */
 
 path{stroke:#268bd2;stroke-opacity:.1;fill:none;} /* blue */
 path.over{stroke:#dc322f;stroke-opacity:.4;} /* red */
