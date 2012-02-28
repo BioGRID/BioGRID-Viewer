@@ -8,7 +8,7 @@ BGV.holdMe.d3bundle=function(){
   var hover=null;
   var hoverp=true;
 
-  var checkboxes={
+  this.checkboxes={
     phy:{match:'path.phy',toggle:'hidden',do:this.unicodeCheckboxNot},
     gen:{match:'path.gen',toggle:'hidden',do:this.unicodeCheckboxNot},
     color:{match:'.phy,.gen',toggle:'color',do:this.unicodeCheckbox}
@@ -20,20 +20,6 @@ BGV.holdMe.d3bundle=function(){
     var nbsp=String.fromCharCode(0x00a0);
     mozPadding=nbsp+nbsp+nbsp+nbsp+nbsp;
   }
-
-  this.load=function(){
-    var that=this;
-
-    // set up toggles
-    d3.selectAll(".unicodeCheckbox").on(
-      "click",function(){
-	var tag=this;
-	var rule=checkboxes[this.getAttribute('id')];
-	var tf=rule.do(that,tag);
-	d3.selectAll(rule.match).classed(rule.toggle,tf);
-      }
-    );
-  };
 
   // draw the species ring
   this.speciesRing=function(r){

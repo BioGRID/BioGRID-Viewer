@@ -5,6 +5,12 @@ BGV.holdMe.d3force=function(){
   var svg=null;
   var defaultRadius=6;
 
+  this.checkboxes={
+    phy:{match:'.phy',toggle:'hidden',do:this.unicodeCheckboxNot},
+    gen:{match:'.gen',toggle:'hidden',do:this.unicodeCheckboxNot}
+  };
+  this.parentLoad=this.load;
+
   var jQueryP=function(){
     return 'function'==typeof jQuery;
   };
@@ -21,14 +27,7 @@ BGV.holdMe.d3force=function(){
       svg=d3.select('#bgv');
     }
 
-    // set up toggles
-    d3.selectAll(".unicodeCheckbox").on(
-      "click",function(){
-	var clazz='.'+this.getAttribute('id');
-	d3.selectAll(clazz).classed('hidden',!that.unicodeCheckbox(this));
-      }
-    );
-
+    this.parentLoad();
   };
 
   var tick=function(){

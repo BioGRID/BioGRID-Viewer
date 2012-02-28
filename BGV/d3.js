@@ -1,6 +1,21 @@
 Math.TAU=2*Math.PI;
 
 BGV.holdMe.d3={
+  load:function(){
+    var that=this;
+    console.log(this.checkboxes);
+
+    // set up toggles
+    d3.selectAll(".unicodeCheckbox").on(
+      "click",function(){
+	var tag=this;
+	var rule=that.checkboxes[this.getAttribute('id')];
+	var tf=rule.do(that,tag);
+	d3.selectAll(rule.match).classed(rule.toggle,tf);
+      }
+    );
+  },
+
   // takes a list of start.tab2node objects and returns an object
   // suitable for input into d3's cluster.nodes() function.  If match
   // specified it will *try* to make that one a center.
