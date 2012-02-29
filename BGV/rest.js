@@ -226,6 +226,18 @@ BGV.holdMe.rest=function(){
       },
       physical:function(){
 	return (this.ExperimentalSystemType=='physical');
+      },
+
+      classAttr:function(){
+	var out=[];
+
+	if(this.genetic()){
+	  out.push('gen');
+	}else if(this.physical()){
+	  out.push('phy');
+	}
+
+	return out.join(' ');
       }
     };
 

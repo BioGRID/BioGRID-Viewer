@@ -88,17 +88,7 @@ BGV.holdMe.d3bundle=function(){
       .data(splines)
       .enter().append("path")
       //.on('mouseover',function(n,i){console.log(edges[i]);})
-      .attr(
-	'class',function(n,i){
-	  //return edges[i].ExperimentalSystemType;
-	  if(edges[i].genetic()){
-	    return 'gen';
-	  }else if(edges[i].physical()){
-	    return 'phy';
-	  }
-	  return null;
-	}
-      )
+      .attr('class',function(n,i){return edges[i].classAttr();})
       .attr(
 	'd',
 	function(n){
