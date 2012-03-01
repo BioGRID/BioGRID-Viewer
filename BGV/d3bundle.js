@@ -87,7 +87,7 @@ BGV.holdMe.d3bundle=function(){
     this.svg.select("g#edges").selectAll("path")
       .data(splines)
       .enter().append("path")
-      //.on('mouseover',function(n,i){console.log(edges[i]);})
+      //.on('mouseover',function(n,i){alert(edges[i].edgesLike());})
       .attr('class',function(n,i){return edges[i].classAttr();})
       .attr(
 	'd',

@@ -173,6 +173,10 @@ BGV.holdMe.rest=function(){
       this.Tags=values[22];
       this.SourceDatabase=values[23];
 
+//      if(-1!=this.ExperimentalSystemName){
+//	alert(this.ExperimentalSystemName);
+//      }
+
       // interactions
       var s=new tab2node(values,0);
       var t=new tab2node(values,1);
@@ -238,7 +242,26 @@ BGV.holdMe.rest=function(){
 	}
 
 	return out.join(' ');
+      },
+
+      // return a list of edges that have the same source and target
+      // as the given edge.
+      edgesLike:function(){
+	var out=[];
+	var match=this.source;
+
+	for(var id in this.target.edges){
+	  var edge=this.target.edges[id];
+	  if(edge.source==match||edge.target==match){
+	    out.push(edge);
+	  }
+	}
+
+	return out;
       }
+
+
+
     };
 
     var parse=function(tsv){
