@@ -39,7 +39,8 @@ BGV.holdMe.restForm=function(){
     togs.bind("change", toggleFields);
     togs.trigger("change");
 
-    form.find("[name=taxId]").html(BGV.taxa.optionTags(4932));
+    //form.find("[name=taxId]").html(BGV.taxa.optionTags(4932));
+    form.find("[name=geneTaxIdList]").html(BGV.taxa.optionTags(4932));
 
 
     var sa=$("[name=selectAll]");
