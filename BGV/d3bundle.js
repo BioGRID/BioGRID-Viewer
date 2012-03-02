@@ -2,6 +2,7 @@ BGV.holdMe.d3bundle=function(){
   var radius=((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2;
   var padding=90;
   var arcWidth=10;
+  var arcWidthPad=arcWidth*1.5;
 
   var nodes;
 
@@ -13,13 +14,6 @@ BGV.holdMe.d3bundle=function(){
     gen:{match:'path.gen',toggle:'hidden',do:this.unicodeCheckboxNot},
     color:{match:'.phy,.gen',toggle:'color',do:this.unicodeCheckbox}
   };
-
-  // @#$% Firefox
-  var mozPadding='';
-  if('function'==typeof window.navigator.mozIsLocallyAvailable){
-    var nbsp=String.fromCharCode(0x00a0);
-    mozPadding=nbsp+nbsp+nbsp+nbsp+nbsp;
-  }
 
   // draw the species ring
   this.speciesRing=function(r){
@@ -87,7 +81,7 @@ BGV.holdMe.d3bundle=function(){
     this.svg.select("g#edges").selectAll("path")
       .data(splines)
       .enter().append("path")
-      //.on('mouseover',function(n,i){alert(edges[i].edgesLike());})
+      //.on('mouseover',function(n,i){console.log(edges[i].edgesLike());})
       .attr('class',function(n,i){return edges[i].classAttr();})
       .attr(
 	'd',
@@ -198,24 +192,24 @@ BGV.holdMe.d3bundle=function(){
 	}
       )
       //.attr("fill",function(n){return n.taxa().color();})
-      .attr("dx",function(n){return (n.x<180)?15:-15;})
       .attr("dy",".31em")
       .attr("text-anchor",function(n){return (n.x<180)?"start":"end";})
       .attr(
 	"transform", function(n,i) {
-
 	  n.SVGText=this;
 	  if(!!n.children){
 	    // center the middle node
-	    return "rotate(-90)";
-	  }else if(n.x>=180){
-	    return 'rotate(180)';
-	  }else{
-	    return null;
+	    return "rotate(-90)translate(-"+arcWidth+")";
 	  }
+
+	  var out='translate('+arcWidthPad+')';
+	  if(n.x>=180){
+	    out += 'rotate(180)';
+	  }
+	  return out;
 	}
       )
-      .text(function(d){return d.display()+mozPadding;})
+      .text(function(d){return d.display();})
     ;
 
 
