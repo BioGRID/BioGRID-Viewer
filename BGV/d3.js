@@ -9,7 +9,7 @@ BGV.holdMe.d3={
       "click",function(){
 	var tag=this;
 	var rule=that.checkboxes[this.getAttribute('id')];
-	var tf=rule.do(that,tag);
+	var tf=rule.go(that,tag);
 	d3.selectAll(rule.match).classed(rule.toggle,tf);
       }
     );

@@ -10,9 +10,9 @@ BGV.holdMe.d3bundle=function(){
   var hoverp=true;
 
   this.checkboxes={
-    phy:{match:'path.phy',toggle:'hidden',do:this.unicodeCheckboxNot},
-    gen:{match:'path.gen',toggle:'hidden',do:this.unicodeCheckboxNot},
-    color:{match:'.phy,.gen',toggle:'color',do:this.unicodeCheckbox}
+    phy:{match:'path.phy',toggle:'hidden',go:this.unicodeCheckboxNot},
+    gen:{match:'path.gen',toggle:'hidden',go:this.unicodeCheckboxNot},
+    color:{match:'.phy,.gen',toggle:'color',go:this.unicodeCheckbox}
   };
 
   // draw the species ring

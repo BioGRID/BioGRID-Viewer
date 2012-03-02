@@ -6,8 +6,8 @@ BGV.holdMe.d3force=function(){
   var defaultRadius=6;
 
   this.checkboxes={
-    phy:{match:'.phy',toggle:'hidden',do:this.unicodeCheckboxNot},
-    gen:{match:'.gen',toggle:'hidden',do:this.unicodeCheckboxNot}
+    phy:{match:'.phy',toggle:'hidden',go:this.unicodeCheckboxNot},
+    gen:{match:'.gen',toggle:'hidden',go:this.unicodeCheckboxNot}
   };
   this.parentLoad=this.load;
 
