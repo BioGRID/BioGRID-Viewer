@@ -1,0 +1,97 @@
+[
+ {
+  "id":"3702",
+  "species":"Arabidopsis thaliana",
+  "common":"thale cress",
+  "color":"#9ACD32",
+  "display":true
+ },{
+  "id":"4896",
+  "species":"Schizosaccharomyces pombe",
+  "common":"fission yeast",
+  "color":"#8A2BE2",
+  "display":true
+ },{
+  "id":"3702",
+  "species":"Arabidopsis thaliana",
+  "common":"thale cress",
+  "color":"#9ACD32",
+  "display":true
+ },{
+  "id":"4896",
+  "species":"Schizosaccharomyces pombe",
+  "common":"fission yeast",
+  "color":"#8A2BE2",
+  "display":true
+ },{
+  "id":"4932",
+  "species":"Saccharomyces cerevisiae",
+  "common":"yeast",
+  "color":"#00FFFF",
+  "display":true
+ },{
+  "id":"6239",
+  "species":"Caenorhabditis elegans",
+  "common":"roundworm",
+  "color":"#DAA520",
+  "display":true
+ },{
+  "id":"7227",
+  "species":"Drosophila melanogaster",
+  "common":"fruit fly",
+  "color":"#00CED1",
+  "display":true
+ },{
+  "id":"7955",
+  "species":"Danio rerio",
+  "common":"zebrafish",
+  "color":"#6495ED",
+  "display":true
+ },{
+  "id":"9031",
+  "species":"Gallus gallus",
+  "common":"chicken",
+  "color":"#DB70DB",
+  "display":true
+ },{
+  "id":"9606",
+  "species":"Homo sapiens",
+  "common":"human",
+  "color":"#FF6347",
+  "display":true
+ },{
+  "id":"10090",
+  "species":"Mus musculus",
+  "common":"house mouse",
+  "color":"#C0D9D9",
+  "display":true
+ },{
+  "id":"10116",
+  "species":"Rattus norvegicus",
+  "common":"Norway rat",
+  "color":"#FFD700",
+  "display":true
+ },{
+  "id":"511145",
+  "species":"Escherichia coli str. K-12 substr. MG1655",
+  "common":"E.coli",
+  "color":"#98FB98",
+  "display":true
+ },{
+  "id":"8355",
+  "species":"Xenopus laevis",
+  "common":"African clawed frog",
+  "display":true
+ },{
+  "id":"9615",
+  "species":"Canis lupus familiaris",
+  "common":"dog",
+  "display":true
+ },{
+  "id":"9913",
+  "species":"Bos taurus",
+  "common":"cattle",
+  "display":true
+ }
+]
+
