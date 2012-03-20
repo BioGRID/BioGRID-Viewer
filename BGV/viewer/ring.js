@@ -92,8 +92,9 @@ BGV.viewer.ring={
     var arcWidth=10;
     var arcWidthPad=arcWidth*1.5;
     var selected=null;
+    var nodes=this.cluster(match);
 
-    nodes=this.cluster(match);
+    // draw the nodes
     this.ring.select(".nodes")
       .selectAll(".node").data(nodes)
       .enter().append('g')
@@ -101,7 +102,11 @@ BGV.viewer.ring={
       .each(function(n){n.tag=this;})
       .attr(
 	"transform",function(n){
-	  return "rotate("+((n.x*(360/Math.TAU))-90)+")translate("+n.y+")";
+	  var out='';
+	  if(undefined==n.children){
+	    out="rotate("+((n.x*(360/Math.TAU))-90)+")";
+	  }
+	  return out+"translate("+n.y+")";
 	}
       )
       .append('text').text(function(n){return n.display();})
