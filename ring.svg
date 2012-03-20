@@ -8,10 +8,16 @@
 <script xlink:href="BGV/parser/rest.js"/>
 <script xlink:href="BGV/viewer/ring.js"/>
 
-<g id="BGVring"><g class="nodes"/><g class="edges"/><g class="taxa"/></g>
+<g id="BGVring"><g class="edges"/><g class="taxa"/><g class="nodes"/></g>
 <g id="BGVinfo">
 <text x="5" y="1em">BioGRID Version:<tspan class="BioGRIDVersion">?</tspan></text>
 <text x="5" y="2em">Total Interactions:<tspan class="InteractionCount">pending</tspan></text>
+<text x="5" y="4em">Species: <tspan class="restNodeSpecies"></tspan></text>
+<text x="5" y="5em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
+<text x="5" y="6em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
+<text x="5" y="7em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
+<text x="5" y="8em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
+<text x="5" y="9em">Interactions: <tspan class="restNodeEdges"></tspan></text>
 </g>
 <g id="BGVcontrol"/>
 

@@ -13,13 +13,21 @@ BGV.parser.rest={
     );
     BGV.ajax(
       this.interactionsURL(),function(t){
-	that.parse(t);BGV.view(that._queryString.geneList);
+	that.parse(t);
+	BGV.view(that._queryString.geneList);
       }
     );
 
     var bgv='BioGRIDVersion';
     BGV.e.BioGRIDVersion=document.getElementsByClassName(bgv);
     BGV.ajax(this.versionURL(),function(v){BGV.updateElementsText(bgv,v);});
+
+    ["restNodeEntrez","restNodeBioGridId","restNodeSystematicName",
+     "restNodeOfficialSymbol","restNodeSpecies","restNodeEdges"].forEach(
+       function(c){
+	 BGV.e[c]=document.getElementsByClassName(c);
+       }
+     );
   },
 
   _queryString:{},
@@ -32,7 +40,8 @@ BGV.parser.rest={
   },
 
   interactionsURL:function(){
-    return BGV.config('rest','url')+'resources/interactions?enableCaching=true&'+this.queryString();
+    return BGV.config('rest','url')+'resources/interactions?enableCaching=true&'
+      +this.queryString();
   },
   countURL:function(){
     return this.interactionsURL()+"&format=count";
@@ -120,17 +129,19 @@ BGV.parser.rest={
   },
 
   node:function(values,i){
-    this.Entrez=values[1+i];
-    this.BioGridId=values[3+i];
-    this.SystematicName=values[5+i];
-    this.OfficialSymbol=values[7+i];
-    this.Synonyms=values[9+i];
-    this.OrganismID=values[15+i];
+    this.data={
+      Entrez:values[1+i],
+      BioGridId:values[3+i],
+      SystematicName:values[5+i],
+      OfficialSymbol:values[7+i],
+      Synonyms:values[9+i],
+      OrganismID:values[15+i]
+    };
 
     this._edges={};
 
-    if(undefined==BGV.taxa[this.OrganismID]){
-      throw "Taxa id " + this.OrganismID + " not found.";
+    if(undefined==BGV.taxa[this.data.OrganismID]){
+      throw "Taxa id " + this.data.OrganismID + " not found.";
     }
   }
 
@@ -147,7 +158,7 @@ BGV.parser.rest.edge.prototype={
 };
 BGV.parser.rest.node.prototype={
   id:function(){
-    return this.BioGridId;
+    return this.data.BioGridId;
   },
   addEdge:function(edge){
     this._edges[edge.id()]=edge;
@@ -196,50 +207,69 @@ BGV.parser.rest.node.prototype={
   },
 
   taxonId:function(){
-    return this.OrganismID;
+    return this.data.OrganismID;
   },
   taxon:function(){
-    return BGV.taxa[this.OrganismID];
+    return BGV.taxa[this.data.OrganismID];
   },
   color:function(def){
-    var out=BGV.taxa[this.OrganismID].color();
+    var out=BGV.taxa[this.data.OrganismID].color();
     if(null==out){
       out=def;
     }
     return out;
   },
   display:function(){
-    return this.OfficialSymbol;
+    return this.data.OfficialSymbol;
   },
   cmp:function(x){
-    if(this.OrganismID<x.OrganismID){
+    if(this.data.OrganismID<x.data.OrganismID){
       return -1;
-    }else if(this.OrganismID>x.OrganismID){
+    }else if(this.data.OrganismID>x.data.OrganismID){
       return 1;
     }
 
-    if(this.OfficialSymbol<x.OfficialSymbol){
+    if(this.data.OfficialSymbol<x.data.OfficialSymbol){
       return -1;
-    }else if(this.OfficialSymbol>x.OfficialSymbol){
+    }else if(this.data.OfficialSymbol>x.data.OfficialSymbol){
       return 1;
     }
 
     return 0;
   },
   match:function(s){
-    return (s.toLowerCase()==this.OfficialSymbol.toLowerCase());
+    return (s.toLowerCase()==this.data.OfficialSymbol.toLowerCase());
   },
   classes:function(){
     return 'node';
   },
 
+
   select:function(){
     d3.selectAll(this.nodeTags(true)).classed('highlight',true);
     d3.selectAll(this.edgeTags(true)).classed('highlight',true);
+
+    BGV.updateElementsText("restNodeEntrez",this.data.Entrez);
+    BGV.updateElementsHref("restNodeEntrez",
+			   'http://www.ncbi.nlm.nih.gov/gene/'+ this.data.Entrez);
+    BGV.updateElementsText("restNodeBioGridId",this.data.BioGridId);
+    BGV.updateElementsHref("restNodeBioGridId",
+			   'http://thebiogrid.org/'+this.data.BioGridId+'/');
+    BGV.updateElementsText("restNodeSystematicName",this.data.SystematicName);
+    BGV.updateElementsText("restNodeOfficialSymbol",this.data.OfficialSymbol);
+    BGV.updateElementsText("restNodeSpecies",this.taxon().display());
+    BGV.updateElementsText("restNodeEdges",d3.keys(this._edges).length);
   },
   deselect:function(){
     d3.selectAll(this.nodeTags(true)).classed('highlight',false);
     d3.selectAll(this.edgeTags(true)).classed('highlight',false);
+
+    BGV.updateElementsText("restNodeEntrez",' ');
+    BGV.updateElementsText("restNodeBioGridId",' ');
+    BGV.updateElementsText("restNodeSystematicName",' ');
+    BGV.updateElementsText("restNodeOfficialSymbol",' ');
+    BGV.updateElementsText("restNodeSpecies",' ');
+    BGV.updateElementsText("restNodeEdges",' ');
   }
 
 };
