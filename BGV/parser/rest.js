@@ -90,7 +90,9 @@ BGV.parser.rest={
 
     while(lines.length>0){
       var line=lines.shift();
-      BGV.addEdge(new this.edge(line.split("\t"),this));
+      var edge=BGV.addEdge(new this.edge(line.split("\t"),this));
+      edge.source.addEdge(edge);
+      edge.target.addEdge(edge);
     }
   },
 
@@ -125,6 +127,8 @@ BGV.parser.rest={
     this.Synonyms=values[9+i];
     this.OrganismID=values[15+i];
 
+    this._edges={};
+
     if(undefined==BGV.taxa[this.OrganismID]){
       throw "Taxa id " + this.OrganismID + " not found.";
     }
@@ -145,6 +149,52 @@ BGV.parser.rest.node.prototype={
   id:function(){
     return this.BioGridId;
   },
+  addEdge:function(edge){
+    this._edges[edge.id()]=edge;
+    return edge;
+  },
+
+  // returns a list of edges
+  edges:function(){
+    return d3.values(this._edges);
+  },
+  edgeTags:function(){
+    var out=[];
+    this.edges().forEach(
+      function(edge){
+	out.push(edge.tag);
+      }
+    );
+    return out;
+  },
+
+  // returns a list of nodes we connect to
+  nodes:function(meTo){
+    out={};
+
+    this.edges().forEach(
+      function(edge){
+	out[edge.source.id()]=edge.source;
+	out[edge.target.id()]=edge.target;
+      }
+    );
+
+    if(('boolean'!=typeof meTo)||(meTo==false)){
+      delete out[this.id()];
+    }
+
+    return d3.values(out);
+  },
+  nodeTags:function(meTo){
+    var out=[];
+    this.nodes(meTo).forEach(
+      function(node){
+	out.push(node.tag);
+      }
+    );
+    return out;
+  },
+
   taxonId:function(){
     return this.OrganismID;
   },
@@ -181,6 +231,15 @@ BGV.parser.rest.node.prototype={
   },
   classes:function(){
     return 'node';
+  },
+
+  select:function(){
+    d3.selectAll(this.nodeTags(true)).classed('highlight',true);
+    d3.selectAll(this.edgeTags(true)).classed('highlight',true);
+  },
+  deselect:function(){
+    d3.selectAll(this.nodeTags(true)).classed('highlight',false);
+    d3.selectAll(this.edgeTags(true)).classed('highlight',false);
   }
 
 };

@@ -4,4 +4,7 @@ path{stroke:#268bd2;stroke-opacity:.1;fill:none;} /* blue */
 a{text-decoration:underline;fill:#268bd2;} /* blue */
 text{font-size:10px;font-family:sans-serif;}
 .node text{alignment-baseline:middle}
-/* .node text:hover{font-size:15px;font-weight:bold} */
+
+path.highlight{stroke:#dc322f;stroke-opacity:.3;} /* red */
+.highlight text{font-size:15px;font-weight:bold}
+

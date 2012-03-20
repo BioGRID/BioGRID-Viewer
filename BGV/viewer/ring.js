@@ -91,6 +91,7 @@ BGV.viewer.ring={
   view:function(match){
     var arcWidth=10;
     var arcWidthPad=arcWidth*1.5;
+    var selected=null;
 
     nodes=this.cluster(match);
     this.ring.select(".nodes")
@@ -98,10 +99,33 @@ BGV.viewer.ring={
       .enter().append('g')
       .attr('class',function(n){return n.classes();})
       .each(function(n){n.tag=this;})
-      .attr("transform",function(n){return "rotate("+((n.x*(360/Math.TAU))-90)+")translate("+n.y+")";})
+      .attr(
+	"transform",function(n){
+	  return "rotate("+((n.x*(360/Math.TAU))-90)+")translate("+n.y+")";
+	}
+      )
       .append('text').text(function(n){return n.display();})
       .attr('transform','translate('+arcWidthPad+')')
+      .on('mouseover',function(n){if(null==selected){n.select();}})
+      .on('mouseout',function(n){if(null==selected){n.deselect();}})
+      .on(
+	'click',function(n){
+	  if(null!=selected){
+	    selected.deselect();
+	  }
+	  selected=n;
+	  n.select();
+	}
+      )
     ;
+
+    document.onmousedown=function(e){
+      if((null!=selected)&&('svg'==e.target.nodeName)){
+	selected.deselect();
+	selected=null;
+      }
+    };
+
     var edges=BGV.getEdges();
     this.ring.select(".edges")
       .selectAll(".edge").data(this.bundle(edges))
@@ -111,14 +135,11 @@ BGV.viewer.ring={
       .attr('d',this.getLine())
     ;
 
-
-
     var groups=this.d3arcPrep(
       nodes
       .filter(function(n){return !(n.children);})
       .sort(function(a,b){return a.x-b.x;})
     );
-
 
     var r=this.radius-this.padding;
     this.ring.select(".taxa")
