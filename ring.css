@@ -6,5 +6,7 @@ text{font-size:10px;font-family:sans-serif;}
 .node text{alignment-baseline:middle}
 
 path.highlight{stroke:#dc322f;stroke-opacity:.3;} /* red */
-.highlight text{font-size:15px;font-weight:bold}
+.highlight text{font-size:15px;font-weight:bold;y}
 
+/* menu */
+.hidden{display:none;}

@@ -71,6 +71,7 @@ BGV={
     );
 
     this.e.InteractionCount=document.getElementsByClassName('InteractionCount');
+    this.e.species=document.getElementsByClassName('species');
   },
   view:function(pass){
     this.forEach('view',pass);
@@ -127,11 +128,15 @@ d3.json(
       display:function(){
 	return this._species;
       },
-      color:function(){
-	if(undefined==this._color){
-	  return null;
-	}
-	return this._color;
+      color:function(def){
+	return (undefined==this._color)?def:this._color;
+      },
+
+      select:function(){
+	BGV.updateElementsText('species',this.display());
+      },
+      deselect:function(){
+	BGV.updateElementsText('species',' ');
       }
     };
 

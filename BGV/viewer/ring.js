@@ -2,7 +2,7 @@ Math.TAU=2*Math.PI;
 
 BGV.viewer.ring={
   radius:(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2),
-  padding:100,
+  padding:.6,
 
   cluster:function(match){
     var tree={children:BGV.getNodes()};
@@ -15,7 +15,7 @@ BGV.viewer.ring={
 
 
     var out=d3.layout.cluster()
-      .size([Math.TAU,this.radius-this.padding])
+      .size([Math.TAU,this.radius*this.padding])
       .sort(function(a,b){return a.cmp(b);})
       .nodes(tree)
       .filter(function(l){return !!l.id;})
@@ -49,6 +49,8 @@ BGV.viewer.ring={
     this.ring=d3.select("#BGVring")
       .attr("transform","translate("+(window.innerWidth/2)+","+this.radius+")")
     ;
+
+    d3.select("#BGVcontrol").attr('transform','translate(10,'+(this.radius/2)+')');
   },
 
   d3arcPrep:function(nodes){
@@ -56,11 +58,15 @@ BGV.viewer.ring={
 
     nodes.forEach(
       function(node){
-//	console.log(node);
 	var taxa=node.taxonId();
 	var last=groups[groups.length-1];
 	if(0==groups.length || (last.taxa!=taxa)){
-	  groups.push({taxa:taxa,count:1,color:node.color('#fdf6e3')}); // base3;
+	  groups.push(
+	    {taxa:taxa,
+	     count:1,
+	     taxon:node.taxon()
+//	     color:node.color('#fdf6e3') // base3
+	    });
 	}else{
 	  last.count++;
 	}
@@ -131,6 +137,7 @@ BGV.viewer.ring={
       }
     };
 
+    // draw the edges
     var edges=BGV.getEdges();
     this.ring.select(".edges")
       .selectAll(".edge").data(this.bundle(edges))
@@ -140,18 +147,25 @@ BGV.viewer.ring={
       .attr('d',this.getLine())
     ;
 
+    // draw the species ring
     var groups=this.d3arcPrep(
       nodes
       .filter(function(n){return !(n.children);})
       .sort(function(a,b){return a.x-b.x;})
     );
 
-    var r=this.radius-this.padding;
+    var r=this.radius*this.padding;
     this.ring.select(".taxa")
       .selectAll(".taxon").data(groups)
       .enter().append('path').attr('class','taxon')
-      .attr('style',function(g){return "fill:"+g.color+";stroke:black";})
+      .attr(
+	'style',function(g){
+	  return "fill:"+g.taxon.color('#fdf6e3')+";stroke:black"; // base3
+	}
+      )
       .attr('d',d3.svg.arc().innerRadius(r).outerRadius(r+arcWidth))
+      .on('mouseover',function(g){if(null==selected){g.taxon.select();}})
+      .on('mouseout',function(g){if(null==selected){g.taxon.deselect();}})
     ;
   }
 

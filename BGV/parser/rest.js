@@ -23,11 +23,12 @@ BGV.parser.rest={
     BGV.ajax(this.versionURL(),function(v){BGV.updateElementsText(bgv,v);});
 
     ["restNodeEntrez","restNodeBioGridId","restNodeSystematicName",
-     "restNodeOfficialSymbol","restNodeSpecies","restNodeEdges"].forEach(
+     "restNodeOfficialSymbol","restNodeEdges"].forEach(
        function(c){
 	 BGV.e[c]=document.getElementsByClassName(c);
        }
      );
+
   },
 
   _queryString:{},
@@ -50,38 +51,6 @@ BGV.parser.rest={
     return BGV.config('rest','url')+'resources/version';
   },
 
-  evidenceList:{
-    physical:[
-      "Affinity Capture-Luminescence",
-      "Affinity Capture-MS",
-      "Affinity Capture-RNA",
-      "Affinity Capture-Western",
-      "Biochemical Activity",
-      "Co-crystal Structure",
-      "Co-fractionation",
-      "Co-localization",
-      "Co-purification",
-      "Far Western",
-      "FRET",
-      "PCA",
-      "Protein-peptide",
-      "Protein-RNA",
-      "Reconstituted Complex",
-      "Two-hybrid"
-    ],
-    genetic:[
-      "Dosage Growth Defect",
-      "Dosage Lethality",
-      "Dosage Rescue",
-      "Negative Genetic",
-      "Phenotypic Enhancement",
-      "Phenotypic Suppression",
-      "Positive Genetic",
-      "Synthetic Growth Defect",
-      "Synthetic Haploinsufficiency",
-      "Synthetic Lethality"
-    ]
-  },
 
   parse:function(tsv){
     var lines=tsv.trim().split("\n");
@@ -213,11 +182,7 @@ BGV.parser.rest.node.prototype={
     return BGV.taxa[this.data.OrganismID];
   },
   color:function(def){
-    var out=BGV.taxa[this.data.OrganismID].color();
-    if(null==out){
-      out=def;
-    }
-    return out;
+    return this.taxon().color(def);
   },
   display:function(){
     return this.data.OfficialSymbol;
@@ -249,6 +214,8 @@ BGV.parser.rest.node.prototype={
     d3.selectAll(this.nodeTags(true)).classed('highlight',true);
     d3.selectAll(this.edgeTags(true)).classed('highlight',true);
 
+    this.taxon().select();
+
     BGV.updateElementsText("restNodeEntrez",this.data.Entrez);
     BGV.updateElementsHref("restNodeEntrez",
 			   'http://www.ncbi.nlm.nih.gov/gene/'+ this.data.Entrez);
@@ -257,18 +224,18 @@ BGV.parser.rest.node.prototype={
 			   'http://thebiogrid.org/'+this.data.BioGridId+'/');
     BGV.updateElementsText("restNodeSystematicName",this.data.SystematicName);
     BGV.updateElementsText("restNodeOfficialSymbol",this.data.OfficialSymbol);
-    BGV.updateElementsText("restNodeSpecies",this.taxon().display());
     BGV.updateElementsText("restNodeEdges",d3.keys(this._edges).length);
   },
   deselect:function(){
     d3.selectAll(this.nodeTags(true)).classed('highlight',false);
     d3.selectAll(this.edgeTags(true)).classed('highlight',false);
 
+    this.taxon().deselect();
+
     BGV.updateElementsText("restNodeEntrez",' ');
     BGV.updateElementsText("restNodeBioGridId",' ');
     BGV.updateElementsText("restNodeSystematicName",' ');
     BGV.updateElementsText("restNodeOfficialSymbol",' ');
-    BGV.updateElementsText("restNodeSpecies",' ');
     BGV.updateElementsText("restNodeEdges",' ');
   }
 
