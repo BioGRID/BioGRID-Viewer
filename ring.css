@@ -5,8 +5,9 @@ a{text-decoration:underline;fill:#268bd2;} /* blue */
 text{font-size:10px;font-family:sans-serif;}
 .node text{alignment-baseline:middle}
 
+path.taxon{stroke:black;stroke-width:1;stroke-opacity:.3;}
 path.highlight{stroke:#dc322f;stroke-opacity:.3;} /* red */
-.highlight text{font-size:15px;font-weight:bold;y}
+.highlight text{font-size:15px;font-weight:bold;}
 
 /* menu */
 .hidden{display:none;}
