@@ -1,6 +1,8 @@
 BGV.parser.rest={
   load:function(){
     var that=this;
+
+    // parse the QUERY_STRING
     window.location.href.split('?',2)[1].split('&').forEach(
       function(attr){
 	var skip=['enableCaching','format'];
@@ -11,6 +13,8 @@ BGV.parser.rest={
 	}
       }
     );
+
+    // fetch the data
     BGV.ajax(
       this.interactionsURL(),function(t){
 	that.parse(t);
@@ -18,16 +22,112 @@ BGV.parser.rest={
       }
     );
 
+    // Get the database version
     var bgv='BioGRIDVersion';
     BGV.e.BioGRIDVersion=document.getElementsByClassName(bgv);
     BGV.ajax(this.versionURL(),function(v){BGV.updateElementsText(bgv,v);});
 
+    // for displaying data
     ["restNodeEntrez","restNodeBioGridId","restNodeSystematicName",
      "restNodeOfficialSymbol","restNodeEdges"].forEach(
        function(c){
 	 BGV.e[c]=document.getElementsByClassName(c);
        }
      );
+
+    // // // //
+    // evidence list stuff
+    var off='☐';
+    var on='☒';
+
+    // arrange the list
+    var elt=d3.select("#evidenceList").attr('transform','translate('+(window.innerWidth-4)+')');
+    var lf=0; // line feed
+    elt.selectAll('.lf')
+      .attr(
+	'y',function(){
+	  return lf+=(d3.select(this).classed('all'))?
+	    this.getBBox().height*1.5:this.getBBox().height;
+   	}
+      )
+    ;
+
+    // returns all the siblings after tag
+    var siblings=function(tag){
+      var out=[];
+      for(var t=tag.nextSibling;t!=null;t=t.nextSibling){
+	if(undefined!=t.tagName){
+	  out.push(t);
+	}
+      }
+      return d3.selectAll(out);
+    };
+
+    // returns true if we are on
+    var isOn=function(t){
+      var tag=(undefined==t.length)?d3.select(t).select('tspan'):t;
+      return on==tag.text();
+    };
+
+    var toggle=function(t){
+      var tog=d3.select(t).select('tspan');
+
+      if(isOn(tog)){
+	tog.text(off);
+	return off;
+      }
+      tog.text(on);
+      return on;
+    };
+
+    // oh, oh, something changed, go!
+    var go=function(){
+      var el=[];
+      var all=0;
+      elt.selectAll('.select text').each(
+	function(){
+	  all++;
+	  if(isOn(this)){
+	    el.push(this.textContent.replace(on,'').trim());
+	  }
+	}
+      );
+
+      if(el.length==all){
+	delete that._queryString.includeEvidence;
+	delete that._queryString.evidenceList;
+      }else{
+	that._queryString.includeEvidence=true;
+	that._queryString.evidenceList=el.join('|');
+      }
+
+      BGV.refresh();
+    };
+
+    // set up the toggle events
+    elt.selectAll('.all')
+      .call(
+	function(){
+	  this.each(
+	    function(){
+	      siblings(this).on(
+		'click',function(){
+		  toggle(this);
+		  go();
+		}
+	      );
+	    }
+	  );
+	}
+      )
+      .on(
+	'click',function(){
+	  var s=toggle(this);
+	  siblings(this).select('tspan').text(s);
+	  go();
+	}
+      )
+    ;
 
   },
 

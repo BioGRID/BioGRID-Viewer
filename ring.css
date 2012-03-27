@@ -2,12 +2,12 @@ svg{background-color:#eee8d5;fill:#839496;} /* base2 base0 */
 path{stroke:#268bd2;stroke-opacity:.1;fill:none;} /* blue */
 
 a{text-decoration:underline;fill:#268bd2;} /* blue */
-text{font-size:10px;font-family:sans-serif;}
+text{font-size:12px;font-family:sans-serif;}
 .node text{alignment-baseline:middle}
 
 path.taxon{stroke:black;stroke-width:1;stroke-opacity:.3;}
 path.highlight{stroke:#dc322f;stroke-opacity:.3;} /* red */
 .highlight text{font-size:15px;font-weight:bold;}
 
-/* menu */
-.hidden{display:none;}
+#evidenceList text{text-anchor:end;font-size:55%;}
+text.all{font-size:75%!important;}

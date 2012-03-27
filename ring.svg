@@ -7,7 +7,6 @@
 <script xlink:href="BGV2.js"/>
 <script xlink:href="BGV/parser/rest.js"/>
 <script xlink:href="BGV/viewer/ring.js"/>
-<script xlink:href="menu.js"/>
 
 <g id="BGVring"><g class="edges"/><g class="taxa"/><g class="nodes"/></g>
 <g id="BGVinfo" transform="translate(5)">
@@ -20,35 +19,43 @@
 <text y="8em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
 <text y="9em">Interactions: <tspan class="restNodeEdges"></tspan></text>
 </g>
-<g id="BGVcontrol">
-<g class="menu"><text y="1em">Physical</text><text class="hidden">
-<tspan>Affinity Capture-Luminescence</tspan>
-<tspan>Affinity Capture-MS</tspan>
-<tspan>Affinity Capture-RNA</tspan>
-<tspan>Affinity Capture-Western</tspan>
-<tspan>Biochemical Activity</tspan>
-<tspan>Co-crystal Structure</tspan>
-<tspan>Co-fractionation</tspan>
-<tspan>Co-localization</tspan>
-<tspan>Co-purification</tspan>
-<tspan>Far Western</tspan>
-<tspan>FRET</tspan>
-<tspan>PCA</tspan>
-<tspan>Protein-peptide</tspan>
-<tspan>Protein-RNA</tspan>
-<tspan>Reconstituted Complex</tspan>
-<tspan>Two-hybrid</tspan>
-</text></g><g class="menu"><text y="5em">Genetic</text><text class="hidden">
-<tspan>Dosage Growth Defect</tspan>
-<tspan>Dosage Lethality</tspan>
-<tspan>Dosage Rescue</tspan>
-<tspan>Negative Genetic</tspan>
-<tspan>Phenotypic Enhancement</tspan>
-<tspan>Phenotypic Suppression</tspan>
-<tspan>Positive Genetic</tspan>
-<tspan>Synthetic Growth Defect</tspan>
-<tspan>Synthetic Haploinsufficiency</tspan>
-<tspan>Synthetic Lethality</tspan>
-</text></g></g>
+
+<g id="evidenceList">
+
+<g class="select"><text class="lf all">Physical <tspan>☒</tspan></text>
+<text class="lf">Affinity Capture-Luminescence <tspan>☒</tspan></text>
+<text class="lf">Affinity Capture-MS <tspan>☒</tspan></text>
+<text class="lf">Affinity Capture-RNA <tspan>☒</tspan></text>
+<text class="lf">Affinity Capture-Western <tspan>☒</tspan></text>
+<text class="lf">Biochemical Activity <tspan>☒</tspan></text>
+<text class="lf">Co-crystal Structure <tspan>☒</tspan></text>
+<text class="lf">Co-fractionation <tspan>☒</tspan></text>
+<text class="lf">Co-localization <tspan>☒</tspan></text>
+<text class="lf">Co-purification <tspan>☒</tspan></text>
+<text class="lf">Far Western <tspan>☒</tspan></text>
+<text class="lf">FRET <tspan>☒</tspan></text>
+<text class="lf">PCA <tspan>☒</tspan></text>
+<text class="lf">Protein-peptide <tspan>☒</tspan></text>
+<text class="lf">Protein-RNA <tspan>☒</tspan></text>
+<text class="lf">Reconstituted Complex <tspan>☒</tspan></text>
+<text class="lf">Two-hybrid <tspan>☒</tspan></text>
+</g>
+
+<g class="select"><text class="lf all">Genetic <tspan>☒</tspan></text>
+<text class="lf">Dosage Growth Defect <tspan>☒</tspan></text>
+<text class="lf">Dosage Lethality <tspan>☒</tspan></text>
+<text class="lf">Dosage Rescue <tspan>☒</tspan></text>
+<text class="lf">Negative Genetic <tspan>☒</tspan></text>
+<text class="lf">Phenotypic Enhancement <tspan>☒</tspan></text>
+<text class="lf">Phenotypic Suppression <tspan>☒</tspan></text>
+<text class="lf">Positive Genetic <tspan>☒</tspan></text>
+<text class="lf">Synthetic Growth Defect <tspan>☒</tspan></text>
+<text class="lf">Synthetic Haploinsufficiency <tspan>☒</tspan></text>
+<text class="lf">Synthetic Lethality <tspan>☒</tspan></text>
+<text class="lf">Synthetic Rescue <tspan>☒</tspan></text>
+</g>
+
+</g>
+
 
 </svg>
