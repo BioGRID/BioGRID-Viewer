@@ -95,6 +95,25 @@ BGV.viewer.ring={
     return groups;
   },
 
+  // this is broken (for now)
+  // resize:function(){
+  //   console.log('yea!');
+  //   this.radius=(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2);
+  //   this.load();
+  //   this.purge();
+  //   this.review(this.match);
+  // },
+
+  purge:function(){
+    this.reload();
+    BGV.getEdges().concat(BGV.getNodes()).forEach(
+      function(x){
+       	d3.select(x.tag).remove();
+      }
+    );
+  },
+
+
   reload:function(){
     // Though no actual reloading takes place here, we want to delete the
     // ring durning reload as a visual sign as to what is going on.
@@ -102,6 +121,15 @@ BGV.viewer.ring={
   },
 
   review:function(match){
+    // no animated transitions for IE :(
+    if(navigator.userAgent.indexOf("Trident/5")>-1){
+      this.purge();
+      this.view(match);
+      return;
+    }
+
+
+    this.match=match;
     BGV.getNodes().forEach(
       function(node){
 	delete node.x;
@@ -169,6 +197,7 @@ BGV.viewer.ring={
   },
 
   view:function(match){
+    this.match=match;
     this._view(this.cluster(match));
   },
 

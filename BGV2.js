@@ -97,6 +97,12 @@ BGV={
   resize:function(){
     this.forEach('resize');
   },
+  // delete everything
+  purge:function(){
+    this.forEach('purge');
+    BGV.nodes={};
+    BGV.edges={};
+  },
 
   // Returns an a array	of two lists.  The first element is everything that matched s,
   // the second is everything that did not
@@ -116,10 +122,11 @@ BGV={
 
   // like d3.text() but also works in IE9 for remote sites
   ajax:function(url,callback){
+    var that=this;
     this.freeze();
     if('function'==typeof window.XDomainRequest){
       ajax=new window.XDomainRequest();
-      ajax.onload=function(){callback(this.responseText);this.melt();};
+      ajax.onload=function(){callback(this.responseText);that.melt();};
       ajax.open('GET',url,true);
       ajax.send();
     }else{
@@ -138,6 +145,7 @@ BGV={
     //console.log('melt',this.degree);
   },
   liquid:function(){
+    //console.log('liquid',this.degree);
     return this.degree==0;
   },
 
