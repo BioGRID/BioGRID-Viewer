@@ -11,3 +11,5 @@ path.highlight{stroke:#dc322f;stroke-opacity:.3;} /* red */
 
 #evidenceList text{text-anchor:end;font-size:55%;}
 text.all{font-size:75%!important;}
+
+.taxa{fill-opacity:.5}

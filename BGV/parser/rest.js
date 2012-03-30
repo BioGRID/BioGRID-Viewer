@@ -184,16 +184,6 @@ BGV.parser.rest={
       BGV.purge();
       alert("No edges loaded.");
       return;
-
-      // BGV.getEdges().concat(BGV.getNodes()).forEach(
-      // 	function(x){
-      // 	  d3.select(x.tag).remove();
-      // 	}
-      // );
-      // alert("No edges loaded.");
-      // BGV.edges={};
-      // BGV.nodes={};
-      // return;
     }
 
     BGV.updateElementsText('InteractionCount','pending');
