@@ -1,4 +1,17 @@
 BGV.parser.rest={
+  reload:function(){
+    var that=this;
+    var url=this.interactionsURL();
+    //console.log(url);
+
+    BGV.ajax(
+      url,function(t){
+	 that.parse(t);
+	 BGV.review(that._queryString.geneList);
+      }
+    );
+  },
+
   load:function(){
     var that=this;
 
@@ -41,7 +54,8 @@ BGV.parser.rest={
     var on='☒';
 
     // arrange the list
-    var elt=d3.select("#evidenceList").attr('transform','translate('+(window.innerWidth-4)+')');
+    var elt=d3.select("#evidenceList") // tag
+      .attr('transform','translate('+(window.innerWidth-4)+')');
     var lf=0; // line feed
     elt.selectAll('.lf')
       .attr(
@@ -71,7 +85,6 @@ BGV.parser.rest={
 
     var toggle=function(t){
       var tog=d3.select(t).select('tspan');
-
       if(isOn(tog)){
 	tog.text(off);
 	return off;
@@ -86,9 +99,13 @@ BGV.parser.rest={
       var all=0;
       elt.selectAll('.select text').each(
 	function(){
-	  all++;
-	  if(isOn(this)){
-	    el.push(this.textContent.replace(on,'').trim());
+	  var tag=d3.select(this);;
+
+	  if(!tag.classed('all')){
+	    all++;
+	    if(isOn(this)){
+	      el.push(tag.text().replace(on,'').trim());
+	    }
 	  }
 	}
       );
@@ -97,11 +114,12 @@ BGV.parser.rest={
 	delete that._queryString.includeEvidence;
 	delete that._queryString.evidenceList;
       }else{
-	that._queryString.includeEvidence=true;
-	that._queryString.evidenceList=el.join('|');
+	that._queryString.includeEvidence='true';
+	//that._queryString.evidenceList=escape(el.join('|'));
+	that._queryString.evidenceList=el;
       }
 
-      BGV.refresh();
+      BGV.reload();
     };
 
     // set up the toggle events
@@ -135,7 +153,13 @@ BGV.parser.rest={
   queryString:function(){
     var out=[];
     for(var k in this._queryString){
-      out.push(k+'='+this._queryString[k]);
+      out.push(
+	escape(k)+'='+escape(
+	  (null==this._queryString[k].join)?
+	    this._queryString[k]:
+      	    this._queryString[k].join('|')
+	)
+      );
     }
     return out.join('&');
   },
@@ -156,6 +180,7 @@ BGV.parser.rest={
     var lines=tsv.trim().split("\n");
     var l=lines.length;
 
+    BGV.updateElementsText('InteractionCount','pending');
     BGV.ajax(
       this.countURL(),function(t){
 	var c=l;
@@ -166,12 +191,35 @@ BGV.parser.rest={
       }
     );
 
+    var newNode={};
+    var newEdge={};
+
     while(lines.length>0){
       var line=lines.shift();
       var edge=BGV.addEdge(new this.edge(line.split("\t"),this));
       edge.source.addEdge(edge);
       edge.target.addEdge(edge);
+
+      newEdge[edge.id()]=true;
+      newNode[edge.source.id()]=true;
+      newNode[edge.target.id()]=true;
     }
+
+    var removeOldNodes=function(fresh,all){
+      for(var id in all){
+	if(true!=fresh[id]){
+	  d3.select(all[id].tag).remove();
+	  delete all[id];
+	}
+      }
+    };
+
+    removeOldNodes(newEdge,BGV.edges);
+    removeOldNodes(newNode,BGV.nodes);
+    BGV.cleanNodes();
+
+    //console.log
+    //('nodes:'+d3.keys(BGV.nodes).length,'edges:'+d3.keys(BGV.edges).length);
   },
 
 

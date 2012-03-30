@@ -5,6 +5,18 @@ BGV={
   nodes:{},
   edges:{},
 
+  cleanNodes:function(){
+    // remove edges that don't exist
+    for(var nId in this.nodes){
+      var node=this.nodes[nId];
+      for(var eId in node._edges){
+	if(undefined==this.edges[eId]){
+	  delete node._edges[eId];
+	}
+      }
+    }
+  },
+
   getEdges:function(){
     return d3.values(BGV.edges);
   },
@@ -73,11 +85,14 @@ BGV={
     this.e.InteractionCount=document.getElementsByClassName('InteractionCount');
     this.e.species=document.getElementsByClassName('species');
   },
+  reload:function(){
+    this.forEach('reload');
+  },
   view:function(pass){
     this.forEach('view',pass);
   },
-  refresh:function(){
-    this.forEach('refresh');
+  review:function(pass){
+    this.forEach('review',pass);
   },
   resize:function(){
     this.forEach('resize');
@@ -101,14 +116,29 @@ BGV={
 
   // like d3.text() but also works in IE9 for remote sites
   ajax:function(url,callback){
+    this.freeze();
     if('function'==typeof window.XDomainRequest){
       ajax=new window.XDomainRequest();
-      ajax.onload=function(){callback(this.responseText);};
+      ajax.onload=function(){callback(this.responseText);this.melt();};
       ajax.open('GET',url,true);
       ajax.send();
     }else{
-      d3.text(url,callback);
+      var that=this;
+      d3.text(url,function(rt){callback(rt);that.melt();});
     }
+  },
+
+  degree:0,
+  freeze:function(){
+    this.degree++;
+    console.log('freeze',this.degree);
+  },
+  melt:function(){
+    this.degree--;
+    console.log('melt',this.degree);
+  },
+  liquid:function(){
+    return this.degree==0;
   },
 
   taxa:{}

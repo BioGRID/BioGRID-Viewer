@@ -5,7 +5,10 @@ BGV.viewer.ring={
   padding:.6,
 
   cluster:function(match){
-    var tree={children:BGV.getNodes()};
+    var nodes=BGV.getNodes();
+    nodes.forEach(function(n){delete n.parent;delete n.children;});
+
+    var tree={children:nodes};
 
     var yn=BGV.yesNo(match);
     if(yn[0].length==1){
@@ -65,7 +68,6 @@ BGV.viewer.ring={
 	    {taxa:taxa,
 	     count:1,
 	     taxon:node.taxon()
-//	     color:node.color('#fdf6e3') // base3
 	    });
 	}else{
 	  last.count++;
@@ -82,7 +84,6 @@ BGV.viewer.ring={
       var rad=gap/2;
       groups.forEach(
 	function(group){
-
 	  group.startAngle=rad;
 	  group.endAngle=(rad+(group.count*slice))-gap;
 	  rad=group.endAngle;
@@ -94,11 +95,88 @@ BGV.viewer.ring={
     return groups;
   },
 
+  reload:function(){
+    // Though no actual reloading takes place here, we want to delete the
+    // ring durning reload as a visual sign as to what is going on.
+    this._speciesRing.remove();
+  },
+
+  review:function(match){
+    BGV.getNodes().forEach(
+      function(node){
+	delete node.x;
+	delete node.y;
+      }
+    );
+
+    var nodes=this.cluster(match);
+
+    var on=[]; // old nodes
+    var nn=[]; // new nodes
+
+    var oldNodes=[];
+    nodes.forEach(
+      function(node){
+	if(undefined==node.tag){
+	  nn.unshift(node);
+	}else{
+	  oldNodes.push(node.tag);
+	  on.push(node);
+	}
+      }
+    );
+
+    var oldEdges=[];
+    BGV.getEdges().forEach(
+      function(e){
+	if(undefined!=e.tag){
+	  oldEdges.push(e.tag);
+	}
+      }
+    );
+
+    // Move edges around
+    d3.selectAll(oldEdges)
+      .data(this.bundle(BGV.getEdges()))
+      .transition().duration(900)
+      .attr('d',this.getLine())
+    ;
+
+    // Move nodes around
+    d3.selectAll(oldNodes)
+      .data(nodes.filter(function(l){return !!l.tag;}))
+      .transition().duration(900)
+      .attr(
+	"transform",function(n){
+	  var out='';
+	  if(undefined==n.children){
+	    out='rotate('+((n.x*(360/Math.TAU))-90)+')';
+	  }
+	  return out+'translate('+n.y+')';
+	}
+      )
+    ;
+
+
+
+    //this._view(nodes);
+    //this._view(on.concat(nn));
+
+    var that=this;
+    setTimeout(function(){that._view(on.concat(nn));},900);
+
+
+  },
+
   view:function(match){
+    this._view(this.cluster(match));
+  },
+
+  _selected:null,
+  _view:function(nodes){
+    var that=this;
     var arcWidth=10;
     var arcWidthPad=arcWidth*1.5;
-    var selected=null;
-    var nodes=this.cluster(match);
 
     // draw the nodes
     this.ring.select(".nodes")
@@ -110,30 +188,32 @@ BGV.viewer.ring={
 	"transform",function(n){
 	  var out='';
 	  if(undefined==n.children){
-	    out="rotate("+((n.x*(360/Math.TAU))-90)+")";
+	    out='rotate('+((n.x*(360/Math.TAU))-90)+')';
 	  }
-	  return out+"translate("+n.y+")";
+	  out+='translate('+n.y+')';
+	  return out;
 	}
       )
       .append('text').text(function(n){return n.display();})
       .attr('transform','translate('+arcWidthPad+')')
-      .on('mouseover',function(n){if(null==selected){n.select();}})
-      .on('mouseout',function(n){if(null==selected){n.deselect();}})
+      .on('mouseover',function(n,i){if(null==that._selected){n.select();}})
+      .on('mouseout',function(n){if(null==that._selected){n.deselect();}})
       .on(
 	'click',function(n){
-	  if(null!=selected){
-	    selected.deselect();
+	  if(null!=that._selected){
+	    that._selected.deselect();
 	  }
-	  selected=n;
+	  that._selected=n;
 	  n.select();
 	}
       )
     ;
 
     document.onmousedown=function(e){
-      if((null!=selected)&&('svg'==e.target.nodeName)){
-	selected.deselect();
-	selected=null;
+      //console.log(selected,e.target.nodeName);
+      if((null!=that._selected)&&('svg'==e.target.nodeName)){
+	that._selected.deselect();
+	that._selected=null;
       }
     };
 
@@ -150,12 +230,12 @@ BGV.viewer.ring={
     // draw the species ring
     var groups=this.d3arcPrep(
       nodes
-      .filter(function(n){return !(n.children);})
+      .filter(function(n){return !n.children;})
       .sort(function(a,b){return a.x-b.x;})
     );
 
     var r=this.radius*this.padding;
-    this.ring.select(".taxa")
+    this._speciesRing=this.ring.select(".taxa")
       .selectAll(".taxon").data(groups)
       .enter().append('path').attr('class','taxon')
       .attr(
@@ -164,8 +244,8 @@ BGV.viewer.ring={
 	}
       )
       .attr('d',d3.svg.arc().innerRadius(r).outerRadius(r+arcWidth))
-      .on('mouseover',function(g){if(null==selected){g.taxon.select();}})
-      .on('mouseout',function(g){if(null==selected){g.taxon.deselect();}})
+      .on('mouseover',function(g){if(null==that._selected){g.taxon.select();}})
+      .on('mouseout',function(g){if(null==that._selected){g.taxon.deselect();}})
     ;
   }
 

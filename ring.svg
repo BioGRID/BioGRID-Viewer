@@ -11,7 +11,7 @@
 <g id="BGVring"><g class="edges"/><g class="taxa"/><g class="nodes"/></g>
 <g id="BGVinfo" transform="translate(5)">
 <text y="1em">BioGRID Version:<tspan class="BioGRIDVersion">?</tspan></text>
-<text y="2em">Total Interactions:<tspan class="InteractionCount">pending</tspan></text>
+<text y="2em">Total Interactions:<tspan class="InteractionCount">?</tspan></text>
 <text y="4em">Species: <tspan class="species"></tspan></text>
 <text y="5em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
 <text y="6em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
