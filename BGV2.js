@@ -128,14 +128,14 @@ BGV={
     }
   },
 
-  degree:0,
+  degree:0, // get colder as the number goes up
   freeze:function(){
     this.degree++;
-    console.log('freeze',this.degree);
+    //console.log('freeze',this.degree);
   },
   melt:function(){
     this.degree--;
-    console.log('melt',this.degree);
+    //console.log('melt',this.degree);
   },
   liquid:function(){
     return this.degree==0;

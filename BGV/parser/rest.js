@@ -180,6 +180,18 @@ BGV.parser.rest={
     var lines=tsv.trim().split("\n");
     var l=lines.length;
 
+    if((l==1)&&(lines[0].length==0)){
+      BGV.getEdges().concat(BGV.getNodes()).forEach(
+	function(x){
+	  d3.select(x.tag).remove();
+	}
+      );
+      alert("No edges loaded.");
+      BGV.edges={};
+      BGV.nodes={};
+      return;
+    }
+
     BGV.updateElementsText('InteractionCount','pending');
     BGV.ajax(
       this.countURL(),function(t){
