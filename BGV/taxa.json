@@ -92,6 +92,18 @@
   "species":"Bos taurus",
   "common":"cattle",
   "display":true
+ },{
+  "id":"10298",
+  "common":"Human herpesvirus 1",
+  "species":"Herpes simplex virus type 1"
+ },{
+  "id":"10376",
+  "common":"Human herpesvirus 4",
+  "species":"Epstein-Barr virus"
+ },{
+  "id":"11676",
+  "common":"HIV 1",
+  "species":"Human immunodeficiency virus 1"
  }
 ]
 
