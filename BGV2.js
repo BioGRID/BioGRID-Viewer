@@ -152,6 +152,7 @@ BGV={
   taxa:{}
 };
 
+BGV.freeze();
 d3.json(
   'BGV/taxa.json',function(json){
     var taxa=function(raw){
@@ -185,5 +186,6 @@ d3.json(
       }
     );
 
+    BGV.melt();
   }
 );

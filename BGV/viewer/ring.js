@@ -111,6 +111,7 @@ BGV.viewer.ring={
        	d3.select(x.tag).remove();
       }
     );
+    this._selected=null;
   },
 
 
@@ -227,6 +228,15 @@ BGV.viewer.ring={
       .attr('transform','translate('+arcWidthPad+')')
       .on('mouseover',function(n,i){if(null==that._selected){n.select();}})
       .on('mouseout',function(n){if(null==that._selected){n.deselect();}})
+      .on('dblclick',function(n){
+//	    n.deselect();
+	    // Terrible temporary hack
+	    BGV.parser.rest._queryString.geneList=n.data.OfficialSymbol;
+	    BGV.parser.rest._queryString.taxId=n.data.OrganismID;
+	    BGV.reload();
+//	    n.select();
+	  }
+	 )
       .on(
 	'click',function(n){
 	  if(null!=that._selected){
@@ -276,6 +286,10 @@ BGV.viewer.ring={
       .on('mouseover',function(g){if(null==that._selected){g.taxon.select();}})
       .on('mouseout',function(g){if(null==that._selected){g.taxon.deselect();}})
     ;
+
+    if(null!=this._selected){
+      this._selected.select();
+    }
   }
 
 

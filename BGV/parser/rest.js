@@ -2,7 +2,9 @@ BGV.parser.rest={
   reload:function(){
     var that=this;
     var url=this.interactionsURL();
-    //console.log(url);
+
+    BGV.updateElementsHref('restTab2',url);
+    BGV.updateElementsText('InteractionCount','pending');
 
     BGV.ajax(
       url,function(t){
@@ -10,6 +12,19 @@ BGV.parser.rest={
 	 BGV.review(that._queryString.geneList);
       }
     );
+  },
+
+  // try to get the primary node from the query string
+  qs2node:function(){
+    var nodes=BGV.getNodes();
+    for(var l=0;l<nodes.length;l++){
+      var node=nodes[l];
+      if(node.isTaxonId(this._queryString.taxId)&&
+	 node.match(this._queryString.geneList)){
+	return node;
+      }
+    }
+    return null;
   },
 
   load:function(){
@@ -28,8 +43,9 @@ BGV.parser.rest={
     );
 
     // fetch the data
+    var url=this.interactionsURL();
     BGV.ajax(
-      this.interactionsURL(),function(t){
+      url,function(t){
 	that.parse(t);
 	BGV.view(that._queryString.geneList);
       }
@@ -42,11 +58,12 @@ BGV.parser.rest={
 
     // for displaying data
     ["restNodeEntrez","restNodeBioGridId","restNodeSystematicName",
-     "restNodeOfficialSymbol","restNodeEdges"].forEach(
+     "restNodeOfficialSymbol","restNodeEdges","restTab2"].forEach(
        function(c){
 	 BGV.e[c]=document.getElementsByClassName(c);
        }
      );
+    BGV.updateElementsHref('restTab2',url);
 
     // // // //
     // evidence list stuff
@@ -186,7 +203,6 @@ BGV.parser.rest={
       return;
     }
 
-    BGV.updateElementsText('InteractionCount','pending');
     BGV.ajax(
       this.countURL(),function(t){
 	var c=l;
@@ -332,6 +348,10 @@ BGV.parser.rest.node.prototype={
   taxonId:function(){
     return this.data.OrganismID;
   },
+  isTaxonId:function(id){
+    return id==this.taxonId();
+  },
+
   taxon:function(){
     return BGV.taxa[this.data.OrganismID];
   },
