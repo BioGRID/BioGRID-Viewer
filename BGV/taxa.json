@@ -1,10 +1,17 @@
 [
  {
+  "id":"3055",
+  "species":"Chlamydomonas reinhardtii"
+ },{
   "id":"3702",
   "species":"Arabidopsis thaliana",
   "common":"thale cress",
   "color":"#9ACD32",
   "display":true
+ },{
+  "id":"4577",
+  "species":"Zea mays",
+  "common":"maize"
  },{
   "id":"4896",
   "species":"Schizosaccharomyces pombe",
@@ -101,9 +108,21 @@
   "common":"Human herpesvirus 4",
   "species":"Epstein-Barr virus"
  },{
+  "id":"11103",
+  "species":"Hepatitis C virus"
+ },{	
   "id":"11676",
   "common":"HIV 1",
   "species":"Human immunodeficiency virus 1"
+ },{	
+  "id":"36329",
+  "species":"Plasmodium falciparum 3D7"
+ },{
+  "id":"237561",
+  "species":"Candida albicans SC531",
+ },{	
+  "id":"224308",
+  "species":"Bacillus subtilis subsp. subtilis str. 168"
  }
 ]
 
