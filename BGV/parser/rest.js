@@ -1,5 +1,11 @@
 BGV.parser.rest={
-  reload:function(){
+  reload:function(node){
+
+    if(undefined!=node){
+      this._queryString.geneList=node.data.OfficialSymbol;
+      this._queryString.taxId=node.data.OrganismID;
+    }
+
     var that=this;
     var url=this.interactionsURL();
 

@@ -85,8 +85,8 @@ BGV={
     this.e.InteractionCount=document.getElementsByClassName('InteractionCount');
     this.e.species=document.getElementsByClassName('species');
   },
-  reload:function(){
-    this.forEach('reload');
+  reload:function(node){
+    this.forEach('reload',node);
   },
   view:function(node){
     this.forEach('view',node);
@@ -102,22 +102,6 @@ BGV={
     this.forEach('purge');
     BGV.nodes={};
     BGV.edges={};
-  },
-
-  // Returns an a array	of two lists.  The first element is everything that matched s,
-  // the second is everything that did not
-   yesNo:function(s){
-    var y=[];
-    var n=[];
-    for(var nID in BGV.nodes){
-      var node=BGV.nodes[nID];
-      if(node.match(s)){
-	y.push(node);
-      }else{
-	n.push(node);
-      }
-    }
-    return [y,n];
   },
 
   // like d3.text() but also works in IE9 for remote sites
@@ -147,6 +131,24 @@ BGV={
   liquid:function(){
     //console.log('liquid',this.degree);
     return this.degree==0;
+  },
+
+  _selected:null,
+  selected:function(){
+    return null!=this._selected;
+  },
+  deselect:function(){
+    var out=this._selected;
+    if(null!=out){
+      out.deselect();
+      this._selected=null;
+    }
+    return out;
+  },
+  select:function(node){
+    this.deselect();
+    this._selected=node;
+    return node;
   },
 
   taxa:{}

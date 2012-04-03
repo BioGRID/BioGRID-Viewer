@@ -110,7 +110,6 @@ BGV.viewer.ring={
        	d3.select(x.tag).remove();
       }
     );
-    this._selected=null;
   },
 
 
@@ -120,6 +119,7 @@ BGV.viewer.ring={
     this._speciesRing.remove();
   },
 
+  timeout:500,
   review:function(centerNode){
     // no animated transitions for IE :(
     if(navigator.userAgent.indexOf("Trident/5")>-1){
@@ -127,7 +127,6 @@ BGV.viewer.ring={
       this.view(centerNode);
       return;
     }
-
 
     BGV.getNodes().forEach(
       function(node){
@@ -165,14 +164,14 @@ BGV.viewer.ring={
     // Move edges around
     d3.selectAll(oldEdges)
       .data(this.bundle(BGV.getEdges()))
-      .transition().duration(900)
+      .transition().duration(this.timeout)
       .attr('d',this.getLine())
     ;
 
     // Move nodes around
     d3.selectAll(oldNodes)
       .data(nodes.filter(function(l){return !!l.tag;}))
-      .transition().duration(900)
+      .transition().duration(this.timeout)
       .attr(
 	"transform",function(n){
 	  var out='';
@@ -184,22 +183,14 @@ BGV.viewer.ring={
       )
     ;
 
-
-
-    //this._view(nodes);
-    //this._view(on.concat(nn));
-
     var that=this;
-    setTimeout(function(){that._view(on.concat(nn));},900);
-
-
+    setTimeout(function(){that._view(on.concat(nn));},this.timeout);
   },
 
   view:function(centerNode){
     this._view(this.cluster(centerNode));
   },
 
-  _selected:null,
   _view:function(nodes){
     var that=this;
     var arcWidth=10;
@@ -223,33 +214,15 @@ BGV.viewer.ring={
       )
       .append('text').text(function(n){return n.display();})
       .attr('transform','translate('+arcWidthPad+')')
-      .on('mouseover',function(n,i){if(null==that._selected){n.select();}})
-      .on('mouseout',function(n){if(null==that._selected){n.deselect();}})
-      .on('dblclick',function(n){
-//	    n.deselect();
-	    // Terrible temporary hack
-	    BGV.parser.rest._queryString.geneList=n.data.OfficialSymbol;
-	    BGV.parser.rest._queryString.taxId=n.data.OrganismID;
-	    BGV.reload();
-//	    n.select();
-	  }
-	 )
-      .on(
-	'click',function(n){
-	  if(null!=that._selected){
-	    that._selected.deselect();
-	  }
-	  that._selected=n;
-	  n.select();
-	}
-      )
+      .on('mouseover',function(n,i){if(!BGV.selected()){n.select();}})
+      .on('mouseout',function(n){if(!BGV.selected()){n.deselect();}})
+      .on('click',function(n){BGV.select(n).select();})
+      .on('dblclick',function(n){BGV.deselect();BGV.reload(n);})
     ;
 
     document.onmousedown=function(e){
-      //console.log(selected,e.target.nodeName);
-      if((null!=that._selected)&&('svg'==e.target.nodeName)){
-	that._selected.deselect();
-	that._selected=null;
+      if(BGV.selected()&&('svg'==e.target.nodeName)){
+	BGV.deselect();
       }
     };
 
@@ -280,13 +253,14 @@ BGV.viewer.ring={
 	}
       )
       .attr('d',d3.svg.arc().innerRadius(r).outerRadius(r+arcWidth))
-      .on('mouseover',function(g){if(null==that._selected){g.taxon.select();}})
-      .on('mouseout',function(g){if(null==that._selected){g.taxon.deselect();}})
+      .on('mouseover',function(g){if(!BGV.selected()){g.taxon.select();}})
+      .on('mouseout',function(g){if(!BGV.selected()){g.taxon.deselect();}})
     ;
 
     if(null!=this._selected){
       this._selected.select();
     }
+
   }
 
 
