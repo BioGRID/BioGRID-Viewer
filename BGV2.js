@@ -88,11 +88,11 @@ BGV={
   reload:function(){
     this.forEach('reload');
   },
-  view:function(pass){
-    this.forEach('view',pass);
+  view:function(node){
+    this.forEach('view',node);
   },
-  review:function(pass){
-    this.forEach('review',pass);
+  review:function(node){
+    this.forEach('review',node);
   },
   resize:function(){
     this.forEach('resize');

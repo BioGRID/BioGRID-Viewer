@@ -4,18 +4,17 @@ BGV.viewer.ring={
   radius:(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2),
   padding:.6,
 
-  cluster:function(match){
+  cluster:function(centerNode){
     var nodes=BGV.getNodes();
     nodes.forEach(function(n){delete n.parent;delete n.children;});
 
-    var tree={children:nodes};
-
-    var yn=BGV.yesNo(match);
-    if(yn[0].length==1){
-      yn[0][0].children=yn[1];
-      tree=yn[0][0];
+    var tree;
+    if(null==centerNode){
+      tree={children:nodes};
+    }else{
+      centerNode.children=nodes.filter(function(n){return n!=centerNode;});
+      tree=centerNode;
     }
-
 
     var out=d3.layout.cluster()
       .size([Math.TAU,this.radius*this.padding])
@@ -121,16 +120,15 @@ BGV.viewer.ring={
     this._speciesRing.remove();
   },
 
-  review:function(match){
+  review:function(centerNode){
     // no animated transitions for IE :(
     if(navigator.userAgent.indexOf("Trident/5")>-1){
       this.purge();
-      this.view(match);
+      this.view(centerNode);
       return;
     }
 
 
-    this.match=match;
     BGV.getNodes().forEach(
       function(node){
 	delete node.x;
@@ -138,7 +136,7 @@ BGV.viewer.ring={
       }
     );
 
-    var nodes=this.cluster(match);
+    var nodes=this.cluster(centerNode);
 
     var on=[]; // old nodes
     var nn=[]; // new nodes
@@ -197,9 +195,8 @@ BGV.viewer.ring={
 
   },
 
-  view:function(match){
-    this.match=match;
-    this._view(this.cluster(match));
+  view:function(centerNode){
+    this._view(this.cluster(centerNode));
   },
 
   _selected:null,

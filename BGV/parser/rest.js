@@ -8,8 +8,8 @@ BGV.parser.rest={
 
     BGV.ajax(
       url,function(t){
-	 that.parse(t);
-	 BGV.review(that._queryString.geneList);
+	that.parse(t);
+	BGV.review(that.qs2node());
       }
     );
   },
@@ -47,7 +47,7 @@ BGV.parser.rest={
     BGV.ajax(
       url,function(t){
 	that.parse(t);
-	BGV.view(that._queryString.geneList);
+	BGV.view(that.qs2node());
       }
     );
 
