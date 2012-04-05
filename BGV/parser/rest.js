@@ -14,8 +14,10 @@ BGV.parser.rest={
 
     BGV.ajax(
       url,function(t){
-	that.parse(t);
-	BGV.review(that.qs2node());
+	if(that.parse(t)){
+	  // can't check qs2node until after we parsed
+	  BGV.review((undefined==node)?that.qs2node():node);
+	}
       }
     );
   },
@@ -118,6 +120,8 @@ BGV.parser.rest={
 
     // oh, oh, something changed, go!
     var go=function(){
+      BGV.freeze();
+
       var el=[];
       var all=0;
       elt.selectAll('.select text').each(
@@ -143,6 +147,7 @@ BGV.parser.rest={
       }
 
       BGV.reload();
+      BGV.melt();
     };
 
     // set up the toggle events
@@ -206,7 +211,7 @@ BGV.parser.rest={
     if((l==1)&&(lines[0].length==0)){
       BGV.purge();
       alert("No edges loaded.");
-      return;
+      return false;
     }
 
     BGV.ajax(
@@ -248,6 +253,8 @@ BGV.parser.rest={
 
     //console.log
     //('nodes:'+d3.keys(BGV.nodes).length,'edges:'+d3.keys(BGV.edges).length);
+
+    return true;
   },
 
 

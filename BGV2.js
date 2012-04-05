@@ -85,8 +85,27 @@ BGV={
     this.e.InteractionCount=document.getElementsByClassName('InteractionCount');
     this.e.species=document.getElementsByClassName('species');
   },
+
+  _reload:null, // store intervalID if volatile
+  // Reload, likely now different data.  If we are doing something
+  // volatile will try again ever half second until we are done.
+  // Returns true if we did it or false if we are waiting to do it.
   reload:function(node){
-    this.forEach('reload',node);
+    if(this.liquid()){
+      this.forEach('reload',node);
+      return true;
+    }else if(null==this._reload){
+      var that=this;
+      this._reload=setInterval(
+	function(){
+	  if(that.reload(node)){
+	    clearInterval(that._reload);
+	    that._reload=null;
+	  }
+	},500
+      );
+    }
+    return false;
   },
   view:function(node){
     this.forEach('view',node);
@@ -120,14 +139,20 @@ BGV={
   },
 
   degree:0, // get colder as the number goes up
+
+  // start doing something volatile
   freeze:function(){
     this.degree++;
     //console.log('freeze',this.degree);
   },
+
+  // finished doing something volatile
   melt:function(){
     this.degree--;
     //console.log('melt',this.degree);
   },
+
+  // are we doing something volatile?
   liquid:function(){
     //console.log('liquid',this.degree);
     return this.degree==0;
