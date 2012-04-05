@@ -66,7 +66,7 @@ BGV.holdMe.rest=function(){
 
     BGV.updateElement('lastCount','pending');
     BGV.updateElement('lastSVGLink',{href:'force.svg?'+qs});
-    BGV.updateElement('lastBundleLink',{href:'bundle.svg?'+qs});
+    BGV.updateElement('lastBundleLink',{href:'ring.svg?'+qs});
     BGV.updateElement('lastRESTLink',{href:url});
 
     // i==0 means A, i==1 B
