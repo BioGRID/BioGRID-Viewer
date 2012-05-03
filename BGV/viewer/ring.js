@@ -116,7 +116,9 @@ BGV.viewer.ring={
   reload:function(){
     // Though no actual reloading takes place here, we want to delete the
     // ring durning reload as a visual sign as to what is going on.
-    this._speciesRing.remove();
+    if(undefined!=this._speciesRing){
+      this._speciesRing.remove();
+    }
   },
 
   timeout:500,
