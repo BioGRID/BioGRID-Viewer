@@ -1,5 +1,6 @@
 * Config
-Copy config.json-template to config.json and edit it to suit your needs.
+Copy config.json-template to config.json and edit it to suit your
+needs.  The Princeton REST server is of mixed stabalility.
 
 * Depends
 

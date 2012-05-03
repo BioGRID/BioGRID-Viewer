@@ -38,11 +38,21 @@ BGV.parser.rest={
   load:function(){
     var that=this;
 
+    // set QUERY_STRING defaults
+    var qsd=BGV.config('rest','queryStringDefaults');
+    for(var k in qsd){
+      var v=qsd[k];
+      if('boolean'==typeof v){
+	BGV.form.setToggle('REST'+k,v);
+	v=v?"TRUE":"FALSE";
+      }
+      this._queryString[k]=v;
+    }
+
     // parse the QUERY_STRING
     window.location.href.split('?',2)[1].split('&').forEach(
       function(attr){
 	var skip=['enableCaching','format'];
-
 	var kv=attr.split('=',2);
 	if(-1==skip.indexOf(kv[0])){
 	  that._queryString[kv[0]]=kv[1];

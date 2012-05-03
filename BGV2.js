@@ -216,3 +216,29 @@ d3.json(
     BGV.melt();
   }
 );
+
+// in the futurue all for either SVG or HTML, for now just SVG.
+BGV.form=new function(){
+  var off='☐';
+  var on='☒';
+
+  this.setToggle=function(id,bool){
+    var tag=document.getElementById(id);
+    if(null==tag){
+      return;
+    }
+    var tog=tag.getElementsByTagName('tspan')[0];
+    tog.textContent=bool?on:off;
+    tag.onclick=function(){
+      var b;
+      if(tog.textContent==on){
+	tog.textContent=off;
+	b=false;
+      }else{
+	tog.textContent=on;
+	b=true;
+      }
+    }
+  }
+
+}();
