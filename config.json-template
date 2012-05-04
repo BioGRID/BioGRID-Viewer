@@ -4,10 +4,10 @@
   "url":"http://biogridrest.princeton.edu:8080/BiogridRestService/",
   "queryStringDefaults":
   {
-   "interSpeciesExcluded":["FALSE","TRUE"],
-   "selfInteractionsExcluded":["FALSE","TRUE"],
-   "includeInteractors":["TRUE","FALSE"],
-   "includeInteractorInteractions":["TRUE","FALSE"],
+   "interSpeciesExcluded":false,
+   "selfInteractionsExcluded":false,
+   "includeInteractors":true,
+   "includeInteractorInteractions":true,
    "throughputTag":"any",
    "taxId":4932
   }
