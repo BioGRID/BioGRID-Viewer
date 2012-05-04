@@ -38,12 +38,22 @@ BGV.parser.rest={
   load:function(){
     var that=this;
 
+    var go=function(bool,key){
+      BGV.freeze();
+      that._queryString[key]=bool;
+      BGV.reload();
+      BGV.melt();
+    };
+
+
+
     // set QUERY_STRING defaults
     var qsd=BGV.config('rest','queryStringDefaults');
     for(var k in qsd){
+
       var v=qsd[k];
       if('boolean'==typeof v){
-	BGV.form.setToggle('REST'+k,v);
+	BGV.form.setToggle('REST'+k,v,go,k);
 	v=v?"TRUE":"FALSE";
       }
       this._queryString[k]=v;

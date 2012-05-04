@@ -222,7 +222,7 @@ BGV.form=new function(){
   var off='☐';
   var on='☒';
 
-  this.setToggle=function(id,bool){
+  this.setToggle=function(id,bool,action,pass){
     var tag=document.getElementById(id);
     if(null==tag){
       return;
@@ -238,6 +238,7 @@ BGV.form=new function(){
 	tog.textContent=on;
 	b=true;
       }
+      action(b?"TRUE":"FALSE",pass);
     }
   }
 
