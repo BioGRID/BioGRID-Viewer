@@ -223,6 +223,7 @@ BGV.viewer.ring={
       .on('mouseout',function(n){if(!BGV.selected()){n.deselect();}})
       .on('click',function(n){BGV.select(n).select();})
       .on('dblclick',function(n){BGV.deselect();BGV.reload(n);})
+      .on('touchmove',function(n){BGV.deselect();BGV.reload(n);}) // for iPads
     ;
 
     document.onmousedown=function(e){
