@@ -39,10 +39,10 @@ BGV.parser.rest={
     var that=this;
 
     var go=function(bool,key){
-      BGV.freeze();
+      BGV.freeze('rest_load');
       that._queryString[key]=bool;
       BGV.reload();
-      BGV.melt();
+      BGV.melt('rest_load');
     };
 
 
@@ -140,7 +140,7 @@ BGV.parser.rest={
 
     // oh, oh, something changed, go!
     var go=function(){
-      BGV.freeze();
+      BGV.freeze('rent_go');
 
       var el=[];
       var all=0;
@@ -167,7 +167,7 @@ BGV.parser.rest={
       }
 
       BGV.reload();
-      BGV.melt();
+      BGV.melt('rest_go');
     };
 
     // set up the toggle events

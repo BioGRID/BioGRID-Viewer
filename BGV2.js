@@ -91,6 +91,8 @@ BGV={
   // volatile will try again ever half second until we are done.
   // Returns true if we did it or false if we are waiting to do it.
   reload:function(node){
+//    console.log(this._reload);
+
     if(this.liquid()){
       this.forEach('reload',node);
       return true;
@@ -126,35 +128,35 @@ BGV={
   // like d3.text() but also works in IE9 for remote sites
   ajax:function(url,callback){
     var that=this;
-    this.freeze();
+    this.freeze('ajax');
     if('function'==typeof window.XDomainRequest){
       ajax=new window.XDomainRequest();
-      ajax.onload=function(){callback(this.responseText);that.melt();};
+      ajax.onload=function(){callback(this.responseText);that.melt('ajax function');};
       ajax.open('GET',url,true);
       ajax.send();
     }else{
       var that=this;
-      d3.text(url,function(rt){callback(rt);that.melt();});
+      d3.text(url,function(rt){callback(rt);that.melt('ajax else');});
     }
   },
 
   degree:0, // get colder as the number goes up
 
   // start doing something volatile
-  freeze:function(){
+  freeze:function(dbg){
     this.degree++;
-    //console.log('freeze',this.degree);
+    //console.log('freeze '+this.degree+' '+dbg);
   },
 
   // finished doing something volatile
-  melt:function(){
+  melt:function(dbg){
     this.degree--;
-    //console.log('melt',this.degree);
+    //console.log('melt '+this.degree+' '+dbg);
   },
 
   // are we doing something volatile?
   liquid:function(){
-    //console.log('liquid',this.degree);
+    //console.log('liquid '+this.degree);
     return this.degree==0;
   },
 
@@ -179,7 +181,7 @@ BGV={
   taxa:{}
 };
 
-BGV.freeze();
+BGV.freeze('loading');
 d3.json(
   'BGV/taxa.json',function(json){
     var taxa=function(raw){
@@ -213,7 +215,7 @@ d3.json(
       }
     );
 
-    BGV.melt();
+    BGV.melt('loading');
   }
 );
 

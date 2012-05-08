@@ -123,7 +123,6 @@ BGV.viewer.ring={
 
   timeout:500,
   review:function(centerNode){
-    BGV.freeze();
 
     // no animated transitions for IE :(
     if(navigator.userAgent.indexOf("Trident/5")>-1){
@@ -132,6 +131,7 @@ BGV.viewer.ring={
       return;
     }
 
+    BGV.freeze('review');
     BGV.getNodes().forEach(
       function(node){
 	delete node.x;
@@ -192,7 +192,7 @@ BGV.viewer.ring={
   },
 
   view:function(centerNode){
-    BGV.freeze();
+    BGV.freeze('view');
     this._view(this.cluster(centerNode));
   },
 
@@ -266,7 +266,7 @@ BGV.viewer.ring={
       this._selected.select();
     }
 
-    BGV.melt(); // matches both view and review freeze
+    BGV.melt('_view'); // matches both view and review freeze
   }
 
 
