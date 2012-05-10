@@ -46,7 +46,6 @@ BGV.parser.rest={
     };
 
 
-
     // set QUERY_STRING defaults
     var qsd=BGV.config('rest','queryStringDefaults');
     for(var k in qsd){
@@ -55,6 +54,9 @@ BGV.parser.rest={
       if('boolean'==typeof v){
 	BGV.form.setToggle('REST'+k,v,go,k);
 	v=v?"TRUE":"FALSE";
+      }else if(v instanceof Array){
+	BGV.form.setCycle('REST'+k,v,go,k);
+	v=v[0];
       }
       this._queryString[k]=v;
     }

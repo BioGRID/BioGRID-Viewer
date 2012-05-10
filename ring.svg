@@ -18,9 +18,10 @@
 <text y="7em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
 <text y="8em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
 <text y="9em">Interactions: <tspan class="restNodeEdges"></tspan></text>
-<text y="11em" id="RESTinterSpeciesExcluded"><tspan>☒</tspan>&#x00A0;Exclude Intersperses Interactions</text>
-<text y="12em" id="RESTselfInteractionsExcluded"><tspan>☒</tspan>&#x00A0;Exclude Self Interaction</text>
-<text y="13em" id="RESTincludeInteractorInteractions"><tspan>☒</tspan>&#x00A0;Include Interactor Interactions</text>
+<text y="11em" id="RESTthroughputTag">Throughput Tag: <tspan></tspan></text>
+<text y="12em" id="RESTinterSpeciesExcluded"><tspan>☒</tspan>&#x00A0;Exclude Intersperses Interactions</text>
+<text y="13em" id="RESTselfInteractionsExcluded"><tspan>☒</tspan>&#x00A0;Exclude Self Interaction</text>
+<text y="14em" id="RESTincludeInteractorInteractions"><tspan>☒</tspan>&#x00A0;Include Interactor Interactions</text>
 </g>
 
 <g id="evidenceList">

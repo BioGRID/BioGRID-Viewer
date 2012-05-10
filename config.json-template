@@ -8,7 +8,7 @@
    "selfInteractionsExcluded":false,
    "includeInteractors":true,
    "includeInteractorInteractions":true,
-   "throughputTag":"any",
+   "throughputTag":["any","low","high"],
    "taxId":4932
   }
  }

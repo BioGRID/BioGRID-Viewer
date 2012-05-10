@@ -244,4 +244,28 @@ BGV.form=new function(){
     }
   }
 
+  var cycles={};
+  this.setCycle=function(id,cycle,action,pass){
+    var tag=document.getElementById(id);
+    if(null==tag){
+      return;
+    }
+    cycles[id]=cycle;
+    var tog=tag.getElementsByTagName('tspan')[0];
+    tog.textContent=cycle[0];
+    tag.onclick=function(){
+      var c=cycles[this.getAttribute('id')];
+      var t=this.getElementsByTagName('tspan')[0];
+      var i=c.indexOf(t.textContent);
+      if((i==-1) || ((c.length-1)==i)){
+	i=0;
+      }else{
+	i++;
+      }
+      t.textContent=c[i];
+      action(c[i],pass);
+    }
+
+  }
+
 }();
