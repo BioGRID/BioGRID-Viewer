@@ -1,6 +1,6 @@
 Math.TAU=2*Math.PI;
 
-BGV.viewer.ring={
+BGV.plugin.ring={
   radius:(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2),
   padding:.6,
 

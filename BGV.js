@@ -1,6 +1,5 @@
 BGV={
-  viewer:{},
-  parser:{},
+  plugin:{},
 
   nodes:{},
   edges:{},
@@ -44,7 +43,7 @@ BGV={
 
   // get a list of plugins
   plugins:function(){
-    return d3.values(this.viewer).concat(d3.values(this.parser));
+    return d3.values(this.plugin);
   },
 
   forEach:function(func,pass){

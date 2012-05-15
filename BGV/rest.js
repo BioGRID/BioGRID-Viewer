@@ -1,4 +1,4 @@
-BGV.parser.rest={
+BGV.plugin.rest={
   reload:function(node){
 
     if(undefined!=node){
@@ -321,7 +321,7 @@ BGV.parser.rest={
 
 };
 
-BGV.parser.rest.edge.prototype={
+BGV.plugin.rest.edge.prototype={
   id:function(){
     return this.SourceDatabase+this.BioGRIDInteractionID;
   },
@@ -330,7 +330,7 @@ BGV.parser.rest.edge.prototype={
     return c.join(' ');
   }
 };
-BGV.parser.rest.node.prototype={
+BGV.plugin.rest.node.prototype={
   id:function(){
     return this.data.BioGridId;
   },
