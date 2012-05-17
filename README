@@ -4,17 +4,17 @@ needs.  The Princeton REST server is of mixed stabalility.
 
 * Depends
 
-** jQuery >= 1.7
-Needed for the HTML5 interface but not from the SVG. jQuery 1.6.x will
-work, but will possition some things incorrectly.
-
 ** d3.js
-From http://mbostock.github.com/d3/
+From http://mbostock.github.com/d3/ page.  d3.v2.min.js should be in
+the parent directory of BioGRID-Viewer.
 
 * Browsers
 
 ** Chrome
-Developed in Chrome.
+Developed in Chrome on Debian.
+
+*** Android
+Unicode BALLOT BOXes don't seem to render in the android emulator.
 
 ** Safari
 *** Mac OS X
@@ -24,4 +24,3 @@ Only tested in Apple's iOS simulator.
 ** Firefox >= 4
 
 ** IE9
-
