@@ -218,53 +218,5 @@ d3.json(
   }
 );
 
-// in the futurue all for either SVG or HTML, for now just SVG.
-BGV.form=new function(){
-  var off='☐';
-  var on='☒';
 
-  this.setToggle=function(id,bool,action,pass){
-    var tag=document.getElementById(id);
-    if(null==tag){
-      return;
-    }
-    var tog=tag.getElementsByTagName('tspan')[0];
-    tog.textContent=bool?on:off;
-    tag.onclick=function(){
-      var b;
-      if(tog.textContent==on){
-	tog.textContent=off;
-	b=false;
-      }else{
-	tog.textContent=on;
-	b=true;
-      }
-      action(b?"TRUE":"FALSE",pass);
-    }
-  }
-
-  var cycles={};
-  this.setCycle=function(id,cycle,action,pass){
-    var tag=document.getElementById(id);
-    if(null==tag){
-      return;
-    }
-    cycles[id]=cycle;
-    var tog=tag.getElementsByTagName('tspan')[0];
-    tog.textContent=cycle[0];
-    tag.onclick=function(){
-      var c=cycles[this.getAttribute('id')];
-      var t=this.getElementsByTagName('tspan')[0];
-      var i=c.indexOf(t.textContent);
-      if((i==-1) || ((c.length-1)==i)){
-	i=0;
-      }else{
-	i++;
-      }
-      t.textContent=c[i];
-      action(c[i],pass);
-    }
-
-  }
-
-}();
+// BGV.form is reserved

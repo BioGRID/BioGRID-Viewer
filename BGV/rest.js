@@ -35,6 +35,28 @@ BGV.plugin.rest={
     return null;
   },
 
+  // return _queryString suitable for SVGform input
+  formDefaults:function(){
+    var e='Excluded';
+    var out={};
+
+    for(var id in this._queryString){
+      var V=this._queryString[id];
+      var v=V.toLowerCase();
+
+      if(id.substr(e.length)==e){
+	V=!(v=='true')
+      }else if(v=='true'){
+	V=true;
+      }else if(v=='false'){
+	V=false;
+      }
+      out[id]=V;
+    }
+
+    return out;
+  },
+
   load:function(){
     var that=this;
 
@@ -47,19 +69,7 @@ BGV.plugin.rest={
 
 
     // set QUERY_STRING defaults
-    var qsd=BGV.config('rest','queryStringDefaults');
-    for(var k in qsd){
-
-      var v=qsd[k];
-      if('boolean'==typeof v){
-	BGV.form.setToggle('REST'+k,v,go,k);
-	v=v?"TRUE":"FALSE";
-      }else if(v instanceof Array){
-	BGV.form.setCycle('REST'+k,v,go,k);
-	v=v[0];
-      }
-      this._queryString[k]=v;
-    }
+    this._queryString=BGV.config('rest','queryStringDefaults');
 
     // parse the QUERY_STRING
     window.location.href.split('?',2)[1].split('&').forEach(
@@ -71,6 +81,10 @@ BGV.plugin.rest={
 	}
       }
     );
+
+    // load from
+    var form=new BGV.form('REST',this.formDefaults());
+    console.log(form.values());
 
     // fetch the data
     var url=this.interactionsURL();

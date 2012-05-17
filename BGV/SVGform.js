@@ -16,7 +16,7 @@ BGV.form=function(prefix,defaults){
 	  var b=buttons[j];
 	  var t=b.textContent.trim();
 	  // for now just assume the frist character is the toggle
-	  if(t[0]==this._on){
+	  if(t[0]==this._true){
 	    this.set(r,t.substring(1));
 	  }
 	}
@@ -28,20 +28,42 @@ BGV.form=function(prefix,defaults){
 	  var b=buttons[j];
 	  var t=b.textContent.trim().substring(1);
 	  if(t.toLowerCase()==def){
-	    b.textContent=this._on + t;
+	    b.textContent=this._true+t;
 	  }else{
-	    b.textContent=this._off + t;
+	    b.textContent=this._false+t;
 	  }
 	}
       }
 
     }
   }
+  
+  // look for check boxes
+  var checkbox=document.getElementsByClassName('formCheckbox');
+  for(var i=0;i<checkbox.length;i++){
+    var c=checkbox[i];
+
+    if(this.ours(c)){
+      var name=this.name(c);
+      if(undefined==defaults[name]){
+	// assume the first letter is the checkbox
+	this.set(c,c.textContent.trim()[0]==this._true);
+      }else{
+	var v=c.textContent.trim().substring(1);
+	if(defaults[name]){
+	  c.textContent=this._true + v;
+	}else{
+	  c.textContent=this._false + v;
+	}
+      }
+    }
+  }
+
 }
 
 BGV.form.prototype={
-  _on:'☒',
-  _off:'☐',
+  _true:'☒',
+  _false:'☐',
   _dil:'-', // delimiter
 
   name:function(tag){
@@ -62,5 +84,10 @@ BGV.form.prototype={
     }
     return false;
   },
+
+  
+  values:function(){
+    return this._v;
+  }
 
 };
