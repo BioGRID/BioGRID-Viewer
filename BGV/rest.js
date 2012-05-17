@@ -76,7 +76,7 @@ BGV.plugin.rest={
     // set QUERY_STRING defaults from config
     this._queryString=BGV.config('rest','queryStringDefaults');
 
-    // parse the QUERY_STRINGconso
+    // parse the QUERY_STRING
     window.location.href.split('?',2)[1].split('&').forEach(
       function(attr){
 	var skip=['enableCaching','format'];
@@ -105,6 +105,8 @@ BGV.plugin.rest={
 	  }else{
 	    that._queryString[id]=this._v[id]?"TRUE":"FALSE";
 	  }
+	}else{
+	  that._queryString[id]=this._v[id].toLowerCase();
 	}
       }
 

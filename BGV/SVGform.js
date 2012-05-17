@@ -33,6 +33,30 @@ BGV.form=function(prefix,defaults,go){
 	  }
 	}
       }
+
+      // make it clickable
+      var that=this;
+      for(var j=0;j<buttons.length;j++){
+	var b=buttons[j];
+	b.onclick=function(){
+	  if(that.isChecked(this)){
+	    // if we are checked, do nothing
+	    return;
+	  }
+	  for(var k=0;k<buttons.length;k++){
+	    var bk=buttons[k];
+	    if(that.isChecked(bk)){
+	      that.toggle(bk);
+	    }else if(this==bk){
+	      that.toggle(bk);
+	      that.set(r,bk.textContent.trim().substring(1));
+	      go(that);
+	    }
+
+	  }
+	}
+      }
+
     }
   }
   
@@ -76,7 +100,7 @@ BGV.form.prototype={
     return tag.textContent.trim()[0]==this._true;
   },
 
-  // Toggle a box, and return the status it was goggled to
+  // Toggle a box, and return the status it was toggled to
   toggle:function(tag){
     var txt=tag.textContent.trim().substring(1);
     if(this.isChecked(tag)){
