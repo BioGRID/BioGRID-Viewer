@@ -35,16 +35,21 @@ BGV.plugin.rest={
     return null;
   },
 
+  // return true if should be negated
+  exclude:function(id){
+    var e='Excluded';
+    return (id.substr(-e.length)==e);
+  },
+
   // return _queryString suitable for SVGform input
   formDefaults:function(){
-    var e='Excluded';
     var out={};
 
     for(var id in this._queryString){
       var V=this._queryString[id];
       var v=V.toLowerCase();
 
-      if(id.substr(e.length)==e){
+      if(this.exclude(id)){
 	V=!(v=='true')
       }else if(v=='true'){
 	V=true;
@@ -68,10 +73,10 @@ BGV.plugin.rest={
     };
 
 
-    // set QUERY_STRING defaults
+    // set QUERY_STRING defaults from config
     this._queryString=BGV.config('rest','queryStringDefaults');
 
-    // parse the QUERY_STRING
+    // parse the QUERY_STRINGconso
     window.location.href.split('?',2)[1].split('&').forEach(
       function(attr){
 	var skip=['enableCaching','format'];
@@ -82,9 +87,25 @@ BGV.plugin.rest={
       }
     );
 
-    // load from
+
+    // Read values set in the document, also sit it if we already have
+    // a value.
     var form=new BGV.form('REST',this.formDefaults());
-    console.log(form.values());
+    form.values=function(){
+      for(var id in this._v){
+
+	if('boolean'==typeof this._v[id]){
+	  if(that.exclude(id)){
+	    that._queryString[id]=this._v[id]?"FALSE":"TRUE";
+	  }else{
+	    that._queryString[id]=this._v[id]?"TRUE":"FALSE";
+	  }
+	}
+      }
+
+      return this._v;
+    }
+    form.values();
 
     // fetch the data
     var url=this.interactionsURL();

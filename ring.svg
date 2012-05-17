@@ -22,7 +22,7 @@
 <text y="11em" id="REST-throughputTag" class="formRadio">Throughput: <tspan>☒Any</tspan> <tspan>☐High</tspan> <tspan>☐Low</tspan></text>
 <text y="12em" id="REST-interSpeciesExcluded" class="formCheckbox">☒ Include Intersperses Interactions</text>
 <text y="13em" id="REST-selfInteractionsExcluded" class="formCheckbox">☒ Include Self Interaction</text>
-<text y="14em" id="REST-includeInteractorInteractions" class="formCheckbox">☐ Include Interactor Interactions</text>
+<text y="14em" id="REST-includeInteractorInteractions" class="formCheckbox">☒ Include Interactor Interactions</text>
 </g>
 
 <g id="evidenceList">
