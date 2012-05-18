@@ -22,13 +22,17 @@ BGV.plugin.rest={
     );
   },
 
+  // Guess what the species ID might be
+  taxId:function(){
+    return this._queryString.taxId||this._queryString.geneTaxIdList;
+  },
+
   // try to get the primary node from the query string
   qs2node:function(){
     var nodes=BGV.getNodes();
     for(var l=0;l<nodes.length;l++){
       var node=nodes[l];
-      if(node.isTaxonId(this._queryString.taxId)&&
-	 node.match(this._queryString.geneList)){
+      if(node.isTaxonId(this.taxId())&&node.match(this._queryString.geneList)){
 	return node;
       }
     }
