@@ -177,6 +177,15 @@ BGV={
     return node;
   },
 
+  // silly function to clone an object
+  clone:function(obj){
+    var out={};
+    for(var k in obj){
+      out[k]=obj[k];
+    }
+    return out;
+  },
+
   taxa:{}
 };
 

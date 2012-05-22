@@ -1,5 +1,10 @@
 BGV.plugin.rest={
+
+  _history:[],
   reload:function(node){
+
+    this._history.push(BGV.clone(this._queryString));
+    console.log(this._history);
 
     if(undefined!=node){
       this._queryString.geneList=node.data.OfficialSymbol;
