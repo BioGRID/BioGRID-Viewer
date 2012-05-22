@@ -100,11 +100,12 @@ BGV.plugin.rest={
     // Read values set in the document, also sit it if we already have
     // a value.
     var form=new BGV.form(
-      'REST',this.formDefaults(),function(f){
+      'REST',function(f){
 	f.values();
 	BGV.reload();
       }
     );
+    form.setForm(this.formDefaults());
     form.values=function(){
       for(var id in this._v){
 

@@ -1,12 +1,14 @@
-BGV.form=function(prefix,defaults,go){
+BGV.form=function(prefix,go){
   this.prefix=prefix; // kinda like the form name
   this._v={};
 
   // look for radio buttons
+  this.radio=[];
   var tags=document.getElementsByClassName('formRadio');
   for(var i=0;i<tags.length;i++){
     var rb=tags[i];
     if(this.ours(rb)){
+      this.radio.push(rb);
       var name=this.name(rb);
       var radio=[];
       for(var n=rb.firstChild;n!=null;n=n.nextSibling){
@@ -26,13 +28,14 @@ BGV.form=function(prefix,defaults,go){
 	return out.trim();
       }
 
-      if(undefined==defaults[name]){
+//      if(undefined==defaults[name]){
 	for(var j=0;j<radio.length;j++){
 	  var b=radio[j].getElementsByTagName('tspan')[0];
 	  if(this.isChecked(b)){
 	    this.set(rb,value(radio[j]));
 	  }
 	}
+/*
       }else{
 	// change the SVG to reflecta  given default
 	var def=defaults[name].trim().toLowerCase();	
@@ -45,6 +48,7 @@ BGV.form=function(prefix,defaults,go){
 	  }
 	}
       }
+*/
 
 
       // make it clickable
@@ -73,21 +77,26 @@ BGV.form=function(prefix,defaults,go){
 
   
   // look for check boxes
+  this.checkbox=[];
   var tags=document.getElementsByClassName('formCheckbox');
   for(var i=0;i<tags.length;i++){
     var cb=tags[i];
 
     if(this.ours(cb)){
+      this.checkbox.push(cb);
       var name=this.name(cb);
       var tog=cb.getElementsByTagName('tspan')[0];
 
-      if(undefined==defaults[name]){
+//      if(undefined==defaults[name]){
 	// record SVG says is set
 	this.set(cb,this.isChecked(tog));
+
+/*
       }else{
 	// set the value from the default
 	tog.textContent=defaults[name]?this._true:this._false;
       }
+*/
 
       // make it clickable
       var that=this;
@@ -106,6 +115,45 @@ BGV.form.prototype={
   _true:'☒',
   _false:'☐',
   _dil:'-', // delimiter
+
+
+  // change the SVG to reflecta given values
+  setForm:function(from){
+    var that=this;
+//    console.log(from,this);
+
+    this.radio.forEach(
+      function(r){
+
+	for(var b=r.firstChild;null!=b;b=b.nextSibling){
+	  if('tspan'==b.nodeName){
+	    console.log(b);
+	    // sven
+	  }
+	}
+
+
+      }
+    );
+
+
+/*
+    var def=defaults[name].trim().toLowerCase();	
+	for(var j=0;j<radio.length;j++){
+	  var b=radio[j].getElementsByTagName('tspan')[0];
+	  if(value(radio[j]).toLowerCase()==def){
+	    b.textContent=this._true;
+	  }else{
+	    b.textContent=this._false;
+	  }
+	}
+      }
+*/
+
+    
+
+//    this._v.selfInteractionsExcluded=false;
+  },
 
   values:function(){
     return this._v;
