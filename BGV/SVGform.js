@@ -28,27 +28,12 @@ BGV.form=function(prefix,go){
 	return out.trim();
       }
 
-//      if(undefined==defaults[name]){
-	for(var j=0;j<radio.length;j++){
-	  var b=radio[j].getElementsByTagName('tspan')[0];
-	  if(this.isChecked(b)){
-	    this.set(rb,value(radio[j]));
-	  }
-	}
-/*
-      }else{
-	// change the SVG to reflecta  given default
-	var def=defaults[name].trim().toLowerCase();	
-	for(var j=0;j<radio.length;j++){
-	  var b=radio[j].getElementsByTagName('tspan')[0];
-	  if(value(radio[j]).toLowerCase()==def){
-	    b.textContent=this._true;
-	  }else{
-	    b.textContent=this._false;
-	  }
+      for(var j=0;j<radio.length;j++){
+	var b=radio[j].getElementsByTagName('tspan')[0];
+	if(this.isChecked(b)){
+	  this.set(rb,value(radio[j]));
 	}
       }
-*/
 
 
       // make it clickable
@@ -120,39 +105,55 @@ BGV.form.prototype={
   // change the SVG to reflecta given values
   setForm:function(from){
     var that=this;
-//    console.log(from,this);
+
+    this.checkbox.forEach(
+      function(l){
+	var name=that.name(l);
+	if(undefined!=from[name]){
+	  var b=l.getElementsByTagName('tspan')[0];
+	  b.textContent=from[name]?that._true:that._false;
+	  that.set(l,from[name]);
+	}
+      }
+    );
 
     this.radio.forEach(
       function(r){
 
-	for(var b=r.firstChild;null!=b;b=b.nextSibling){
-	  if('tspan'==b.nodeName){
-	    console.log(b);
-	    // sven
+	var l2b={}; // label to button
+	for(var i=r.firstChild;null!=i;i=i.nextSibling){
+	  if('tspan'==i.nodeName){
+	    var l=''; // label
+	    var b;    // button
+	    for(var j=i.firstChild;null!=j;j=j.nextSibling){
+	      if('tspan'==j.nodeName){
+		b=j; // hopefully there is only one
+	      }else if('#text'==j.nodeName){
+		l+=j.textContent;
+	      }
+	    }
+	    l2b[l.trim().toLowerCase()]=b;
 	  }
 	}
 
+	var name=that.name(r);
+	if(undefined!=from[name]){
+	  for(var l in l2b){
+	    var b=l2b[l];
+	    if(l==from[name]){
+	      b.textContent=that._true;
+	      that.set(r,l);
+	    }else{
+	      b.textContent=that._false;
+	    }
+	  }
+	}
 
       }
     );
 
 
-/*
-    var def=defaults[name].trim().toLowerCase();	
-	for(var j=0;j<radio.length;j++){
-	  var b=radio[j].getElementsByTagName('tspan')[0];
-	  if(value(radio[j]).toLowerCase()==def){
-	    b.textContent=this._true;
-	  }else{
-	    b.textContent=this._false;
-	  }
-	}
-      }
-*/
 
-    
-
-//    this._v.selfInteractionsExcluded=false;
   },
 
   values:function(){

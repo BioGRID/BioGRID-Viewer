@@ -4,7 +4,6 @@ BGV.plugin.rest={
   reload:function(node){
 
     this._history.push(BGV.clone(this._queryString));
-    console.log(this._history);
 
     if(undefined!=node){
       this._queryString.geneList=node.data.OfficialSymbol;
@@ -249,7 +248,24 @@ BGV.plugin.rest={
       )
     ;
 
-  },
+    // need to convert the Evidence List to SVGform before we can use
+    // this
+    /*
+    var home=document.getElementById('REST-home');
+    if(undefined!=home){
+      home.onclick=function(){
+	if(0<that._history.length){
+	  console.log('yea');
+	  that._queryString=that._history[0];
+	  that._history=[];
+	  form.setForm(that.formDefaults());
+	  BGV.reload();
+	}
+      }
+    }
+    */
+
+  }, // load
 
   _queryString:{},
   queryString:function(){
