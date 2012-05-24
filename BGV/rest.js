@@ -3,7 +3,8 @@ BGV.plugin.rest={
 
     if(undefined!=node){
       this._queryString.geneList=node.data.OfficialSymbol;
-      this._queryString.taxId=node.data.OrganismID;
+      //this._queryString.taxId=node.data.OrganismID;
+      this._queryString.geneTaxIdList=node.data.OrganismID;
     }
 
     var that=this;
@@ -242,7 +243,7 @@ BGV.plugin.rest={
 	}
       )
     ;
-
+    
   },
 
   _queryString:{},
@@ -454,11 +455,11 @@ BGV.plugin.rest.node.prototype={
     }else if(this.data.OfficialSymbol>x.data.OfficialSymbol){
       return 1;
     }
-
+    
     return 0;
   },
   match:function(s){
-    return (s.toLowerCase()==this.data.OfficialSymbol.toLowerCase());
+    return (undefined==s)?false:(s.toLowerCase()==this.data.OfficialSymbol.toLowerCase());
   },
   classes:function(){
     return 'node';

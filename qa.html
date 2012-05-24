@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html><head>
+<title>QA For The BioGRID Viewer</title>
+<meta charset="UTF-8">
+</head><body>
+
+<h1>Quality Assurance</h1>
+
+<p>Well, not really, but it's something.</p>
+
+<p>This is not a place to store issues, but a list of things to test
+before I ask people to use it.</p>
+
+<h2>Repository</h2>
+
+<p>The BioGRID Viewer's repository is
+at: <a href="https://github.com/svenmh/BioGRID-Viewer"><code>https://github.com/svenmh/BioGRID-Viewer</code></a></p>
+
+<p>Bugs should be reported to the
+<a href="https://github.com/svenmh/BioGRID-Viewer/">Issues Page</a>
+at <a href="https://github.com/">GitHub</a>.  Modifications to this
+page should be pushed via git.  Of course you can contact Sven with
+any issues or changes.</p>
+
+
+<h2>Queries</h2>
+
+<p>Generally queries should be done with the following
+format: <samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchNames=true&geneList=<var>name</var>&geneTaxIdList=<var>taxid</var></samp>
+where <var>name</var> is the gene you are looking for
+and <var>taxid</var> is the species you are looking for.  A list of
+species <var>taxid</var>s supported can be received from
+the <a href="BGV/taxa.json"><code>BGV/taxa.json</code> file</a>.  But
+any <a href="http://wiki.thebiogrid.org/doku.php/biogridrest">REST</a>
+options that returns
+a <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a>
+files <em>should</em> do, report it if they don't.</p>
+
+<p>Some common queries follows.</p>
+
+<h3>Nice Queries</h3>
+
+
+<ul>
+
+<li><a href="ring.svg?searchNames=true&geneList=ccc2&geneTaxIdList=4932">Yeast CCC2</a>
+<dl>
+<dt><a href="ring.svg?searchNames=true&geneList=ccc2&geneTaxIdList=4932&interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
+<dd>Check that "Include Interspecies Interactions" is unchecked.</dd>
+
+<dt><a href="ring.svg?searchNames=true&geneList=ccc2&geneTaxIdList=4932&throughputTag=low">&amp;throughputTag=low</a></dt>
+<dd>Make sure the only "Throughput" checkbox that is checked is "Low".</dd>
+
+</dl>
+</li>
+
+<li><a href="ring.svg?searchNames=true&geneList=prb1&geneTaxIdList=4932">Yeast PRB1</a></li>
+
+<li><a href="ring.svg?searchNames=true&geneList=PRKACA&geneTaxIdList=9606">Human PRKACA</a>
+<dl>
+<dt><a href="ring.svg?searchNames=true&geneList=PRKACA&taxId=9606">Using REST's taxId</a></dt>
+<dd>should include disconnected interactions.</dd>
+</dl>
+</li>
+
+</ul>
+
+
+<h3>Naughty Queries</h3>
+
+<ul>
+
+<li><a href="ring.svg?searchNames=true&geneList=UBC&geneTaxIdList=9606">Human UBC</a> (snooze)</li>
+
+</ul>
+
+
+<!-- h2>Browsers</h2>
+
+<table>
+<tr><td></td>
+
+<th>Smooth Transitions</th>
+
+</tr>
+<tr><th>Google Chrome</th></tr>
+<tr><th>Mozilla Firefox</th></tr>
+<tr><th>IE9</th></tr>
+<tr>
+
+
+</table -->
+
+
+</body></head>

@@ -4,4 +4,5 @@
   "url":"http://biogridrest.princeton.edu:8080/BiogridRestService/",
   "queryStringDefaults":{"includeInteractors":"TRUE"}
   "queryStringDefaults":{}
+ }
 }
