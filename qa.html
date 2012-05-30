@@ -22,11 +22,79 @@ at <a href="https://github.com/">GitHub</a>.  Modifications to this
 page should be pushed via git.  Of course you can contact Sven with
 any issues or changes.</p>
 
-
 <h2>Queries</h2>
 
-<p>Generally queries should be done with the following
-format: <samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchNames=true&geneList=<var>name</var>&geneTaxIdList=<var>taxid</var></samp>
+<h3>Test Queries</h3>
+
+<h2>Yeast CCC2</h2>
+
+<dl>
+
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=4932">Default Query</a></dt>
+<dd>Human PRKACA should be present.</dd>
+
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=4932&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
+<dd>Make sure Human PRKACA is missing and "Include Interspecies Interactions" is deselected.</dd>
+
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=4932&amp;throughputTag=low">&amp;throughputTag=low</a></dt>
+<dd>Make sure the only "Throughput" checkbox that is checked is "Low", also fewer edges (15 as of BioGRID v3.1.88).  Human PRKACA should be present.</dd>
+
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=4932&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low">&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low</a></dt>
+<dd>Now Human PRKACA should be gone too.</dd>
+
+</dl>
+
+<h2>Human PRKACA</h2>
+
+<dl>
+
+<dt><a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;geneTaxIdList=9606">Default Query</a></dt>
+<dd>Yeast CCC2 sholud be present.</dd>
+
+<dt><a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;taxId=9606">Using REST's <code>taxId</code> instead of <code>geneTaxIdList</code></a></dt>
+<dd>Should include Cow and Rat PRKACA genes too, not connected to Human PRKACA.</dd>
+
+</dl>
+
+<h2>HIV tat</h2>
+
+<dl>
+
+<dt><a href="ring.svg?searchNames=true&amp;geneList=tat&amp;geneTaxIdList=11676">Default Query</a></dt>
+<dd>Only connects to human genes.</dd>
+
+<dt><a href="ring.svg?searchNames=true&amp;geneList=tat&amp;geneTaxIdList=11676&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
+<dd>Contains only one edge, to itself.</dd>
+
+</dl>
+
+<h2>Other Queryes</h2>
+
+<p>All are the default query.</p>
+
+<h3>Nice</h3>
+
+<ul>
+<li><a href="ring.svg?searchNames=true&amp;geneList=prb1&amp;geneTaxIdList=4932">Yeast PRB1</a></li>
+
+<li><a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;geneTaxIdList=9606">Human FOXP2</a></li>
+
+</ul>
+
+<h3>Naughty</h3>
+
+<p>Item with too many edges.</p>
+
+<ul>
+<li><a href="ring.svg?searchNames=true&amp;geneList=act1&amp;geneTaxIdList=4932">Yeast ACT1</a></li>
+<li><a href="ring.svg?searchNames=true&amp;geneList=UBC&amp;geneTaxIdList=9606">Human UBC</a></li>
+</ul>
+
+
+<h3>Default Query</h3>
+
+<p>The default query should be done with the following
+format: <samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchNames=true&amp;geneList=<var>name</var>&amp;geneTaxIdList=<var>taxid</var></samp>
 where <var>name</var> is the gene you are looking for
 and <var>taxid</var> is the species you are looking for.  A list of
 species <var>taxid</var>s supported can be received from
@@ -36,60 +104,7 @@ options that returns
 a <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a>
 files <em>should</em> do, report it if they don't.</p>
 
-<p>Some common queries follows.</p>
 
-<h3>Nice Queries</h3>
-
-
-<ul>
-
-<li><a href="ring.svg?searchNames=true&geneList=ccc2&geneTaxIdList=4932">Yeast CCC2</a>
-<dl>
-<dt><a href="ring.svg?searchNames=true&geneList=ccc2&geneTaxIdList=4932&interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
-<dd>Check that "Include Interspecies Interactions" is unchecked.</dd>
-
-<dt><a href="ring.svg?searchNames=true&geneList=ccc2&geneTaxIdList=4932&throughputTag=low">&amp;throughputTag=low</a></dt>
-<dd>Make sure the only "Throughput" checkbox that is checked is "Low".</dd>
-
-</dl>
-</li>
-
-<li><a href="ring.svg?searchNames=true&geneList=prb1&geneTaxIdList=4932">Yeast PRB1</a></li>
-
-<li><a href="ring.svg?searchNames=true&geneList=PRKACA&geneTaxIdList=9606">Human PRKACA</a>
-<dl>
-<dt><a href="ring.svg?searchNames=true&geneList=PRKACA&taxId=9606">Using REST's taxId</a></dt>
-<dd>should include disconnected interactions.</dd>
-</dl>
-</li>
-
-</ul>
-
-
-<h3>Naughty Queries</h3>
-
-<ul>
-
-<li><a href="ring.svg?searchNames=true&geneList=UBC&geneTaxIdList=9606">Human UBC</a> (snooze)</li>
-
-</ul>
-
-
-<!-- h2>Browsers</h2>
-
-<table>
-<tr><td></td>
-
-<th>Smooth Transitions</th>
-
-</tr>
-<tr><th>Google Chrome</th></tr>
-<tr><th>Mozilla Firefox</th></tr>
-<tr><th>IE9</th></tr>
-<tr>
-
-
-</table -->
-
+<hr/>
 
 </body></head>
