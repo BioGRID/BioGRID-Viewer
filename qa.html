@@ -2,6 +2,10 @@
 <html><head>
 <title>QA For The BioGRID Viewer</title>
 <meta charset="UTF-8">
+<style>
+td,th{border:outset 2px;padding:.5ex}
+.blank{border:none;text-align:center}
+</style>
 </head><body>
 
 <h1>Quality Assurance</h1>
@@ -105,6 +109,64 @@ a <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a>
 files <em>should</em> do, report it if they don't.</p>
 
 
-<hr/>
+<h2>Browsers</h2>
+
+<table>
+
+<tr>
+<td class="blank"></td>
+<th>Google Chrome</th>
+<th>Firefox</th>
+<th>Safari</th>
+<th>IE9</th>
+</tr>
+
+<tr>
+<th>Linux</th>
+<td>Primary Development.</td>
+<td><code>Unknown property 'alignment-baseline'.  Declaration dropped.</code></td>
+<td class="blank">n/a</td>
+<td class="blank">n/a</td>
+</tr>
+
+<tr>
+<th>Mac OS X 10</th>
+<td class="blank"></td>
+<td>ibid.</td>
+<td></td>
+<td class="blank">n/a</td>
+</tr>
+
+<tr>
+<th>Windows 7</th>
+<td class="blank"></td>
+<td class="blank"></td>
+<td class="blank"></td>
+<td><a href="http://d3js.org/">D3.js</a> <a href="https://github.com/mbostock/d3/wiki/Transitions">transitions</a> Skipped.</td>
+</tr>
+
+<tr>
+<th>iOS 4.3 (Simulator)</th>
+<td class="blank">n/a</td>
+<td class="blank">n/a</td>
+<td><ol>
+<li>Checkbox alignment issue fixed in later versions of iOS. Please ignore.</li>
+<li>Use drag to surf genes.</li>
+</ol></td>
+<td class="blank">n/a</td>
+</tr>
+
+<tr>
+<th>Android 4.0.3 (Virtual Device)</th>
+<td><ol>
+<li>No checkbox font support.</li>
+<li>Use drag to surf genes.</li>
+</ol></td>
+<td class="blank"></td>
+<td class="blank">n/a</td>
+<td class="blank">n/a</td>
+</tr>
+
+</table>
 
 </body></head>
