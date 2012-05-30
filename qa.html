@@ -13,7 +13,7 @@ td,th{border:outset 2px;padding:.5ex}
 <p>Well, not really, but it's something.</p>
 
 <p>This is not a place to store issues, but a list of things to test
-before I ask people to use it.</p>
+before updating main site.</p>
 
 <h2>Repository</h2>
 
@@ -21,12 +21,32 @@ before I ask people to use it.</p>
 at: <a href="https://github.com/svenmh/BioGRID-Viewer"><code>https://github.com/svenmh/BioGRID-Viewer</code></a></p>
 
 <p>Bugs should be reported to the
-<a href="https://github.com/svenmh/BioGRID-Viewer/">Issues Page</a>
-at <a href="https://github.com/">GitHub</a>.  Modifications to this
-page should be pushed via git.  Of course you can contact Sven with
-any issues or changes.</p>
+<a href="https://github.com/svenmh/BioGRID-Viewer/issues">Issues
+Page</a> at <a href="https://github.com/">GitHub</a>.  Modifications
+to this page should be pushed via git.  Of course you can contact Sven
+with any issues or changes.</p>
 
 <h2>Queries</h2>
+
+<h3>Default Query</h3>
+
+<p>The default query should be done with the following
+format:</p>
+
+<blockquote><samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchNames=true&amp;geneList=<var>name</var>&amp;geneTaxIdList=<var>taxid</var></samp></blockquote>
+
+<p>Where <var>name</var> is the gene you are looking for
+and <var>taxid</var> is the species you are looking for.  A list of
+species <var>taxid</var>s supported can be received from
+the <a href="BGV/taxa.json"><code>BGV/taxa.json</code> file</a>.  But
+any <a href="http://wiki.thebiogrid.org/doku.php/biogridrest">REST</a>
+options that returns
+a <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a>
+files <em>should</em> do, report them on
+the <a href="https://github.com/svenmh/BioGRID-Viewer/issues">Issues
+Page</a> if they don't.</p>
+
+
 
 <h3>Test Queries</h3>
 
@@ -53,10 +73,10 @@ any issues or changes.</p>
 <dl>
 
 <dt><a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;geneTaxIdList=9606">Default Query</a></dt>
-<dd>Yeast CCC2 sholud be present.</dd>
+<dd>Yeast CCC2 should be present.</dd>
 
 <dt><a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;taxId=9606">Using REST's <code>taxId</code> instead of <code>geneTaxIdList</code></a></dt>
-<dd>Should include Cow and Rat PRKACA genes too, not connected to Human PRKACA.</dd>
+<dd>Should include Cow and Rat PRKACA genes not connected to Human PRKACA.</dd>
 
 </dl>
 
@@ -72,7 +92,7 @@ any issues or changes.</p>
 
 </dl>
 
-<h2>Other Queryes</h2>
+<h2>Other Queries</h2>
 
 <p>All are the default query.</p>
 
@@ -95,23 +115,15 @@ any issues or changes.</p>
 </ul>
 
 
-<h3>Default Query</h3>
-
-<p>The default query should be done with the following
-format: <samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchNames=true&amp;geneList=<var>name</var>&amp;geneTaxIdList=<var>taxid</var></samp>
-where <var>name</var> is the gene you are looking for
-and <var>taxid</var> is the species you are looking for.  A list of
-species <var>taxid</var>s supported can be received from
-the <a href="BGV/taxa.json"><code>BGV/taxa.json</code> file</a>.  But
-any <a href="http://wiki.thebiogrid.org/doku.php/biogridrest">REST</a>
-options that returns
-a <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a>
-files <em>should</em> do, report it if they don't.</p>
-
 
 <h2>Browsers</h2>
 
 <table>
+
+<caption>Isues that are browser issues, not issues for the viewer.
+Entries with no border are not tested.  Entries
+containing <samp>n/a</samp> indicate that the browser is not available
+on the given platform.</caption>
 
 <tr>
 <td class="blank"></td>
