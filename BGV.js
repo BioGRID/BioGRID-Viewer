@@ -1,5 +1,6 @@
 BGV={
   plugin:{},
+  pplugin:{}, // priority plugins
 
   nodes:{},
   edges:{},
@@ -43,7 +44,7 @@ BGV={
 
   // get a list of plugins
   plugins:function(){
-    return d3.values(this.plugin);
+    return d3.values(this.pplugin).concat(d3.values(this.plugin));
   },
 
   forEach:function(func,pass){

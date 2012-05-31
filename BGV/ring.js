@@ -1,6 +1,6 @@
 Math.TAU=2*Math.PI;
 
-BGV.plugin.ring={
+BGV.pplugin.ring={
   radius:(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2),
   padding:.6,
 
@@ -96,7 +96,6 @@ BGV.plugin.ring={
   },
 
   resize:function(){
-    console.log(BGV.selected());
     this.radius=(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2);
     this.load();
     this.purge();
