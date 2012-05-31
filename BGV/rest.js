@@ -371,7 +371,9 @@ BGV.plugin.rest={
     this._edges={};
 
     if(undefined==BGV.taxa[this.data.OrganismID]){
-      throw "Taxa id " + this.data.OrganismID + " not found.";
+      var err="Taxa id " + this.data.OrganismID + " not found.";
+      alert(err);
+      throw err;
     }
   }
 

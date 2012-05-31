@@ -98,6 +98,10 @@
   "common":"Human herpesvirus 1",
   "species":"Herpes simplex virus type 1"
  },{
+  "id":"10359",
+  "species":"Human cytomegalovirus",
+  "common":"HHV-5"
+ },{
   "id":"10376",
   "common":"Human herpesvirus 4",
   "species":"Epstein-Barr virus"
