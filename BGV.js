@@ -24,6 +24,29 @@ BGV={
     return d3.values(BGV.nodes);
   },
 
+  edgeStats:function(){
+    var out={};
+    
+    this.getEdges().forEach(
+      function(e){
+	var s=e.stats();
+	for(var k in s){
+	  if(undefined==out[k]){
+	    out[k]={};
+	  }
+
+	  if(undefined==out[k][s[k]]){
+	    out[k][s[k]]=1;
+	  }else{
+	    out[k][s[k]]++;
+	  }
+	}
+      }
+    );
+
+    return out;
+  },
+
   addEdge:function(edge){
     var id=edge.id();
     if(undefined==this.edges[id]){

@@ -341,18 +341,20 @@ BGV.plugin.rest={
       throw "Invalid tab2 line";
     }
 
-    this.BioGRIDInteractionID=values[0];
-    this.ExperimentalSystemName=values[11]; // |
-    this.ExperimentalSystemType=values[12];
-    this.PaperReference=values[13];
-    this.PubmedID=values[14];
-    this.InteractionThroughput=values[17];//.split('|');
-    this.QuantitativeScore=values[18];
-    this.PostTranslationalModification=values[19];
-    this.Phenotypes=values[20]; // |
-    this.Qualifications=values[21]; // |
-    this.Tags=values[22];
-    this.SourceDatabase=values[23];
+    this.data={
+      BioGRIDInteractionID:values[0],
+      ExperimentalSystemName:values[11], // |
+      ExperimentalSystemType:values[12],
+      PaperReference:values[13],
+      PubmedID:values[14],
+      InteractionThroughput:values[17],//.split('|');
+      QuantitativeScore:values[18],
+      PostTranslationalModification:values[19],
+      Phenotypes:values[20], // |
+      Qualifications:values[21], // |
+      Tags:values[22],
+      SourceDatabase:values[23]
+    };
 
     this.source=new that.node(values,0);
     this.target=new that.node(values,1);
@@ -381,11 +383,17 @@ BGV.plugin.rest={
 
 BGV.plugin.rest.edge.prototype={
   id:function(){
-    return this.SourceDatabase+this.BioGRIDInteractionID;
+    return this.data.SourceDatabase+this.data.BioGRIDInteractionID;
   },
   classes:function(){
-    var c=['edge', this.ExperimentalSystemType];
+    var c=['edge',this.data.ExperimentalSystemType];
     return c.join(' ');
+  },
+  stats:function(){
+    return {
+      ExperimentalSystemType:this.data.ExperimentalSystemType,
+      InteractionThroughput:this.data.InteractionThroughput
+    };
   }
 };
 BGV.plugin.rest.node.prototype={
