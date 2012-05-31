@@ -67,6 +67,25 @@ BGV.plugin.rest={
     return out;
   },
 
+  resize:function(){
+    var elt=d3.select("#evidenceList") // tag
+      .attr('transform','translate('+(window.innerWidth-4)+')');
+    var lf=0; // line feed
+    elt.selectAll('.lf')
+      .attr(
+	'y',function(){
+	  return lf+=(d3.select(this).classed('all'))?
+	    this.getBBox().height*1.5:this.getBBox().height;
+   	}
+      )
+    ;
+
+    // return values used in this.form()
+    return elt;
+  },
+
+
+
   load:function(){
     var that=this;
 
@@ -147,18 +166,8 @@ BGV.plugin.rest={
     var off='☐';
     var on='☒';
 
-    // arrange the list
-    var elt=d3.select("#evidenceList") // tag
-      .attr('transform','translate('+(window.innerWidth-4)+')');
-    var lf=0; // line feed
-    elt.selectAll('.lf')
-      .attr(
-	'y',function(){
-	  return lf+=(d3.select(this).classed('all'))?
-	    this.getBBox().height*1.5:this.getBBox().height;
-   	}
-      )
-    ;
+    // align the boxes
+    var elt=this.resize();
 
     // returns all the siblings after tag
     var siblings=function(tag){

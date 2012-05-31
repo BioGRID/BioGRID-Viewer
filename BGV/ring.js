@@ -5,6 +5,7 @@ BGV.plugin.ring={
   padding:.6,
 
   cluster:function(centerNode){
+    this.centerNode=centerNode; // used in this.resize()
     var nodes=BGV.getNodes();
     nodes.forEach(function(n){delete n.parent;delete n.children;});
 
@@ -94,14 +95,13 @@ BGV.plugin.ring={
     return groups;
   },
 
-  // this is broken (for now)
-  // resize:function(){
-  //   console.log('yea!');
-  //   this.radius=(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2);
-  //   this.load();
-  //   this.purge();
-  //   this.review(this.match);
-  // },
+  resize:function(){
+    console.log(BGV.selected());
+    this.radius=(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2);
+    this.load();
+    this.purge();
+    this.view(this.centerNode);
+  },
 
   purge:function(){
     this.reload();
@@ -123,7 +123,6 @@ BGV.plugin.ring={
 
   timeout:500,
   review:function(centerNode){
-
     // no animated transitions for IE :(
     if(navigator.userAgent.indexOf("Trident/5")>-1){
       this.purge();
