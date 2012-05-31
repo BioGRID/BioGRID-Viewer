@@ -3,7 +3,7 @@
 <title>QA For The BioGRID Viewer</title>
 <meta charset="UTF-8">
 <style>
-td,th{border:outset 2px;padding:.5ex}
+td,th{border:outset 2px}
 .blank{border:none;text-align:center}
 </style>
 </head><body>
@@ -118,6 +118,8 @@ Page</a> if they don't.</p>
 
 <h2>Browsers</h2>
 
+<p>Primary development is done on Google Chrome on GNU/Linux.</p>
+
 <table>
 
 <caption>Isues that are browser issues, not issues for the viewer.
@@ -135,8 +137,11 @@ on the given platform.</caption>
 
 <tr>
 <th>GNU/Linux</th>
-<td>Primary Development.</td>
-<td><code>Unknown property 'alignment-baseline'.  Declaration dropped.</code></td>
+<td></td>
+<td><ol>
+<li><code>Unknown property 'alignment-baseline'.  Declaration dropped.</code></li>
+<li><code>&lt;svg onresize="…</code> doesn't work.</li>
+</ol></td>
 <td class="blank">n/a</td>
 <td class="blank">n/a</td>
 </tr>
@@ -154,7 +159,9 @@ on the given platform.</caption>
 <td class="blank"></td>
 <td class="blank"></td>
 <td class="blank"></td>
-<td><a href="http://d3js.org/">D3.js</a> <a href="https://github.com/mbostock/d3/wiki/Transitions">transitions</a> Skipped.</td>
+<td><ol>
+<li><a href="http://d3js.org/">D3.js</a> <a href="https://github.com/mbostock/d3/wiki/Transitions">transitions</a> Skipped.</li>
+</ol></td>
 </tr>
 
 <tr>
