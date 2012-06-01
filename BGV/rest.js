@@ -146,6 +146,7 @@ BGV.plugin.rest={
      );
     BGV.updateElementsHref('restTab2',url);
 
+/*
     // // // //
     // evidence list stuff
     var off='☐';
@@ -247,6 +248,8 @@ BGV.plugin.rest={
 	}
       )
     ;
+*/
+
 
     // need to convert the Evidence List to SVGform before we can use
     // this

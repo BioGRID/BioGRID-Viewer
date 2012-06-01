@@ -5,6 +5,7 @@
 
 <script xlink:href="../d3.v2.min.js"/>
 <script xlink:href="BGV.js"/>
+<script xlink:href="BGV/vformat.js"/>
 <script xlink:href="BGV/SVGform.js"/>
 <script xlink:href="BGV/rest.js"/>
 <script xlink:href="BGV/ring.js"/>
@@ -25,7 +26,7 @@
 <text y="14em" id="REST-includeInteractorInteractions" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Interactor Interactions</text>
 </g>
 
-<g id="evidenceList">
+<g id="evidenceList" class="vformat">
 
 <g class="select"><text class="lf all">Physical <tspan>☒</tspan></text>
 <text class="lf">Affinity Capture-Luminescence <tspan>☒</tspan></text>

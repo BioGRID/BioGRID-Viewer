@@ -72,16 +72,8 @@ BGV.form=function(prefix,go){
       var name=this.name(cb);
       var tog=cb.getElementsByTagName('tspan')[0];
 
-//      if(undefined==defaults[name]){
-	// record SVG says is set
-	this.set(cb,this.isChecked(tog));
-
-/*
-      }else{
-	// set the value from the default
-	tog.textContent=defaults[name]?this._true:this._false;
-      }
-*/
+      // record SVG says if set
+      this.set(cb,this.isChecked(tog));
 
       // make it clickable
       var that=this;
