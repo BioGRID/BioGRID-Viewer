@@ -4,9 +4,8 @@ BGV.form=function(name){
 
   this.seek("formCheckbox");
   this.seek("formRadio");
-//  this.seek("formSelectMulti");
-
-  console.log(this.forms);
+  this.seek("formSelectMulti");
+  //console.log(this.forms);
 };
 
 BGV.form.prototype={
@@ -22,8 +21,8 @@ BGV.form.prototype={
 
   formRadio:function(e){
     this.e=e;
-    this.rad=[];
 
+    this.rad=[];
     for(var c=e.firstChild;c!=null;c=c.nextSibling){
       if('tspan'==c.nodeName){
 	this.rad.push(c);
@@ -52,6 +51,34 @@ BGV.form.prototype={
 
   },
 
+  formSelectMulti:function(e){
+    this.e=e;
+    var that=this;
+
+    var grp=e.getElementsByClassName("all");
+    for(var i=0;i<grp.length;i++){
+      grp[i].onclick=function(){
+	var set=that.isChecked(this.getElementsByTagName('tspan')[0])?
+	  that.FALSE:that.TRUE;
+
+	var all=this.parentNode.getElementsByTagName('tspan');
+	for(var j=0;j<all.length;j++){
+	  all[j].textContent=set;
+	}
+      }
+    }
+
+    var cb=e.getElementsByTagName('text');
+    for(var i=0;i<cb.length;i++){
+      if(!d3.select(cb[i]).classed('all')){ // d3.js usage!!!
+	cb[i].onclick=function(){
+	  that.toggle(this.getElementsByTagName('tspan')[0]);
+	}
+      }
+    }
+
+  },
+
   ours:function(e){
     var name=this.name+'-';
     return e.hasAttribute('id')&&
@@ -70,7 +97,7 @@ BGV.form.prototype={
 
 }
 
-
+BGV.form.prototype.formSelectMulti.prototype=
 BGV.form.prototype.formRadio.prototype=
 BGV.form.prototype.formCheckbox.prototype={
   TRUE:'☒',
