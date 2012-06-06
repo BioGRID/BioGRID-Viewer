@@ -2,6 +2,18 @@ BGV.form=function(prefix,defaults,go){
   this.prefix=prefix; // kinda like the form name
   this._v={};
 
+  // get the textContent sans the ballot box
+  var value=function(tag){
+    var out='';
+    for(var n=tag.firstChild;n!=null;n=n.nextSibling){
+      if('#text'==n.nodeName){
+	out+=n.textContent;
+      }
+    }
+    return out.trim();
+  }
+
+
   // look for radio buttons
   var tags=document.getElementsByClassName('formRadio');
   for(var i=0;i<tags.length;i++){
@@ -15,16 +27,6 @@ BGV.form=function(prefix,defaults,go){
 	}
       }
 
-      // get the textContent sans the ballot box
-      var value=function(tag){
-	var out='';
-	for(var n=tag.firstChild;n!=null;n=n.nextSibling){
-	  if('#text'==n.nodeName){
-	    out+=n.textContent;
-	  }
-	}
-	return out.trim();
-      }
 
       if(undefined==defaults[name]){
 	for(var j=0;j<radio.length;j++){
@@ -97,6 +99,30 @@ BGV.form=function(prefix,defaults,go){
 	go(that);
       }
 
+    }
+  }
+
+  var tags=document.getElementsByClassName('formSelectMulti');
+  for(var i=0;i<tags.length;i++){
+    var sm=tags[i];
+
+    if(this.ours(sm)){
+      //console.log(sm);
+
+      var name=this.name(sm);
+      if(undefined!=defaults[name]){
+	var items=decodeURI(defaults[name]).toLowerCase().split('|');
+	var tl=sm.getElementsByTagName('text');
+	for(var j=0;j<tl.length;j++){
+	  var t=value(tl[j]);
+	  var c=tl[j].getElementsByTagName('tspan')[0];
+	  if(items.indexOf(t.toLowerCase())>=0){
+	    c.textContent=this._true;
+	  }else{
+	    c.textContent=this._false;
+	  }
+	}
+      }
     }
   }
 

@@ -68,7 +68,7 @@ BGV.plugin.rest={
   },
 
   resize:function(){
-    var elt=d3.select("#evidenceList") // tag
+    var elt=d3.select("#REST-evidenceList") // tag
       .attr('transform','translate('+(window.innerWidth-4)+')');
     var lf=0; // line feed
     elt.selectAll('.lf')
@@ -101,7 +101,7 @@ BGV.plugin.rest={
     this._queryString=BGV.config('rest','queryStringDefaults');
 
     // parse the QUERY_STRING
-    window.location.href.split('?',2)[1].split('&').forEach(
+    decodeURI(window.location.href).split('?',2)[1].split('&').forEach(
       function(attr){
 	var skip=['enableCaching','format'];
 	var kv=attr.split('=',2);
@@ -110,7 +110,6 @@ BGV.plugin.rest={
 	}
       }
     );
-
 
     // Read values set in the document, also sit it if we already have
     // a value.
@@ -160,7 +159,9 @@ BGV.plugin.rest={
        }
      );
     BGV.updateElementsHref('restTab2',url);
+    this.resize();
 
+/*
     // // // //
     // evidence list stuff
     var off='☐';
@@ -252,6 +253,8 @@ BGV.plugin.rest={
 	}
       )
     ;
+
+*/
     
   },
 

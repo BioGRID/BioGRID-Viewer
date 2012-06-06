@@ -5,7 +5,7 @@
 
 <script xlink:href="../d3.v2.min.js"/>
 <script xlink:href="BGV.js"/>
-<script xlink:href="BGV/SVGform.js"/>
+<script xlink:href="BGV/SVGform2.js"/>
 <script xlink:href="BGV/rest.js"/>
 <script xlink:href="BGV/ring.js"/>
 
@@ -25,9 +25,10 @@
 <text y="14em" id="REST-includeInteractorInteractions" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Interactor Interactions</text>
 </g>
 
-<g id="evidenceList">
+<g class="formSelectMulti" id="REST-evidenceList">
 
-<g class="select"><text class="lf all">Physical <tspan>☒</tspan></text>
+<g>
+<text class="lf all">Physical <tspan>☒</tspan></text>
 <text class="lf">Affinity Capture-Luminescence <tspan>☒</tspan></text>
 <text class="lf">Affinity Capture-MS <tspan>☒</tspan></text>
 <text class="lf">Affinity Capture-RNA <tspan>☒</tspan></text>
@@ -46,7 +47,8 @@
 <text class="lf">Two-hybrid <tspan>☒</tspan></text>
 </g>
 
-<g class="select"><text class="lf all">Genetic <tspan>☒</tspan></text>
+<g>
+<text class="lf all">Genetic <tspan>☒</tspan></text>
 <text class="lf">Dosage Growth Defect <tspan>☒</tspan></text>
 <text class="lf">Dosage Lethality <tspan>☒</tspan></text>
 <text class="lf">Dosage Rescue <tspan>☒</tspan></text>

@@ -9,7 +9,7 @@ path.taxon{stroke:black;stroke-width:1;stroke-opacity:.3;}
 path.highlight{stroke:#dc322f;stroke-opacity:.3;} /* red */
 .highlight text{font-size:15px;font-weight:bold;}
 
-#evidenceList text{text-anchor:end;font-size:55%;}
+#REST-evidenceList text{text-anchor:end;font-size:55%;}
 text.all{font-size:75%!important;}
 
 .taxa{fill-opacity:.5}
