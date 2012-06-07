@@ -1,21 +1,22 @@
-BGV.form=function(name){
+BGV.form=function(name,go){
   this.name=name;
   this.forms=[];
 
-  this.seek("formCheckbox");
-  this.seek("formRadio");
-  this.seek("formSelectMulti");
+  this.seek("Checkbox",this,go);
+  this.seek("Radio",this,go);
+  this.seek("SelectMulti",this,go);
   //console.log(this.forms);
 };
 
 BGV.form.prototype={
-  formCheckbox:function(e){
+  Checkbox:function(e,p,go){
     this.e=e; // element
     var that=this;
 
     var tog=this.clicker(e);
     e.onclick=function(){
       that.toggle(tog);
+      go(p);
     }
 
     this.value=function(){
@@ -27,7 +28,7 @@ BGV.form.prototype={
     }
   },
 
-  formRadio:function(e){
+  Radio:function(e,p,go){
     this.e=e;
 
     var rad=[];
@@ -51,7 +52,7 @@ BGV.form.prototype={
 	    that.toggle(tog);
 	  }else if(this==rad[j]){
 	    that.toggle(tog);
-	    // plus go()
+	    go(p);
 	  }
 	}
       }
@@ -76,7 +77,7 @@ BGV.form.prototype={
 
   },
 
-  formSelectMulti:function(e){
+  SelectMulti:function(e,p,go){
     this.e=e;
     var that=this;
 
@@ -90,6 +91,7 @@ BGV.form.prototype={
 	for(var j=0;j<all.length;j++){
 	  all[j].textContent=set;
 	}
+	go(p);
       }
     }
 
@@ -100,6 +102,7 @@ BGV.form.prototype={
 	v.push(cb[i]);
 	cb[i].onclick=function(){
 	  that.toggle(that.clicker(this));
+	  go(p);
 	}
       }
     }
@@ -126,24 +129,32 @@ BGV.form.prototype={
 
   },
 
+  values:function(){
+    var out={};
+    this.forms.forEach(
+      function(f){
+	out[f.name()]=f.value();
+      }
+    )
+    return out;
+  },
+
   ours:function(e){
     var name=this.name+'-';
     return e.hasAttribute('id')&&
       (e.getAttribute('id').substring(name.length,0)==name)
   },
 
-  seek:function(type){
-    var e=document.getElementsByClassName(type);
+  seek:function(type,p,go){
+    var e=document.getElementsByClassName('form'+type);
     for(var i=0;i<e.length;i++){
       if(this.ours(e[i])){
-	this.forms.push(new this[type](e[i]));
+	this.forms.push(new this[type](e[i],p,go));
       }
     }
   },
 
   setDefaults:function(d){
-    //console.log(d,this);
-
     this.forms.forEach(
       function(f){
 	var name=f.name();
@@ -157,9 +168,9 @@ BGV.form.prototype={
 
 }
 
-BGV.form.prototype.formCheckbox.prototype=
-BGV.form.prototype.formSelectMulti.prototype=
-BGV.form.prototype.formRadio.prototype={
+BGV.form.prototype.Checkbox.prototype=
+BGV.form.prototype.SelectMulti.prototype=
+BGV.form.prototype.Radio.prototype={
   TRUE:'☒',
   FALSE:'☐',
 
