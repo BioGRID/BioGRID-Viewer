@@ -81,7 +81,9 @@ BGV.form.prototype={
     this.e=e;
     var that=this;
 
-    var grp=e.getElementsByClassName("all");
+    //var grp=e.getElementsByClassName("all");
+    var grp=d3.select(e).selectAll(".all")[0]; // IE9!!!!
+
     for(var i=0;i<grp.length;i++){
       grp[i].onclick=function(){
 	var set=that.isChecked(that.clicker(this))?
