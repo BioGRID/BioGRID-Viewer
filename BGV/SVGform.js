@@ -1,177 +1,213 @@
-BGV.form=function(prefix,defaults,go){
-  this.prefix=prefix; // kinda like the form name
-  this._v={};
+BGV.form=function(name,go){
+  this.name=name;
+  this.forms=[];
 
-  // get the textContent sans the ballot box
-  var value=function(tag){
-    var out='';
-    for(var n=tag.firstChild;n!=null;n=n.nextSibling){
-      if('#text'==n.nodeName){
-	out+=n.textContent;
+  this.seek("Checkbox",this,go);
+  this.seek("Radio",this,go);
+  this.seek("SelectMulti",this,go);
+  //console.log(this.forms);
+};
+
+BGV.form.prototype={
+  Checkbox:function(e,p,go){
+    this.e=e; // element
+    var that=this;
+
+    var tog=this.clicker(e);
+    e.onclick=function(){
+      that.toggle(tog);
+      go(p);
+    }
+
+    this.value=function(){
+      return this.isChecked(tog);
+    }
+
+    this.set=function(v){
+      tog.textContent=v?this.TRUE:this.FALSE;
+    }
+  },
+
+  Radio:function(e,p,go){
+    this.e=e;
+
+    var rad=[];
+    for(var c=e.firstChild;c!=null;c=c.nextSibling){
+      if('tspan'==c.nodeName){
+	rad.push(c);
       }
     }
-    return out.trim();
-  }
 
-
-  // look for radio buttons
-  var tags=document.getElementsByClassName('formRadio');
-  for(var i=0;i<tags.length;i++){
-    var rb=tags[i];
-    if(this.ours(rb)){
-      var name=this.name(rb);
-      var radio=[];
-      for(var n=rb.firstChild;n!=null;n=n.nextSibling){
-	if('tspan'==n.nodeName){
-	  radio.push(n);
+    var that=this;
+    for(var i=0;i<rad.length;i++){
+      rad[i].onclick=function(){
+	if(that.isChecked(that.clicker(this))){
+	  // do nothing if we check what is already checked
+	  return;
 	}
-      }
 
-
-      if(undefined==defaults[name]){
-	for(var j=0;j<radio.length;j++){
-	  var b=radio[j].getElementsByTagName('tspan')[0];
-	  if(this.isChecked(b)){
-	    this.set(rb,value(radio[j]));
-	  }
-	}
-      }else{
-	// change the SVG to reflecta  given default
-	var def=defaults[name].trim().toLowerCase();	
-	for(var j=0;j<radio.length;j++){
-	  var b=radio[j].getElementsByTagName('tspan')[0];
-	  if(value(radio[j]).toLowerCase()==def){
-	    b.textContent=this._true;
-	  }else{
-	    b.textContent=this._false;
-	  }
-	}
-      }
-
-
-      // make it clickable
-      var that=this;
-      for(var j=0;j<radio.length;j++){
-	radio[j].onclick=function(){
-	  if(that.isChecked(this.getElementsByTagName('tspan')[0])){
-	    // if we are checked, do nothing
-	    return;
-	  }
-	  for(var k=0;k<radio.length;k++){
-	    var b=radio[k].getElementsByTagName('tspan')[0];
-	    if(that.isChecked(b)){
-	      that.toggle(b);
-	    }else if(this==radio[k]){
-	      that.toggle(b);
-	      that.set(rb,value(radio[k]));
-	      go(that);
-	    }
-	  }
-
-	}//function
-      }
-    }
-  }
-
-  
-  // look for check boxes
-  var tags=document.getElementsByClassName('formCheckbox');
-  for(var i=0;i<tags.length;i++){
-    var cb=tags[i];
-
-    if(this.ours(cb)){
-      var name=this.name(cb);
-      var tog=cb.getElementsByTagName('tspan')[0];
-
-      if(undefined==defaults[name]){
-	// record SVG says is set
-	this.set(cb,this.isChecked(tog));
-      }else{
-	// set the value from the default
-	tog.textContent=defaults[name]?this._true:this._false;
-      }
-
-      // make it clickable
-      var that=this;
-      cb.onclick=function(){
-	var tog=this.getElementsByTagName('tspan')[0];
-	that.set(this,that.toggle(tog));
-	go(that);
-      }
-
-    }
-  }
-
-  var tags=document.getElementsByClassName('formSelectMulti');
-  for(var i=0;i<tags.length;i++){
-    var sm=tags[i];
-
-    if(this.ours(sm)){
-      //console.log(sm);
-
-      var name=this.name(sm);
-      if(undefined!=defaults[name]){
-	var items=decodeURI(defaults[name]).toLowerCase().split('|');
-	var tl=sm.getElementsByTagName('text');
-	for(var j=0;j<tl.length;j++){
-	  var t=value(tl[j]);
-	  var c=tl[j].getElementsByTagName('tspan')[0];
-	  if(items.indexOf(t.toLowerCase())>=0){
-	    c.textContent=this._true;
-	  }else{
-	    c.textContent=this._false;
+	for(var j=0;j<rad.length;j++){
+	  var tog=that.clicker(rad[j]);
+	  if(that.isChecked(tog)){
+	    that.toggle(tog);
+	  }else if(this==rad[j]){
+	    that.toggle(tog);
+	    go(p);
 	  }
 	}
       }
     }
+
+
+    this.value=function(){
+      for(var i=0;i<rad.length;i++){
+	if(that.isChecked(that.clicker(rad[i]))){
+	  return that.text(rad[i]);
+	}
+      }
+    }
+
+    this.set=function(nv){
+      nv=nv.toLowerCase();
+      for(var i=0;i<rad.length;i++){
+	var ov=that.text(rad[i]).toLowerCase();
+	that.clicker(rad[i]).textContent=(ov==nv)?that.TRUE:that.FALSE;
+      }
+    }
+
+  },
+
+  SelectMulti:function(e,p,go){
+    this.e=e;
+    var that=this;
+
+    //var grp=e.getElementsByClassName("all");
+    var grp=d3.select(e).selectAll(".all")[0]; // IE9!!!!
+
+    for(var i=0;i<grp.length;i++){
+      grp[i].onclick=function(){
+	var set=that.isChecked(that.clicker(this))?
+	  that.FALSE:that.TRUE;
+
+	var all=this.parentNode.getElementsByTagName('tspan');
+	for(var j=0;j<all.length;j++){
+	  all[j].textContent=set;
+	}
+	go(p);
+      }
+    }
+
+    var cb=e.getElementsByTagName('text');
+    var v=[];
+    for(var i=0;i<cb.length;i++){
+      if(!d3.select(cb[i]).classed('all')){ // d3.js usage!!!
+	v.push(cb[i]);
+	cb[i].onclick=function(){
+	  that.toggle(that.clicker(this));
+	  go(p);
+	}
+      }
+    }
+
+    this.value=function(){
+      var out=[];
+      for(var i=0;i<v.length;i++){
+	if(that.isChecked(that.clicker(v[i]))){
+	  out.push(that.text(v[i]));
+	}
+      }
+      return out;
+    }
+
+    this.set=function(l){
+      var ll=l.toLowerCase().split('|');
+      v.forEach(
+	function(vv){
+	  that.clicker(vv).textContent=(-1==ll.indexOf(that.text(vv).toLowerCase()))?
+	    that.FALSE:that.TRUE;
+	}
+      )
+    }
+
+  },
+
+  values:function(){
+    var out={};
+    this.forms.forEach(
+      function(f){
+	out[f.name()]=f.value();
+      }
+    )
+    return out;
+  },
+
+  ours:function(e){
+    var name=this.name+'-';
+    return e.hasAttribute('id')&&
+      (e.getAttribute('id').substring(name.length,0)==name)
+  },
+
+  seek:function(type,p,go){
+    var e=document.getElementsByClassName('form'+type);
+    for(var i=0;i<e.length;i++){
+      if(this.ours(e[i])){
+	this.forms.push(new this[type](e[i],p,go));
+      }
+    }
+  },
+
+  setDefaults:function(d){
+    this.forms.forEach(
+      function(f){
+	var name=f.name();
+	if(undefined!=d[name]){
+	  f.set(d[name]);
+	}
+      }
+    );
+
   }
 
 }
 
-BGV.form.prototype={
-  _true:'☒',
-  _false:'☐',
-  _dil:'-', // delimiter
+BGV.form.prototype.Checkbox.prototype=
+BGV.form.prototype.SelectMulti.prototype=
+BGV.form.prototype.Radio.prototype={
+  TRUE:'☒',
+  FALSE:'☐',
 
-  values:function(){
-    return this._v;
+  name:function(){
+    return this.e.getAttribute('id').split('-')[1];
   },
 
-  // // //
-  // tag in these functions means where class="form*"
 
-  // Returns true if this is a tag we are worrying about
-  ours:function(tag){
-    var p=this.prefix+this._dil;
-    return tag.hasAttribute('id')&&
-      (tag.getAttribute('id').substring(p.length,0)==p)
+  isChecked:function(e){
+    return e.textContent==this.TRUE;
   },
 
-  name:function(tag){
-    var p=this.prefix+this._dil;
-    return tag.getAttribute('id').substring(p.length);
-  },
-
-  set:function(tag,value){
-    this._v[this.name(tag)]=value;
-  },
-
-  // // //
-  // The rest of the functions take the tspan with the Unicode ballot
-  // box in it, not the ane wich class="form*"
-
-  isChecked:function(tag){
-    return tag.textContent==this._true;
-  },
-
-  // Toggle a box, and return the status it was toggled to
-  toggle:function(tag){
-    if(this.isChecked(tag)){
-      tag.textContent=this._false;
+  toggle:function(e){
+    if(this.isChecked(e)){
+      e.textContent=this.FALSE;
       return false;
     }
-    tag.textContent=this._true;
+    e.textContent=this.TRUE;
     return true;
-  }
+  },
 
+  clicker:function(e){
+    return e.getElementsByTagName('tspan')[0];
+  },
+
+  text:function(e){
+    var out='';
+    for(var c=e.firstChild;c!=null;c=c.nextSibling){
+      if('#text'==c.nodeName){
+	out+=c.textContent;
+      }
+    }
+    return out.trim();
+  },
+
+  set:function(){}
 };
+

@@ -111,40 +111,43 @@ BGV.plugin.rest={
       }
     );
 
-    // Read values set in the document, also sit it if we already have
-    // a value.
-    var form=new BGV.form(
-      'REST',function(f){
-	f.sqs();
-	BGV.reload();
-      }
-    );
-    form.setDefaults(this.formDefaults());
 
-    form.sqs=function(){ // set queryString
-      var v=this.values();
-
-      for(k in v){
-	if(k=='evidenceList'){
-	  if((27==v[k].length)||(0==v[k].length)){
-	    delete that._queryString.includeEvidence;
-	    delete that._queryString[k];
-	  }else{
-	    that._queryString.includeEvidence='TRUE';
-	    that._queryString[k]=v[k].join('|');
-	  }
-	}else if('boolean'==typeof v[k]){
-	  if(that.exclude(k)){
-	    that._queryString[k]=v[k]?"FALSE":"TRUE";
-	  }else{
-	    that._queryString[k]=v[k]?"TRUE":"FALSE";
-	  }
-	}else{
-	  that._queryString[k]=v[k].toLowerCase();
+    if('function'==typeof BGV.form){
+      // Read values set in the document, also sit it if we already have
+      // a value.
+      var form=new BGV.form(
+	'REST',function(f){
+	  f.sqs();
+	  BGV.reload();
 	}
-      }
-    };
-    form.sqs();
+      );
+      form.setDefaults(this.formDefaults());
+
+      form.sqs=function(){ // set queryString
+	var v=this.values();
+
+	for(k in v){
+	  if(k=='evidenceList'){
+	    if((27==v[k].length)||(0==v[k].length)){
+	      delete that._queryString.includeEvidence;
+	      delete that._queryString[k];
+	    }else{
+	      that._queryString.includeEvidence='TRUE';
+	      that._queryString[k]=v[k].join('|');
+	    }
+	  }else if('boolean'==typeof v[k]){
+	    if(that.exclude(k)){
+	      that._queryString[k]=v[k]?"FALSE":"TRUE";
+	    }else{
+	      that._queryString[k]=v[k]?"TRUE":"FALSE";
+	    }
+	  }else{
+	    that._queryString[k]=v[k].toLowerCase();
+	  }
+	}
+      };
+      form.sqs();
+    }
 
 
     // fetch the data

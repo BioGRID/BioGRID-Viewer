@@ -5,7 +5,7 @@
 
 <script xlink:href="../d3.v2.min.js"/>
 <script xlink:href="BGV.js"/>
-<script xlink:href="BGV/SVGform2.js"/>
+<script xlink:href="BGV/SVGform.js"/>
 <script xlink:href="BGV/rest.js"/>
 <script xlink:href="BGV/ring.js"/>
 
