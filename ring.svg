@@ -20,9 +20,9 @@
 <text y="8em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
 <text y="9em">Interactions: <tspan class="restNodeEdges"></tspan></text>
 <text y="11em" id="REST-throughputTag" class="formRadio">Throughput: <tspan><tspan>☒</tspan>Any</tspan> <tspan><tspan>☐</tspan>High</tspan> <tspan><tspan>☐</tspan>Low</tspan></text>
-<text y="12em" id="REST-interSpeciesExcluded" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Interspecies Interactions</text>
-<text y="13em" id="REST-selfInteractionsExcluded" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Self Interaction</text>
-<text y="14em" id="REST-includeInteractorInteractions" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Interactor Interactions</text>
+<text y="12.5em" id="REST-interSpeciesExcluded" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Interspecies Interactions</text>
+<text y="13.5em" id="REST-selfInteractionsExcluded" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Self Interaction</text>
+<text y="14.5em" id="REST-includeInteractorInteractions" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Interactor Interactions</text>
 </g>
 
 <g class="formSelectMulti" id="REST-evidenceList">

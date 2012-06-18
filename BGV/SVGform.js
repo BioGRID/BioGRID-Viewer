@@ -61,6 +61,25 @@ BGV.Form._Form.prototype={
   FALSE:'☐',
 
   init:function(e,go){
+
+    // android don't seem to support check boxes
+    if(-1 !== navigator.userAgent.indexOf('Android')) {
+      // use full width characters to make sure they are the same width
+      var t='＋';
+      var f='－';
+      var ts=e.getElementsByTagName('tspan');
+      for(var i=0;i<ts.length;i++){
+	var check=ts[i];
+	if(check.textContent===this.TRUE){
+	  check.textContent=t;
+	}else if(check.textContent===this.FALSE){
+	  check.textContent=f;
+	}
+      }
+      this.TRUE=t;
+      this.FALSE=f;
+    }
+
     this.e=e;
     this.setClick(go);
   },
@@ -99,6 +118,7 @@ BGV.Form._Form.prototype={
   }
 
 };
+
 
 
 BGV.Form.prototype.Checkbox.prototype=new BGV.Form._Form();
