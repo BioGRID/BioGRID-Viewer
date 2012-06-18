@@ -112,15 +112,17 @@ BGV.plugin.rest={
     );
 
 
-    if('function'==typeof BGV.form){
+    if('function'==typeof BGV.Form){
       // Read values set in the document, also sit it if we already have
       // a value.
-      var form=new BGV.form(
-	'REST',function(f){
-	  f.sqs();
+      var form=new BGV.Form(
+	'REST',function(){
+	  //form.values();
+	  form.sqs();
 	  BGV.reload();
 	}
       );
+
       form.setDefaults(this.formDefaults());
 
       form.sqs=function(){ // set queryString
@@ -147,6 +149,8 @@ BGV.plugin.rest={
 	}
       };
       form.sqs();
+
+
     }
 
 
@@ -173,101 +177,6 @@ BGV.plugin.rest={
      );
     BGV.updateElementsHref('restTab2',url);
     this.resize();
-
-/*
-    // // // //
-    // evidence list stuff
-    var off='☐';
-    var on='☒';
-
-    // align the boxes
-    var elt=this.resize();
-
-    // returns all the siblings after tag
-    var siblings=function(tag){
-      var out=[];
-      for(var t=tag.nextSibling;t!=null;t=t.nextSibling){
-	if(undefined!=t.tagName){
-	  out.push(t);
-	}
-      }
-      return d3.selectAll(out);
-    };
-
-    // returns true if we are on
-    var isOn=function(t){
-      var tag=(undefined==t.length)?d3.select(t).select('tspan'):t;
-      return on==tag.text();
-    };
-
-    var toggle=function(t){
-      var tog=d3.select(t).select('tspan');
-      if(isOn(tog)){
-	tog.text(off);
-	return off;
-      }
-      tog.text(on);
-      return on;
-    };
-
-    // oh, oh, something changed, go!
-    var go=function(){
-      BGV.freeze('rent_go');
-
-      var el=[];
-      var all=0;
-      elt.selectAll('.select text').each(
-	function(){
-	  var tag=d3.select(this);;
-
-	  if(!tag.classed('all')){
-	    all++;
-	    if(isOn(this)){
-	      el.push(tag.text().replace(on,'').trim());
-	    }
-	  }
-	}
-      );
-
-      if(el.length==all){
-	delete that._queryString.includeEvidence;
-	delete that._queryString.evidenceList;
-      }else{
-	that._queryString.includeEvidence='true';
-	//that._queryString.evidenceList=escape(el.join('|'));
-	that._queryString.evidenceList=el;
-      }
-
-      BGV.reload();
-      BGV.melt('rest_go');
-    };
-
-    // set up the toggle events
-    elt.selectAll('.all')
-      .call(
-	function(){
-	  this.each(
-	    function(){
-	      siblings(this).on(
-		'click',function(){
-		  toggle(this);
-		  go();
-		}
-	      );
-	    }
-	  );
-	}
-      )
-      .on(
-	'click',function(){
-	  var s=toggle(this);
-	  siblings(this).select('tspan').text(s);
-	  go();
-	}
-      )
-    ;
-
-*/
     
   },
 

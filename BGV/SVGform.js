@@ -1,159 +1,20 @@
-BGV.form=function(name,go){
+BGV.Form=function(name,go){
   this.name=name;
+  this.go=go;
   this.forms=[];
 
-  this.seek("Checkbox",this,go);
-  this.seek("Radio",this,go);
-  this.seek("SelectMulti",this,go);
-  //console.log(this.forms);
+  ["Checkbox","Radio","SelectMulti"].forEach(this.seek,this);
 };
 
-BGV.form.prototype={
-  Checkbox:function(e,p,go){
-    this.e=e; // element
-    var that=this;
-
-    var tog=this.clicker(e);
-    e.onclick=function(){
-      that.toggle(tog);
-      go(p);
-    }
-
-    this.value=function(){
-      return this.isChecked(tog);
-    }
-
-    this.set=function(v){
-      tog.textContent=v?this.TRUE:this.FALSE;
-    }
+BGV.Form.prototype={
+  Checkbox:function(e,go){
+    this.init(e,go);
   },
-
-  Radio:function(e,p,go){
-    this.e=e;
-
-    var rad=[];
-    for(var c=e.firstChild;c!=null;c=c.nextSibling){
-      if('tspan'==c.nodeName){
-	rad.push(c);
-      }
-    }
-
-    var that=this;
-    for(var i=0;i<rad.length;i++){
-      rad[i].onclick=function(){
-	if(that.isChecked(that.clicker(this))){
-	  // do nothing if we check what is already checked
-	  return;
-	}
-
-	for(var j=0;j<rad.length;j++){
-	  var tog=that.clicker(rad[j]);
-	  if(that.isChecked(tog)){
-	    that.toggle(tog);
-	  }else if(this==rad[j]){
-	    that.toggle(tog);
-	    go(p);
-	  }
-	}
-      }
-    }
-
-
-    this.value=function(){
-      for(var i=0;i<rad.length;i++){
-	if(that.isChecked(that.clicker(rad[i]))){
-	  return that.text(rad[i]);
-	}
-      }
-    }
-
-    this.set=function(nv){
-      nv=nv.toLowerCase();
-      for(var i=0;i<rad.length;i++){
-	var ov=that.text(rad[i]).toLowerCase();
-	that.clicker(rad[i]).textContent=(ov==nv)?that.TRUE:that.FALSE;
-      }
-    }
-
+  Radio:function(e,go){
+    this.init(e,go);
   },
-
-  SelectMulti:function(e,p,go){
-    this.e=e;
-    var that=this;
-
-    //var grp=e.getElementsByClassName("all");
-    var grp=d3.select(e).selectAll(".all")[0]; // IE9!!!!
-
-    for(var i=0;i<grp.length;i++){
-      grp[i].onclick=function(){
-	var set=that.isChecked(that.clicker(this))?
-	  that.FALSE:that.TRUE;
-
-	var all=this.parentNode.getElementsByTagName('tspan');
-	for(var j=0;j<all.length;j++){
-	  all[j].textContent=set;
-	}
-	go(p);
-      }
-    }
-
-    var cb=e.getElementsByTagName('text');
-    var v=[];
-    for(var i=0;i<cb.length;i++){
-      if(!d3.select(cb[i]).classed('all')){ // d3.js usage!!!
-	v.push(cb[i]);
-	cb[i].onclick=function(){
-	  that.toggle(that.clicker(this));
-	  go(p);
-	}
-      }
-    }
-
-    this.value=function(){
-      var out=[];
-      for(var i=0;i<v.length;i++){
-	if(that.isChecked(that.clicker(v[i]))){
-	  out.push(that.text(v[i]));
-	}
-      }
-      return out;
-    }
-
-    this.set=function(l){
-      var ll=l.toLowerCase().split('|');
-      v.forEach(
-	function(vv){
-	  that.clicker(vv).textContent=(-1==ll.indexOf(that.text(vv).toLowerCase()))?
-	    that.FALSE:that.TRUE;
-	}
-      )
-    }
-
-  },
-
-  values:function(){
-    var out={};
-    this.forms.forEach(
-      function(f){
-	out[f.name()]=f.value();
-      }
-    )
-    return out;
-  },
-
-  ours:function(e){
-    var name=this.name+'-';
-    return e.hasAttribute('id')&&
-      (e.getAttribute('id').substring(name.length,0)==name)
-  },
-
-  seek:function(type,p,go){
-    var e=document.getElementsByClassName('form'+type);
-    for(var i=0;i<e.length;i++){
-      if(this.ours(e[i])){
-	this.forms.push(new this[type](e[i],p,go));
-      }
-    }
+  SelectMulti:function(e,go){
+    this.init(e,go);
   },
 
   setDefaults:function(d){
@@ -165,26 +26,57 @@ BGV.form.prototype={
 	}
       }
     );
+  },
+  ours:function(e){
+    var name=this.name+'-';
+    return e.hasAttribute('id')&&
+      (e.getAttribute('id').substring(name.length,0)==name)
+  },
+  seek:function(type){
+    var e=document.getElementsByClassName('form'+type);
+    for(var i=0;i<e.length;i++){
+      if(this.ours(e[i])){
+	this.forms.push(new this[type](e[i],this.go));
+      }
+    }
+  },
 
+  values:function(){
+    var out={};
+    this.forms.forEach(
+      function(f){
+	//console.log(f.name(),f.value());
+	out[f.name()]=f.value();
+      }
+    );
+    return out;
   }
+  
+};
 
-}
 
-BGV.form.prototype.Checkbox.prototype=
-BGV.form.prototype.SelectMulti.prototype=
-BGV.form.prototype.Radio.prototype={
+BGV.Form._Form=function(){};
+BGV.Form._Form.prototype={
   TRUE:'☒',
   FALSE:'☐',
 
+  init:function(e,go){
+    this.e=e;
+    this.setClick(go);
+  },
   name:function(){
     return this.e.getAttribute('id').split('-')[1];
   },
 
-
+  checker:function(e){
+    return e.getElementsByTagName('tspan')[0];
+  },
   isChecked:function(e){
     return e.textContent==this.TRUE;
   },
-
+  isCheckerChecked:function(e){
+    return this.isChecked(this.checker(e));
+  },
   toggle:function(e){
     if(this.isChecked(e)){
       e.textContent=this.FALSE;
@@ -193,21 +85,157 @@ BGV.form.prototype.Radio.prototype={
     e.textContent=this.TRUE;
     return true;
   },
-
-  clicker:function(e){
-    return e.getElementsByTagName('tspan')[0];
+  toggleChecker:function(e){
+    return this.toggle(this.checker(e));
   },
-
   text:function(e){
     var out='';
-    for(var c=e.firstChild;c!=null;c=c.nextSibling){
-      if('#text'==c.nodeName){
-	out+=c.textContent;
+    for(var t=e.firstChild;t!=null;t=t.nextSibling){
+      if('#text'==t.nodeName){
+	out+=t.textContent;
       }
     }
     return out.trim();
-  },
+  }
 
-  set:function(){}
 };
 
+
+BGV.Form.prototype.Checkbox.prototype=new BGV.Form._Form();
+BGV.Form.prototype.Checkbox.prototype.setClick=function(go){
+  var e=this.checker(this.e);
+  var that=this;
+  this.e.onclick=function(){
+    that.toggle(e);
+    go();
+  }
+};
+BGV.Form.prototype.Checkbox.prototype.set=function(v){
+  this.checker(this.e).textContent=v?this.TRUE:this.FALSE;
+};
+BGV.Form.prototype.Checkbox.prototype.value=function(){
+  return this.isCheckerChecked(this.e);
+};
+
+
+BGV.Form.prototype.Radio.prototype=new BGV.Form._Form();
+BGV.Form.prototype.Radio.prototype.setClick=function(go){
+  this.rad=[];
+  for(var r=this.e.firstChild;r!=null;r=r.nextSibling){
+    if('tspan'==r.nodeName){
+      this.rad.push(r);
+    }
+  }
+
+  var that=this;
+  var oc=function(){
+    if(that.isCheckerChecked(this)){
+      // Do nothing if we clicked on what is already checked
+      return;
+    }
+
+    for(var i=0;i<that.rad.length;i++){
+      var c=that.checker(that.rad[i]);
+      if(that.isChecked(c)){
+	that.toggle(c);
+      }else if(that.rad[i]==this){
+	that.toggle(c);
+	go();
+      }
+    }
+  }
+
+  this.rad.forEach(function(r){r.onclick=oc;});
+
+};
+BGV.Form.prototype.Radio.prototype.set=function(nv){
+  nv=nv.toLowerCase(); // new value
+  var that=this;
+  this.rad.forEach(function(r){
+    var ov=that.text(r).toLowerCase(); // old value
+    that.checker(r).textContent=(ov==nv)?that.TRUE:that.FALSE;
+  });
+};
+BGV.Form.prototype.Radio.prototype.value=function(){
+  var out;
+  for(var i=0;i<this.rad.length;i++){
+    var r=this.rad[i];
+    if(this.isCheckerChecked(r)){
+      return this.text(r);
+    }
+  }
+};
+
+BGV.Form.prototype.SelectMulti.prototype=new BGV.Form._Form();
+BGV.Form.prototype.SelectMulti.prototype.setClick=function(go){
+  this.o=[]; // options
+  this.g={}; // groups
+
+  var g; // group
+  var gp; // group parent
+
+  var tags=this.e.getElementsByTagName('text');
+  for(var i=0;i<tags.length;i++){
+    var t=tags[i];
+    if(BGV.hasClass(t,'all')){
+      g=this.text(t);
+      gp=t.parentNode;
+      this.g[g]=[];
+      this.g[g].t=t;
+    }else{
+      this.o.push(t);
+      if(gp===t.parentNode){
+	this.g[g].push(t);
+      }
+    }
+  }
+
+  var that=this;
+  var all=function(){
+    var set=that.toggleChecker(this)?that.TRUE:that.FALSE;
+    that.g[that.text(this)].forEach(
+      function(e){
+	that.checker(e).textContent=set;
+      }
+    )
+    go();
+  }
+
+  for(var v in this.g){
+    this.g[v].t.onclick=all;
+  }
+
+
+  var each=function(){
+    that.toggleChecker(this);
+    go();
+  }
+  this.o.forEach(
+    function(e){
+      e.onclick=each;
+    }
+  );
+
+};
+BGV.Form.prototype.SelectMulti.prototype.set=function(nv){
+  var nvs=nv.trim().toLowerCase().split('|');
+  this.o.forEach(
+    function(opt){
+      this.checker(opt).textContent=
+	(-1==nvs.indexOf(this.text(opt).toLowerCase()))?this.FALSE:this.TRUE;
+      },this
+  );
+};
+BGV.Form.prototype.SelectMulti.prototype.value=function(){
+  var out=[];
+
+  this.o.forEach(
+    function(o){
+      if(this.isCheckerChecked(o)){
+	out.push(this.text(o));
+      }
+    },this
+  );
+
+  return out;
+};

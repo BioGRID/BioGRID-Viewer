@@ -200,6 +200,9 @@ BGV={
     this._selected=node;
     return node;
   },
+  hasClass:function(node,c){
+    return d3.select(node).classed(c);
+  },
 
   taxa:{}
 };
