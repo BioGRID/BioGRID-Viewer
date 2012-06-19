@@ -19,6 +19,7 @@ BGV.plugin.rest={
 
     BGV.updateElementsHref('restTab2',url);
     BGV.updateElementsText('InteractionCount','pending');
+    this.root.classed('wait',true);
 
     BGV.ajax(
       url,function(t){
@@ -95,6 +96,7 @@ BGV.plugin.rest={
 
   load:function(){
     var that=this;
+    this.root=d3.select(document.rootElement);
 
     var go=function(bool,key){
       BGV.freeze('rest_load');
@@ -224,6 +226,7 @@ BGV.plugin.rest={
       return false;
     }
 
+    var root=this.root;
     BGV.ajax(
       this.countURL(),function(t){
 	var c=l;
@@ -231,6 +234,7 @@ BGV.plugin.rest={
 	  c+=" of "+t;
 	}
 	BGV.updateElementsText('InteractionCount',c);
+	root.classed('wait',false);
       }
     );
 
