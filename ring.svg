@@ -9,7 +9,7 @@
 <script xlink:href="BGV/rest.js"/>
 <script xlink:href="BGV/ring.js"/>
 
-<g id="BGVring"><g class="edges"/><g class="taxa"/><g class="nodes"/></g>
+<g id="BGVring"><title class="mainNodeSummary"/><g class="edges"/><g class="taxa"/><g class="nodes"/></g>
 <g id="BGVinfo" transform="translate(5)">
 <text y="1em"><a xlink:href="http://thebiogrid.org/">BioGRID</a> Version:<tspan class="BioGRIDVersion">?</tspan></text>
 <text y="2em">Total Interactions:<a target="tab2" xlink:href="" class="restTab2 InteractionCount">?</a></text>

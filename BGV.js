@@ -107,6 +107,7 @@ BGV={
 
     this.e.InteractionCount=document.getElementsByClassName('InteractionCount');
     this.e.species=document.getElementsByClassName('species');
+    this.e.mainNodeSummary=document.getElementsByClassName('mainNodeSummary');
   },
 
   _reload:null, // store intervalID if volatile
@@ -114,8 +115,6 @@ BGV={
   // volatile will try again ever half second until we are done.
   // Returns true if we did it or false if we are waiting to do it.
   reload:function(node){
-//    console.log(this._reload);
-
     if(this.liquid()){
       this.forEach('reload',node);
       return true;
@@ -133,9 +132,11 @@ BGV={
     return false;
   },
   view:function(node){
+    this.updateElementsText('mainNodeSummary',node.summary());
     this.forEach('view',node);
   },
   review:function(node){
+    this.updateElementsText('mainNodeSummary',node.summary());
     this.forEach('review',node);
   },
   resize:function(){

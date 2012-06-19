@@ -415,6 +415,10 @@ BGV.plugin.rest.node.prototype={
   display:function(){
     return this.data.OfficialSymbol;
   },
+  summary:function(){
+    return this.display() + ' ' + this.taxon().display();
+  },
+
   cmp:function(x){
     if(this.data.OrganismID<x.data.OrganismID){
       return -1;
@@ -436,7 +440,6 @@ BGV.plugin.rest.node.prototype={
   classes:function(){
     return 'node';
   },
-
 
   select:function(){
     d3.selectAll(this.nodeTags(true)).classed('highlight',true);
