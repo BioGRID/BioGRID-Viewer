@@ -3,8 +3,15 @@ BGV.plugin.rest={
 
     if(undefined!=node){
       this._queryString.geneList=node.data.OfficialSymbol;
-      //this._queryString.taxId=node.data.OrganismID;
-      this._queryString.geneTaxIdList=node.data.OrganismID;
+
+      // geneTaxIdList is the better choice, but if we are already in
+      // taxId mode lets stay there
+      if(undefined==this._queryString.taxId){
+	this._queryString.geneTaxIdList=node.data.OrganismID;
+      }else{
+	this._queryString.taxId=node.data.OrganismID;
+      }
+
     }
 
     var that=this;
