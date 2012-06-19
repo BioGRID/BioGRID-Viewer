@@ -181,7 +181,7 @@ BGV.plugin.rest={
      "restNodeOfficialSymbol","restNodeEdges","restTab2",
      "restWait"].forEach(
        function(c){
-	 BGV.e[c]=document.getElementsByClassName(c);
+	 BGV.e[c]=document.querySelectorAll('.'+c);
        }
      );
     BGV.updateElementsHref('restTab2',url);
