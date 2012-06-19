@@ -218,19 +218,42 @@ BGV.plugin.rest={
 
   parse:function(tsv){
     var lines=tsv.trim().split("\n");
-    var l=lines.length;
+    var linesInFile=lines.length;
 
-    if((l==1)&&(lines[0].length==0)){
+    if((linesInFile==1)&&(lines[0].length==0)){
       BGV.purge();
       alert("No edges loaded.");
       return false;
     }
 
+    var newNode={};
+    var newEdge={};
+
+    var usableLines=0;
+    while(lines.length>0){
+      var line=lines.shift();
+      try{
+	var edge=BGV.addEdge(new this.edge(line.split("\t"),this));
+	edge.source.addEdge(edge);
+	edge.target.addEdge(edge);
+
+	newEdge[edge.id()]=true;
+	newNode[edge.source.id()]=true;
+	newNode[edge.target.id()]=true;
+
+	usableLines++;
+      }catch(e){
+	// ignore currupt tab2 lines
+	//console.log(e,line);
+      }
+
+    }
+
     var root=this.root;
     BGV.ajax(
       this.countURL(),function(t){
-	var c=l;
-	if(t!=l){
+	var c=usableLines;
+	if(t!=usableLines){
 	  c+=" of "+t;
 	}
 	BGV.updateElementsText('InteractionCount',c);
@@ -238,19 +261,13 @@ BGV.plugin.rest={
       }
     );
 
-    var newNode={};
-    var newEdge={};
+    if(usableLines!==linesInFile){
+      var d=linesInFile-usableLines;
 
-    while(lines.length>0){
-      var line=lines.shift();
-      var edge=BGV.addEdge(new this.edge(line.split("\t"),this));
-      edge.source.addEdge(edge);
-      edge.target.addEdge(edge);
-
-      newEdge[edge.id()]=true;
-      newNode[edge.source.id()]=true;
-      newNode[edge.target.id()]=true;
+      alert(d + " corrupt " + (d==1?"line":"lines") + 
+	    " in TAB2 file ignored.");
     }
+
 
     var removeOldNodes=function(fresh,all){
       for(var id in all){
