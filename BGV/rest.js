@@ -19,7 +19,7 @@ BGV.plugin.rest={
 
     BGV.updateElementsHref('restTab2',url);
     BGV.updateElementsText('InteractionCount','pending');
-    this.root.classed('wait',true);
+    d3.selectAll(BGV.e.restWait).classed('restWait',true);
 
     BGV.ajax(
       url,function(t){
@@ -96,7 +96,6 @@ BGV.plugin.rest={
 
   load:function(){
     var that=this;
-    this.root=d3.select(document.rootElement);
 
     var go=function(bool,key){
       BGV.freeze('rest_load');
@@ -179,7 +178,8 @@ BGV.plugin.rest={
 
     // for displaying data
     ["restNodeEntrez","restNodeBioGridId","restNodeSystematicName",
-     "restNodeOfficialSymbol","restNodeEdges","restTab2"].forEach(
+     "restNodeOfficialSymbol","restNodeEdges","restTab2",
+     "restWait"].forEach(
        function(c){
 	 BGV.e[c]=document.getElementsByClassName(c);
        }
@@ -257,7 +257,7 @@ BGV.plugin.rest={
 	  c+=" of "+t;
 	}
 	BGV.updateElementsText('InteractionCount',c);
-	root.classed('wait',false);
+        d3.selectAll(BGV.e.restWait).classed('restWait',false);
       }
     );
 
