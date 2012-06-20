@@ -5,7 +5,7 @@ BGV.plugin.rest={
       this._queryString.geneList=node.data.OfficialSymbol;
 
       // geneTaxIdList is the better choice, but if we are already in
-      // taxId mode lets stay there
+      // taxId mode lets stay there5A
       if(undefined==this._queryString.taxId){
 	this._queryString.geneTaxIdList=node.data.OrganismID;
       }else{
@@ -97,6 +97,18 @@ BGV.plugin.rest={
   load:function(){
     var that=this;
 
+    // for displaying data
+    ["restNodeEntrez","restNodeBioGridId","restNodeSystematicName",
+     "restNodeOfficialSymbol","restNodeEdges","restTab2","restWait"].forEach(
+       function(c){
+	 BGV.e[c]=document.querySelectorAll('.'+c);
+       }
+     );
+
+    // fetch the data
+    var url=this.interactionsURL();
+    BGV.updateElementsHref('restTab2',url);
+
     var go=function(bool,key){
       BGV.freeze('rest_load');
       that._queryString[key]=bool;
@@ -161,9 +173,9 @@ BGV.plugin.rest={
 
     }
 
-
     // fetch the data
     var url=this.interactionsURL();
+    BGV.updateElementsHref('restTab2',url);
     BGV.ajax(
       url,function(t){
 	that.parse(t);
@@ -176,15 +188,6 @@ BGV.plugin.rest={
     BGV.e.BioGRIDVersion=document.getElementsByClassName(bgv);
     BGV.ajax(this.versionURL(),function(v){BGV.updateElementsText(bgv,v);});
 
-    // for displaying data
-    ["restNodeEntrez","restNodeBioGridId","restNodeSystematicName",
-     "restNodeOfficialSymbol","restNodeEdges","restTab2",
-     "restWait"].forEach(
-       function(c){
-	 BGV.e[c]=document.querySelectorAll('.'+c);
-       }
-     );
-    BGV.updateElementsHref('restTab2',url);
     this.resize();
     
   },
@@ -257,7 +260,7 @@ BGV.plugin.rest={
 	  c+=" of "+t;
 	}
 	BGV.updateElementsText('InteractionCount',c);
-        d3.selectAll(BGV.e.restWait).classed('restWait',false);
+	d3.selectAll(BGV.e.restWait).classed('restWait',false);
       }
     );
 
