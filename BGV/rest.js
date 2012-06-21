@@ -225,6 +225,7 @@ BGV.plugin.rest={
 
     if((linesInFile==1)&&(lines[0].length==0)){
       BGV.purge();
+      BGV.updateElementsText('InteractionCount',0);
       alert("No edges loaded.");
       return false;
     }

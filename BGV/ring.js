@@ -215,7 +215,12 @@ BGV.pplugin.ring={
 	  return out;
 	}
       )
-      .append('text').text(function(n){return n.display();})
+    ;
+
+    this.ring.append('title').text(function(n){return n.display();});
+  
+    this.ring
+      .append('text').text(function(n){return n.display();})  
       .attr('transform','translate('+arcWidthPad+')')
       .on('mouseover',function(n,i){if(!BGV.selected()){n.select();}})
       .on('mouseout',function(n){if(!BGV.selected()){n.deselect();}})
@@ -249,8 +254,8 @@ BGV.pplugin.ring={
 
     var r=this.radius*this.padding;
     this._speciesRing=this.ring.select(".taxa")
-      .selectAll(".taxon").data(groups)
-      .enter().append('path').attr('class','taxon')
+      .selectAll(".taxon").data(groups).enter()
+      .append('path').attr('class','taxon')
       .attr(
 	'style',function(g){
 	  return "fill:"+g.taxon.color('#fdf6e3')+";stroke:black"; // base3
@@ -260,6 +265,8 @@ BGV.pplugin.ring={
       .on('mouseover',function(g){if(!BGV.selected()){g.taxon.select();}})
       .on('mouseout',function(g){if(!BGV.selected()){g.taxon.deselect();}})
     ;
+
+    this._speciesRing.append('title').text(function(g){return g.taxon.display();});
 
     if(null!=this._selected){
       this._selected.select();

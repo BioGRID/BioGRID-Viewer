@@ -9,18 +9,4 @@ From http://mbostock.github.com/d3/ page.  d3.v2.min.js should be in
 the parent directory of BioGRID-Viewer.
 
 * Browsers
-
-** Chrome
-Developed in Chrome on Debian.
-
-*** Android
-Unicode BALLOT BOXes don't seem to render in the android emulator.
-
-** Safari
-*** Mac OS X
-*** iOS
-Only tested in Apple's iOS simulator.
-
-** Firefox >= 4
-
-** IE9
+See qa.html for tested browsers.
