@@ -200,7 +200,7 @@ BGV.pplugin.ring={
     var arcWidthPad=arcWidth*1.5;
 
     // draw the nodes
-    this.ring.select(".nodes")
+    var tags=this.ring.select(".nodes")
       .selectAll(".node").data(nodes)
       .enter().append('g')
       .attr('class',function(n){return n.classes();})
@@ -217,9 +217,9 @@ BGV.pplugin.ring={
       )
     ;
 
-    this.ring.append('title').text(function(n){return n.display();});
+    tags.append('title').text(function(n){return n.display();});
   
-    this.ring
+    tags
       .append('text').text(function(n){return n.display();})  
       .attr('transform','translate('+arcWidthPad+')')
       .on('mouseover',function(n,i){if(!BGV.selected()){n.select();}})
