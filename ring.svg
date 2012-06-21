@@ -14,7 +14,7 @@
 <text y="1em"><a xlink:href="http://thebiogrid.org/">BioGRID</a> Version:<tspan class="BioGRIDVersion">?</tspan></text>
 <text y="2em">Total Interactions:<a target="tab2" xlink:href="" class="restTab2 InteractionCount">?</a></text>
 <text y="4em">Species: <tspan class="species"></tspan></text>
-<text y="5em">Official Symbol: <tspan class="restNodeOfficialSymbol"></tspan></text>
+<text y="5em">Official Symbol: <a xlink:href="" class="restNodeOfficialSymbol"> </a></text>
 <text y="6em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
 <text y="7em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
 <text y="8em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>

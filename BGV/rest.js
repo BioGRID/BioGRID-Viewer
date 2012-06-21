@@ -416,6 +416,13 @@ BGV.plugin.rest.node.prototype={
   color:function(def){
     return this.taxon().color(def);
   },
+  modLink:function(){
+    var p=this.taxon().officialSymbolPrefixLink();
+    if(undefined===p){
+      return undefined;
+    }
+    return p+this.data.OfficialSymbol;
+  },
   display:function(){
     return this.data.OfficialSymbol;
   },
@@ -457,8 +464,12 @@ BGV.plugin.rest.node.prototype={
     BGV.updateElementsText("restNodeBioGridId",this.data.BioGridId);
     BGV.updateElementsHref("restNodeBioGridId",
 			   'http://thebiogrid.org/'+this.data.BioGridId+'/');
+
     BGV.updateElementsText("restNodeSystematicName",this.data.SystematicName);
     BGV.updateElementsText("restNodeOfficialSymbol",this.data.OfficialSymbol);
+    var ml=this.modLink();
+    BGV.updateElementsHref("restNodeOfficialSymbol",undefined===ml?'':ml);
+
     BGV.updateElementsText("restNodeEdges",d3.keys(this._edges).length);
   },
   deselect:function(){

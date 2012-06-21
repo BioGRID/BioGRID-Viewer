@@ -226,6 +226,9 @@ d3.json(
       color:function(def){
 	return (undefined==this._color)?def:this._color;
       },
+      officialSymbolPrefixLink:function(){
+	return this._officialSymbolLink;
+      },
 
       select:function(){
 	BGV.updateElementsText('species',this.display());

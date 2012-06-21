@@ -1,7 +1,11 @@
+@namespace xlink "http://www.w3.org/1999/xlink";
+
 svg{background-color:#eee8d5;fill:#839496;} /* base2 base0 */
 path{stroke:#268bd2;stroke-opacity:.1;fill:none;} /* blue */
 
-a{text-decoration:underline;fill:#268bd2;} /* blue */
+a[xlink|href]{fill:#268bd2} /* blue */
+a[xlink|href=""]{fill:#839496} /* base0 */
+
 text{font-size:12px;font-family:sans-serif;}
 .node text{alignment-baseline:middle}
 
