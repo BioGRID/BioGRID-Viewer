@@ -214,8 +214,8 @@ BGV.plugin.rest={
   },
 
   interactionsURL:function(){
-    return BGV.config('rest','url')+'resources/interactions?enableCaching=true&'
-      +this.queryString();
+//    return BGV.config('rest','url')+'resources/interactions?enableCaching=true&'
+    return BGV.config('rest','url')+this.queryString();
   },
   countURL:function(){
     return this.interactionsURL()+"&format=count";
@@ -336,9 +336,10 @@ BGV.plugin.rest={
     this._edges={};
 
     if(undefined==BGV.taxa[this.data.OrganismID]){
-      var err="Taxa id " + this.data.OrganismID + " not found.";
-      alert(err);
-      throw err;
+      BGV.taxa[this.data.OrganismID]=new BGV.taxon({
+	id:this.data.OrganismId,
+	species:"taxId "+this.data.OrganismID
+      })
     }
   }
 

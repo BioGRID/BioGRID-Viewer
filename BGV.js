@@ -211,12 +211,12 @@ BGV={
 BGV.freeze('loading');
 d3.json(
   'BGV/taxa.json',function(json){
-    var taxa=function(raw){
+    BGV.taxon=function(raw){
       for(var k in raw){
 	this['_'+k]=raw[k];
       }
     };
-    taxa.prototype={
+    BGV.taxon.prototype={
       id:function(){
 	return this._id;
       },
@@ -240,7 +240,7 @@ d3.json(
 
     json.forEach(
       function(raw){
-	var taxon=new taxa(raw);
+	var taxon=new BGV.taxon(raw);
 	BGV.taxa[taxon.id()]=taxon;
       }
     );
