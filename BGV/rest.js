@@ -178,6 +178,12 @@ BGV.plugin.rest={
     BGV.updateElementsHref('restTab2',url);
     BGV.ajax(
       url,function(t){
+
+	if(null==t){
+	  alert("8-/ Unable to fetch data, sorry.");
+	  return;
+	}
+
 	that.parse(t);
 	BGV.view(that.qs2node());
       }
