@@ -1,7 +1,14 @@
 {
  "rest":{
-  "url":"http://webservice.thebiogrid.org/",
-  "url":"http://biogridrest.princeton.edu:8080/BiogridRestService/",
+  "interactions":"http://sce-bio-c02577.bio.ed.ac.uk:8080/BiogridRestService/resources/interactions/",
+  "version":"http://sce-bio-c02577.bio.ed.ac.uk:8080/BiogridRestService/resources/version",
+
+  "interactions":"http://webservice.thebiogrid.org/BiogridRestService/resources/interactions/",
+  "version":"http://webservice.thebiogrid.org/BiogridRestService/resources/version",
+
+  "interactions":"http://biogridrest.princeton.edu:8080/BiogridRestService/resources/interactions/",
+  "version":"http://biogrirest.princeton.edu:8080/BiogridRestService/resources/version",
+
   "queryStringDefaults":{"includeInteractors":"TRUE"}
   "queryStringDefaults":{}
  }

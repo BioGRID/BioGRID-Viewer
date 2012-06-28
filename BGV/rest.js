@@ -214,14 +214,14 @@ BGV.plugin.rest={
   },
 
   interactionsURL:function(){
-//    return BGV.config('rest','url')+'resources/interactions?enableCaching=true&'
-    return BGV.config('rest','url')+this.queryString();
+    return BGV.config('rest','interactions')+
+      '?enableCaching=true&'+this.queryString();
   },
   countURL:function(){
     return this.interactionsURL()+"&format=count";
   },
   versionURL:function(){
-    return BGV.config('rest','url')+'resources/version';
+    return BGV.config('rest','version');
   },
 
 
