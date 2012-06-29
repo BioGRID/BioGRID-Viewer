@@ -132,11 +132,15 @@ BGV={
     return false;
   },
   view:function(node){
-    this.updateElementsText('mainNodeSummary',node.summary());
+    if(null!=node){
+      this.updateElementsText('mainNodeSummary',node.summary());
+    }
     this.forEach('view',node);
   },
   review:function(node){
-    this.updateElementsText('mainNodeSummary',node.summary());
+    if(null!=node){
+      this.updateElementsText('mainNodeSummary',node.summary());
+    }
     this.forEach('review',node);
   },
   resize:function(){

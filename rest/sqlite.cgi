@@ -69,11 +69,8 @@ sub sharedSQL(){
 	warn "What's '$tp' Throughput?"
     }
 
-    my @ev=$s->param('evidenceList');
-    if(0!=scalar @ev){
-	push @where,$s->_match('Experimental_System',@ev);
-    }
-
+    push @where,$s->_match('Experimental_System',$s->param('evidenceList'));
+    push @where, $s->_match('Pubmed_ID',$s->param('pubmedList'));
 
     return () if(0==scalar @where);
     return join(' AND ',@where);
@@ -101,8 +98,6 @@ sub whereSQL{
        )
       );
 
-    push @where, $s->_match('Pubmed_ID',$s->param('pubmedList'));
-
     if('true' eq lc($s->param('interSpeciesExcluded'))){
 	push @where,'(Organism_Interactor_A==Organism_Interactor_B)';
     }
@@ -115,6 +110,7 @@ sub whereSQL{
 sub sth{
     my $s=shift;
     my $what=shift;
+    my $limit=shift;
 
     $s->{bind_values}=[];
     my $where=$s->whereSQL();
@@ -122,7 +118,7 @@ sub sth{
 
     if('true' eq lc($s->param('includeInteractorInteractions'))){
  	my $bgId='BioGRID_ID_Interactor_';
-	my $sql="SELECT ${bgId}A,${bgId}B FROM biogrid WHERE ".$where;
+	my $sql="SELECT ${bgId}A,${bgId}B FROM biogrid WHERE $where";
 	#print $sql;
 	$sth=$s->{dbh}->prepare($sql);
 	$sth->execute(@{ $s->{bind_values} });
@@ -139,13 +135,13 @@ sub sth{
     	   $s->_match("${bgId}A",keys %want),
     	   $s->_match("${bgId}B",keys %want),
     	   $s->sharedSQL()
-    	  );
+    	  ).$limit;
 	$sth=$s->{dbh}->prepare($sql);
 	$sth->execute(@{ $s->{bind_values} });
 
     }else{
 
-	my $sql="SELECT $what FROM biogrid WHERE $where";
+	my $sql="SELECT $what FROM biogrid WHERE $where $limit";
 	$sth=$s->{dbh}->prepare($sql);
 	$sth->execute(@{ $s->{bind_values} });
     }
@@ -156,7 +152,7 @@ sub sth{
 
 sub dumpTab2{
     my $s=shift;
-    my $sth=$s->sth('*');
+    my $sth=$s->sth('*','LIMIT 1000');
 
     while(my @row=$sth->fetchrow_array()){
 	print join("\t",map{
@@ -168,7 +164,7 @@ sub dumpTab2{
 
 sub count{
     my $s=shift;
-    my $sth=$s->sth('COUNT(*)');
+    my $sth=$s->sth('COUNT(*)','');
     my @row=$sth->fetchrow_array();
     return $row[0];
 }
