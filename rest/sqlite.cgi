@@ -38,6 +38,20 @@ sub comma{
     }
 }
 
+sub bla{
+    my $col=shift;
+    my @vals=@_;
+    my $count=scalar(@vals);
+
+    if(1==$count){
+	push @where,"$col=$vals[0]";
+    }elsif(0!=$count){
+	my $qm=join(',',@vals);
+	push @where,"$col IN($qm)";
+    }
+
+}
+
 
 my @gtax=split(m/\|/,$q->param('geneTaxIdList'));
 my @gene=split(m/\|/,$q->param('geneList'));
@@ -99,7 +113,7 @@ sub mkSql{
     }else{
 	$sql.='*';
     }
-    $sql.=' FROM biogrid WHERE ' . join("\n",@_);
+    $sql.=' FROM biogrid WHERE ' . join("\n",@_) . ' LIMIT 10000';
     warn "$sql\n----\n";
     return $sql;
 }
@@ -121,9 +135,9 @@ if('true' eq lc($q->param('includeInteractorInteractions'))){
     @args=();
 
     push @where,'(';
-    comma('BioGRID_ID_Interactor_A',keys %want);
+    bla('BioGRID_ID_Interactor_A',keys %want);
     push @where,'AND';
-    comma('BioGRID_ID_Interactor_B',keys %want);
+    bla('BioGRID_ID_Interactor_B',keys %want);
     push @where,')';
 
     if(0!=scalar(@also)){
