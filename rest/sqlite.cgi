@@ -1,163 +1,200 @@
 #!/usr/bin/perl
 use warnings;
 use strict;
+use Data::Dumper;
+
+package BioGRID::REST;
+use warnings;
+use strict;
+
+sub new{
+    my $c=shift;
+    my $s={q=>shift,dbh=>shift};
+    return bless $s,$c;
+}
+
+sub param{
+    my $s=shift;
+    my $q=$s->{q};
+    my $p=shift;
+
+    return split(m/\|/,$q->param($p)||'') if($p=~m/List$/);
+    return $q->param($p);
+}
+
+sub _save{
+    my $s=shift;
+    my $v=shift;
+
+    return $v if($v=~/^-?\d+$/);
+    push @{$s->{bind_values}},$v;
+    return '?';
+}
+
+sub _match{
+    my $s=shift;
+    my $col=shift;
+    my @val=@_;
+    my $count=scalar(@val);
+
+    if(1==$count){
+	return "$col=".$s->_save($val[0]);
+    }elsif(0!=$count){
+	return "$col IN(" . join(',',map{
+	    $s->_save($_);
+	}@val) . ')';
+    }
+    return ();
+}
+
+sub _join{
+    my $s=shift;
+    my $ar=shift; # AND || OR
+    return () if(0==scalar @_);
+    return '(' . join(" $ar ",@_) . ')';
+}
+
+sub sharedSQL(){
+    my $s=shift;
+    my @where;
+
+    if('true' eq lc($s->param('selfInteractionsExcluded'))){
+	push @where,'(BioGRID_ID_Interactor_A!=BioGRID_ID_Interactor_B)';
+    }
+
+    my $tp=lc($s->param('throughputTag'));
+    if(($tp eq 'low') || ($tp eq 'high')){
+	push @where,"(Throughput LIKE '%\u$tp Throughput%')";
+    }elsif($tp ne 'any'){
+	warn "What's '$tp' Throughput?"
+    }
+
+    my @ev=$s->param('evidenceList');
+    if(0!=scalar @ev){
+	push @where,$s->_match('Experimental_System',@ev);
+    }
+
+
+    return () if(0==scalar @where);
+    return join(' AND ',@where);
+}
+
+# the sql to get all the data
+sub whereSQL{
+    my $s=shift;
+
+    my @where;
+
+    my @gtax=$s->param('geneTaxIdList');
+    my @gene=$s->param('geneList');
+    push @where,$s->_join
+      ('OR',
+       $s->_join
+       ('AND',
+	$s->_match('Official_Symbol_Interactor_A',@gene),
+	$s->_match('Organism_Interactor_A',@gtax)
+       ),
+       $s->_join
+       ('AND',
+	$s->_match('Official_Symbol_Interactor_B',@gene),
+	$s->_match('Organism_Interactor_B',@gtax)
+       )
+      );
+
+    push @where, $s->_match('Pubmed_ID',$s->param('pubmedList'));
+
+    if('true' eq lc($s->param('interSpeciesExcluded'))){
+	push @where,'(Organism_Interactor_A==Organism_Interactor_B)';
+    }
+
+    push @where, $s->sharedSQL();
+
+    return return join(' AND ',@where);
+}
+
+sub sth{
+    my $s=shift;
+    my $what=shift;
+
+    $s->{bind_values}=[];
+    my $where=$s->whereSQL();
+    my $sth;
+
+    if('true' eq lc($s->param('includeInteractorInteractions'))){
+ 	my $bgId='BioGRID_ID_Interactor_';
+	my $sql="SELECT ${bgId}A,${bgId}B FROM biogrid WHERE ".$where;
+	#print $sql;
+	$sth=$s->{dbh}->prepare($sql);
+	$sth->execute(@{ $s->{bind_values} });
+
+    	my %want;
+    	while(my @row=$sth->fetchrow_array()){
+    	    $want{$row[0]}++;
+    	    $want{$row[1]}++;
+    	}
+
+    	$s->{bind_values}=[];
+    	$sql="SELECT $what FROM biogrid WHERE ".$s->_join
+    	  ('AND',
+    	   $s->_match("${bgId}A",keys %want),
+    	   $s->_match("${bgId}B",keys %want),
+    	   $s->sharedSQL()
+    	  );
+	$sth=$s->{dbh}->prepare($sql);
+	$sth->execute(@{ $s->{bind_values} });
+
+    }else{
+
+	my $sql="SELECT $what FROM biogrid WHERE $where";
+	$sth=$s->{dbh}->prepare($sql);
+	$sth->execute(@{ $s->{bind_values} });
+    }
+
+    return $sth;
+}
+
+
+sub dumpTab2{
+    my $s=shift;
+    my $sth=$s->sth('*');
+
+    while(my @row=$sth->fetchrow_array()){
+	print join("\t",map{
+	    $_||'-';
+	}@row)."\n";
+    }
+
+}
+
+sub count{
+    my $s=shift;
+    my $sth=$s->sth('COUNT(*)');
+    my @row=$sth->fetchrow_array();
+    return $row[0];
+}
+
+package main;
 use DBI;
 use CGI;
-use Data::Dumper;
 
 my $dbh=DBI->connect("dbi:SQLite:dbname=/dev/shm/biogrid","","");
 my $q=new CGI;
+my $r=new BioGRID::REST($q,$dbh);
 
 print $q->header(-type=>'text/plain');
-
-my @where;
-my @args;
-
-# ?enableCaching=true
-# &includeInteractors=TRUE
-# &searchNames=true
-# &geneList=ccc2
-# &geneTaxIdList=559292
-# &interSpeciesExcluded=TRUE
-# &throughputTag=low
-# &selfInteractionsExcluded=FALSE
-# &includeInteractorInteractions=TRUE
-
-sub comma{
-    my $col=shift;
-    my @vals=@_;
-    my $count=scalar(@vals);
-
-    if(1==$count){
-	push @where,"$col=?";
-	push @args, $vals[0];
-    }elsif(0!=$count){
-	my $qm=join(',',('?')x $count);
-	push @where,"$col IN($qm)";
-	push @args, @vals;
-    }
-}
-
-sub bla{
-    my $col=shift;
-    my @vals=@_;
-    my $count=scalar(@vals);
-
-    if(1==$count){
-	push @where,"$col=$vals[0]";
-    }elsif(0!=$count){
-	my $qm=join(',',@vals);
-	push @where,"$col IN($qm)";
-    }
-
-}
-
-
-my @gtax=split(m/\|/,$q->param('geneTaxIdList'));
-my @gene=split(m/\|/,$q->param('geneList'));
-my @also;
-
-# dosen't need to be in @also
-if('true' eq lc($q->param('interSpeciesExcluded'))){
-    push @where,'(Organism_Interactor_A==Organism_Interactor_B)';
-}
-
-
-if('true' eq lc($q->param('selfInteractionsExcluded'))){
-    push @where,'AND' if(0<scalar(@where));
-    push @where,'(BioGRID_ID_Interactor_A!=BioGRID_ID_Interactor_B)';
-    push @also, $where[-1];
-}
-
-my $tp=lc($q->param('throughputTag'));
-if(($tp eq 'low') || ($tp eq 'high')){
-    push @where,'AND' if(0<scalar(@where));
-    push @where,"(Throughput LIKE '%$tp %')";
-    push @also, $where[-1];
-}
-
-
-# put this last
-my @ev=split(m/\|/,lc($q->param('evidenceList')));
-if(0!=scalar @ev){
-    push @where,'AND' if(0<scalar(@where));
-    comma('Experimental_System',@ev);
-    push @also,$where[-1];
-}
-
-
-push @where,'AND' if(0<scalar(@where));
-
-push @where,'((';
-comma('Organism_Interactor_A',@gtax);
-push @where,'AND';
-comma('Official_Symbol_Interactor_A',@gene);
-push @where,')';
-
-push @where,'OR';
-
-push @where,'(';
-comma('Organism_Interactor_B',@gtax);
-push @where,'AND';
-comma('Official_Symbol_Interactor_B',@gene);
-push @where,'))';
-
-#print Dumper \@where,\@args;
-
-
-sub mkSql{
-    my $cp=shift;
-    my $sql="SELECT ";
-    if($cp){
-	$sql.='COUNT(*)';
-    }else{
-	$sql.='*';
-    }
-    $sql.=' FROM biogrid WHERE ' . join("\n",@_) . ' LIMIT 10000';
-    warn "$sql\n----\n";
-    return $sql;
-}
-
-
-my $sth;
-my $countp='count' eq lc($q->param('format')||'');
-if('true' eq lc($q->param('includeInteractorInteractions'))){
-    $sth=$dbh->prepare(mkSql(undef,@where));
-    $sth->execute(@args);
-
-    my %want;
-    while(my @row=$sth->fetchrow_array()){
-	$want{$row[3]}++;
-	$want{$row[4]}++;
-    }
-
-    @where=();
-    @args=();
-
-    push @where,'(';
-    bla('BioGRID_ID_Interactor_A',keys %want);
-    push @where,'AND';
-    bla('BioGRID_ID_Interactor_B',keys %want);
-    push @where,')';
-
-    if(0!=scalar(@also)){
-	push @where,'AND';
-	push @where,join(' AND ',@also);
-    }
-
-    $sth=$dbh->prepare(mkSql($countp,@where));
-    $sth->execute(@args,@ev);
+if('count' eq ($q->param('format')||'')){
+    print $r->count();
 }else{
-    warn Dumper \@where,\@args;
-    $sth=$dbh->prepare(mkSql($countp,@where));
-    $sth->execute(@args);
+    $r->dumpTab2();
 }
 
+__END__
 
-
-
-while(my @row=$sth->fetchrow_array()){
-    print join("\t",map{
-	$_||'-';
-    }@row)."\n";
+if('count' eq $q->query('format')){
+    print $r->count();
+}else{
+    $r->dumpTab2();
 }
+
+#20093466
+
