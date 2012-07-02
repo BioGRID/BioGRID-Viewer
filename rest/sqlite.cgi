@@ -1,11 +1,11 @@
 #!/usr/bin/perl
 use warnings;
 use strict;
-use Data::Dumper;
 
 package BioGRID::REST;
 use warnings;
 use strict;
+use Data::Dumper;
 
 sub new{
     my $c=shift;
@@ -70,7 +70,7 @@ sub sharedSQL(){
     }
 
     push @where,$s->_match('Experimental_System',$s->param('evidenceList'));
-    push @where, $s->_match('Pubmed_ID',$s->param('pubmedList'));
+    push @where,$s->_match('Pubmed_ID',$s->param('pubmedList'));
 
     return () if(0==scalar @where);
     return join(' AND ',@where);
@@ -119,7 +119,6 @@ sub sth{
     if('true' eq lc($s->param('includeInteractorInteractions'))){
  	my $bgId='BioGRID_ID_Interactor_';
 	my $sql="SELECT ${bgId}A,${bgId}B FROM biogrid WHERE $where";
-	#print $sql;
 	$sth=$s->{dbh}->prepare($sql);
 	$sth->execute(@{ $s->{bind_values} });
 
@@ -128,24 +127,31 @@ sub sth{
     	    $want{$row[0]}++;
     	    $want{$row[1]}++;
     	}
+	my @want=keys %want;
 
-    	$s->{bind_values}=[];
-    	$sql="SELECT $what FROM biogrid WHERE ".$s->_join
-    	  ('AND',
-    	   $s->_match("${bgId}A",keys %want),
-    	   $s->_match("${bgId}B",keys %want),
-    	   $s->sharedSQL()
-    	  ).$limit;
-	$sth=$s->{dbh}->prepare($sql);
-	$sth->execute(@{ $s->{bind_values} });
-
+	$s->{bind_values}=[];
+	if(0==scalar @want){
+	    # Some query that alwas returns nothing
+	    my $sql="SELECT $what FROM biogrid WHERE BioGRID_Interaction_ID=-1";
+	    $sth=$s->{dbh}->prepare($sql);
+	    $sth->execute();
+	}else{
+	    $sql="SELECT $what FROM biogrid WHERE ".$s->_join
+	      ('AND',
+	       $s->_match("${bgId}A",@want),
+	       $s->_match("${bgId}B",@want),
+	       $s->sharedSQL()
+	      ).$limit;
+	    $sth=$s->{dbh}->prepare($sql);
+	    $sth->execute(@{ $s->{bind_values} });
+	}
     }else{
 
 	my $sql="SELECT $what FROM biogrid WHERE $where $limit";
 	$sth=$s->{dbh}->prepare($sql);
 	$sth->execute(@{ $s->{bind_values} });
     }
-
+    #warn Dumper $sth->{Statement}, Dumper $s->{bind_values};
     return $sth;
 }
 
@@ -159,7 +165,6 @@ sub dumpTab2{
 	    $_||'-';
 	}@row)."\n";
     }
-
 }
 
 sub count{
