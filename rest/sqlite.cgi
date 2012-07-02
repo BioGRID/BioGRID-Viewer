@@ -152,7 +152,7 @@ sub sth{
 
 sub dumpTab2{
     my $s=shift;
-    my $sth=$s->sth('*','LIMIT 1000');
+    my $sth=$s->sth('*','LIMIT 10000');
 
     while(my @row=$sth->fetchrow_array()){
 	print join("\t",map{
@@ -177,6 +177,7 @@ my $dbh=DBI->connect("dbi:SQLite:dbname=/dev/shm/biogrid","","");
 my $q=new CGI;
 my $r=new BioGRID::REST($q,$dbh);
 
+
 print $q->header(-type=>'text/plain');
 if('count' eq ($q->param('format')||'')){
     print $r->count();
@@ -184,13 +185,6 @@ if('count' eq ($q->param('format')||'')){
     $r->dumpTab2();
 }
 
-__END__
-
-if('count' eq $q->query('format')){
-    print $r->count();
-}else{
-    $r->dumpTab2();
-}
 
 #20093466
 
