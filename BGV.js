@@ -5,6 +5,32 @@ BGV={
   nodes:{},
   edges:{},
 
+  promptNode:function(){
+    var find=prompt('Search Official Symbol Interactor:');
+
+    if(null==find){
+      return null;
+    }
+
+    var found=[];
+    for(var id in BGV.nodes){
+      var node=BGV.nodes[id];
+      if(node.match(find)){
+	found.push(node);
+      }
+    }
+
+    if(0==found.length){
+      alert(find + ' Not found.');
+      return null;
+    }else if(found.length>1){
+      alert("Search matched multiple genes.");
+    }
+
+    BGV.select(found[0]).select();
+    return found[0];
+  },
+
   cleanNodes:function(){
     // remove edges that don't exist
     for(var nId in this.nodes){
@@ -108,6 +134,16 @@ BGV={
     this.e.InteractionCount=document.getElementsByClassName('InteractionCount');
     this.e.species=document.getElementsByClassName('species');
     this.e.mainNodeSummary=document.getElementsByClassName('mainNodeSummary');
+
+    d3.selectAll(document.getElementsByClassName('nodeSearch'))
+      .on('click',BGV.promptNode);
+    d3.selectAll(document.getElementsByClassName('nodeFollow'))
+      .on('click',function(){
+	if(BGV.selected()){
+	  BGV.reload(BGV.deselect())
+	}
+      });
+
   },
 
   _reload:null, // store intervalID if volatile
