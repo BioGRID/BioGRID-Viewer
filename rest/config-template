@@ -1,0 +1,4 @@
+data_source:dbi:SQLite:dbname=/dev/shm/biogrid
+username:
+auth:
+version:BIOGRID-ALL-3.1.89
