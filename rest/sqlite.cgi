@@ -10,6 +10,10 @@ use Data::Dumper;
 sub new{
     my $c=shift;
     my $s={q=>shift,dbh=>shift};
+
+    $s->{limit}=int($s->{q}->param('max')||0)||10000;
+    $s->{offset}=int($s->{q}->param('start')||0);
+
     return bless $s,$c;
 }
 
@@ -158,7 +162,7 @@ sub sth{
 
 sub dumpTab2{
     my $s=shift;
-    my $sth=$s->sth('*','LIMIT 10000');
+    my $sth=$s->sth('*','LIMIT '.$s->{limit});
 
     while(my @row=$sth->fetchrow_array()){
 	print join("\t",map{
