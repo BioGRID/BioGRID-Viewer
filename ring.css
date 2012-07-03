@@ -14,7 +14,7 @@ path.highlight{stroke:#dc322f;stroke-opacity:.3;} /* red */
 .highlight text{font-size:150%;font-weight:bold;}
 
 #REST-evidenceList text{text-anchor:end;} /* font-size:100%;} */
-text.all{font-size:110%!important;}
+text.all{font-size:150%!important;}
 
 .taxa{fill-opacity:.5}
 .restWait{cursor:wait}

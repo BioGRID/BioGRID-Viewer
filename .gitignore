@@ -2,3 +2,4 @@
 #~
 .htaccess
 config.json
+rest/config

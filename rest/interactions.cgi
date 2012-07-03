@@ -102,6 +102,8 @@ sub whereSQL{
        )
       );
 
+    push @where,$s->_match('BioGRID_Interaction_ID',$s->param('sourceDatabaseIdList'));
+
     if('true' eq lc($s->param('interSpeciesExcluded'))){
 	push @where,'(Organism_Interactor_A==Organism_Interactor_B)';
     }
@@ -182,7 +184,16 @@ package main;
 use DBI;
 use CGI;
 
-my $dbh=DBI->connect("dbi:SQLite:dbname=/dev/shm/biogrid","","");
+open(CONF,'config')or die $!;
+my %conf;
+while(<CONF>){
+    next if(m/^#/);
+    chomp;
+    my($k,$v)=split(m/:/,$_,2);
+    $conf{$k}=$v;
+}
+
+my $dbh=DBI->connect($conf{data_source},$conf{username},$conf{auth});
 my $q=new CGI;
 my $r=new BioGRID::REST($q,$dbh);
 

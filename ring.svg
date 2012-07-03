@@ -18,7 +18,7 @@
 <text y="6em">Systematic Name: <tspan class="restNodeSystematicName"></tspan></text>
 <text y="7em">BioGRID ID: <a xlink:href="" class="restNodeBioGridId"> </a></text>
 <text y="8em">Entrez: <a xlink:href="" class="restNodeEntrez"> </a></text>
-<text y="9em">Interactions: <tspan class="restNodeEdges"></tspan></text>
+<text y="9em">Interactions: <a target="tab2" xlink:href="" class="restNodeEdges"></a></text>
 <text y="10em">[<tspan class="button nodeSearch">search</tspan>][<tspan class="button nodeFollow">follow</tspan>]</text>
 <text y="12em" id="REST-throughputTag" class="formRadio">Throughput: <tspan><tspan>☒</tspan>Any</tspan> <tspan><tspan>☐</tspan>High</tspan> <tspan><tspan>☐</tspan>Low</tspan></text>
 <text y="13.5em" id="REST-interSpeciesExcluded" class="formCheckbox"><tspan>☒</tspan>&#x00A0;Include Interspecies Interactions</text>

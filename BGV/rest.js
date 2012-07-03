@@ -477,7 +477,17 @@ BGV.plugin.rest.node.prototype={
     var ml=this.modLink();
     BGV.updateElementsHref("restNodeOfficialSymbol",undefined===ml?'':ml);
 
+    // link to a list highlighted edges
     BGV.updateElementsText("restNodeEdges",d3.keys(this._edges).length);
+    BGV.updateElementsHref
+    ("restNodeEdges",BGV.config('rest','interactions') + "?sourceDatabaseIdList=" +
+     d3.values(this._edges).map
+     (function(e)
+      {
+	return e.data.BioGRIDInteractionID;
+      }).join('|')
+    );
+			   
   },
   deselect:function(){
     d3.selectAll(this.nodeTags(true)).classed('highlight',false);
