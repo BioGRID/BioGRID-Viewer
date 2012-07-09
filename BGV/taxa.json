@@ -11,6 +11,7 @@
  },{
   "id":"4577",
   "species":"Zea mays",
+  "officialSymbolLink":"http://www.maizegdb.org/cgi-bin/displaylocusrecord.cgi?id=",
   "common":"maize"
  },{
   "id":"4896",
@@ -30,6 +31,7 @@
   "species":"Caenorhabditis elegans",
   "common":"roundworm",
   "color":"#DAA520",
+  "officialSymbolLink":"http://www.wormbase.org/db/gene/gene?name=",
   "display":true
  },{
   "id":"7227",
@@ -72,6 +74,7 @@
   "species":"Escherichia coli str. K-12 substr. MG1655",
   "common":"E.coli",
   "color":"#98FB98",
+  "officialSymbolLink":"http://biocyc.org/ECOLI/NEW-IMAGE?type=GENE&object=",
   "display":true
  },{
   "id":"8355",
