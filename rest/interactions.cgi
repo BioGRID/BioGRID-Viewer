@@ -23,14 +23,22 @@ sub param{
     return $q->param($p);
 }
 
+sub int_param{
+    my $s=shift;
+    my $i=$s->{q}->param(shift)||0;
+
+    return int($i) if($i=~m/^\d+$/);
+    return 0;
+}
+
 sub limit{
     my $s=shift;
     my $out='';
 
-    my $l=int($s->param('max'));
+    my $l=$s->int_param('max');
     if($l>0){
 	$out.="LIMIT $l";
-	my $o=int($s->param('start'));
+	my $o=$s->int_param('start');
 	if($o>0){
 	    $out.=" OFFSET $o";
 	}
