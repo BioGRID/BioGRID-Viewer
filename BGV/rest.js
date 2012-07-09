@@ -60,7 +60,7 @@ BGV.plugin.rest={
 
     for(var id in this._queryString){
       var V=this._queryString[id];
-      var v=V.toLowerCase();
+      var v=("number"==typeof(V))?V:V.toLowerCase();
 
       if(this.exclude(id)){
 	V=!(v=='true')
