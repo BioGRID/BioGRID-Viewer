@@ -11,9 +11,6 @@ sub new{
     my $c=shift;
     my $s={q=>shift,dbh=>shift};
 
-    $s->{limit}=int($s->{q}->param('max')||0)||10000;
-    $s->{offset}=int($s->{q}->param('start')||0);
-
     return bless $s,$c;
 }
 
@@ -24,6 +21,21 @@ sub param{
 
     return split(m/\|/,$q->param($p)||'') if($p=~m/List$/);
     return $q->param($p);
+}
+
+sub limit{
+    my $s=shift;
+    my $out='';
+
+    my $l=int($s->param('max'));
+    if($l>0){
+	$out.="LIMIT $l";
+	my $o=int($s->param('start'));
+	if($o>0){
+	    $out.=" OFFSET $o";
+	}
+    }
+    return $out;
 }
 
 sub _save{
@@ -116,7 +128,7 @@ sub whereSQL{
 sub sth{
     my $s=shift;
     my $what=shift;
-    my $limit=shift;
+    my $limit=shift||'';
 
     $s->{bind_values}=[];
     my $where=$s->whereSQL();
@@ -164,7 +176,7 @@ sub sth{
 
 sub dumpTab2{
     my $s=shift;
-    my $sth=$s->sth('*','LIMIT '.$s->{limit});
+    my $sth=$s->sth('*',$s->limit());
 
     while(my @row=$sth->fetchrow_array()){
 	print join("\t",map{
@@ -175,7 +187,7 @@ sub dumpTab2{
 
 sub count{
     my $s=shift;
-    my $sth=$s->sth('COUNT(*)','');
+    my $sth=$s->sth('COUNT(*)');
     my @row=$sth->fetchrow_array();
     return $row[0];
 }
