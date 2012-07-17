@@ -3,7 +3,7 @@ BGV.plugin.rest={
 
     if(undefined!=node){
       this._queryString.geneList=node.data.OfficialSymbol;
-
+      
       // geneTaxIdList is the better choice, but if we are already in
       // taxId mode lets stay there5A
       if(undefined==this._queryString.taxId){
@@ -92,8 +92,6 @@ BGV.plugin.rest={
     return elt;
   },
 
-
-
   load:function(){
     var that=this;
 
@@ -104,18 +102,6 @@ BGV.plugin.rest={
 	 BGV.e[c]=document.querySelectorAll('.'+c);
        }
      );
-
-    // fetch the data
-    var url=this.interactionsURL();
-    BGV.updateElementsHref('restTab2',url);
-
-    var go=function(bool,key){
-      BGV.freeze('rest_load');
-      that._queryString[key]=bool;
-      BGV.reload();
-      BGV.melt('rest_load');
-    };
-
 
     // set QUERY_STRING defaults from config
     this._queryString=BGV.config('rest','queryStringDefaults');
@@ -132,10 +118,12 @@ BGV.plugin.rest={
     );
 
 
+    var form;
     if('function'==typeof BGV.Form){
       // Read values set in the document, also sit it if we already have
       // a value.
-      var form=new BGV.Form(
+      form=new BGV.Form
+      (
 	'REST',function(){
 	  //form.values();
 	  form.sqs();
@@ -169,25 +157,36 @@ BGV.plugin.rest={
 	}
       };
       form.sqs();
-
-
     }
 
     // fetch the data
-    var url=this.interactionsURL();
-    BGV.updateElementsHref('restTab2',url);
-    BGV.ajax(
-      url,function(t){
+    var countURL=this.countURL();
+    BGV.ajax
+    (countURL,function(t){
+      var count=parseInt(t);
 
+      if(count>BGV.config('rest','throughputCutoff')){
+	that._queryString.throughputTag='Low';
+	if(form){
+	  form.setDefaults({'throughputTag':'Low'});
+	}
+      }else{
+	that.count=count;
+      }
+      
+      var interURL=that.interactionsURL();
+      BGV.updateElementsHref('restTab2',interURL);
+      
+      BGV.ajax
+      (interURL,function(t){
 	if(null==t){
 	  alert("8-/ Unable to fetch data, sorry.");
 	  return;
 	}
-
 	that.parse(t);
 	BGV.view(that.qs2node());
-      }
-    );
+      });
+    });
 
     // Get the database version
     var bgv='BioGRIDVersion';
@@ -224,7 +223,6 @@ BGV.plugin.rest={
     return BGV.config('rest','version');
   },
 
-
   parse:function(tsv){
     var lines=tsv.trim().split("\n");
     var linesInFile=lines.length;
@@ -259,17 +257,23 @@ BGV.plugin.rest={
 
     }
 
-    var root=this.root;
-    BGV.ajax(
-      this.countURL(),function(t){
-	var c=usableLines;
-	if(t!=usableLines){
-	  c+=" of "+t;
-	}
-	BGV.updateElementsText('InteractionCount',c);
+    if(this.count){
+	BGV.updateElementsText('InteractionCount',this.count);
 	d3.selectAll(BGV.e.restWait).classed('restWait',false);
-      }
-    );
+	delete this.count;
+    }else{
+	var root=this.root;
+	BGV.ajax
+	(
+	 this.countURL(),function(t){
+	     var c=usableLines;
+	     if(t!=usableLines){
+		 c+=" of "+t;
+	     }
+	     BGV.updateElementsText('InteractionCount',c);
+	     d3.selectAll(BGV.e.restWait).classed('restWait',false);
+	 });
+    }
 
     if(usableLines!==linesInFile){
       var d=linesInFile-usableLines;
@@ -277,7 +281,6 @@ BGV.plugin.rest={
       alert(d + " corrupt " + (d==1?"line":"lines") + 
 	    " in TAB2 file ignored.");
     }
-
 
     var removeOldNodes=function(fresh,all){
       for(var id in all){
