@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="ring.css" type="text/css"?>
+<?xml-stylesheet alternate="yes" href="colorize.css" title="Colorize Throughput"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" onload="BGV.load()" onresize="BGV.resize()" class="restWait">
 
@@ -29,7 +30,7 @@
 <g class="formSelectMulti" id="REST-evidenceList">
 
 <g>
-<text class="lf all">Physical <tspan>☒</tspan></text>
+<text class="lf all physical">Physical <tspan>☒</tspan></text>
 <text class="lf">Affinity Capture-Luminescence <tspan>☒</tspan></text>
 <text class="lf">Affinity Capture-MS <tspan>☒</tspan></text>
 <text class="lf">Affinity Capture-RNA <tspan>☒</tspan></text>
@@ -49,7 +50,7 @@
 </g>
 
 <g>
-<text class="lf all">Genetic <tspan>☒</tspan></text>
+<text class="lf all genetic">Genetic <tspan>☒</tspan></text>
 <text class="lf">Dosage Growth Defect <tspan>☒</tspan></text>
 <text class="lf">Dosage Lethality <tspan>☒</tspan></text>
 <text class="lf">Dosage Rescue <tspan>☒</tspan></text>
