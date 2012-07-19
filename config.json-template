@@ -9,7 +9,7 @@
   "interactions":"http://biogridrest.princeton.edu:8080/BiogridRestService/resources/interactions/",
   "version":"http://biogrirest.princeton.edu:8080/BiogridRestService/resources/version",
 
-  "queryStringDefaults":{"includeInteractors":"TRUE","max":10000}
-  "queryStringDefaults":{}
+  "throughputCutoff":10000,
+  "queryStringDefaults":{"includeInteractors":"TRUE"}
  }
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html><head>
+<title>REST Select</title>
+<meta charset="UTF-8">
+<script type="text/javascript" src="../d3.v2.min.js"></script>
+</head><body><form action="ring.svg" method="GET" target="bgv">
+
+<input type="submit">
+
+<fieldset class="toggle"><legend><label><input type="checkbox" checked="checked">Gene Search</label></legend>
+
+<input type="hidden" name="searchName" value="TRUE">
+<input type="search" name="geneList">
+<select name="geneTaxIdList"></select>
+
+</fieldset>
+
+<fieldset class="toggle"><legend><label><input type="checkbox">Pubmed ID Search</label></legend>
+<input type="search" name="pubmedList" id="pmid" list="pmids" value="Loading...">
+<datalist id="pmids"></datalist>
+</fieldset>
+
+<script type="text/javascript" src="query.js"></form></script></body></head>
