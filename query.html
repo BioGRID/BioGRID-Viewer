@@ -3,21 +3,32 @@
 <title>REST Select</title>
 <meta charset="UTF-8">
 <script type="text/javascript" src="../d3.v2.min.js"></script>
-</head><body><form action="ring.svg" method="GET" target="bgv">
+</head><body>
 
+<section><h1>Rest Query Form</h1>
+<form action="ring.svg" method="GET" target="bgv">
 <input type="submit">
 
 <fieldset class="toggle"><legend><label><input type="checkbox" checked="checked">Gene Search</label></legend>
-
 <input type="hidden" name="searchName" value="TRUE">
 <input type="search" name="geneList">
 <select name="geneTaxIdList"></select>
-
 </fieldset>
 
-<fieldset class="toggle"><legend><label><input type="checkbox">Pubmed ID Search</label></legend>
+<fieldset class="toggle"><legend><label><input type="checkbox">PubMed ID Search</label></legend>
 <input type="search" name="pubmedList" id="pmid" list="pmids" value="Loading...">
 <datalist id="pmids"></datalist>
 </fieldset>
 
-<script type="text/javascript" src="query.js"></form></script></body></head>
+<input type="submit">
+
+<script type="text/javascript" src="query.js"></form></script>
+</section><sections><h1>Hints</h1>
+
+<p>Not well tested. No stylesheet yet.</p>
+
+<p>On load the PubMed ID search is disabled, click on the check box to enable it.  The default PubMed ID, <a href="http://www.ncbi.nlm.nih.gov/pubmed?term=20093466">20093466</a>, is <cite>The genetic landscape of a cell</cite> by Costanzo M., et al.</p>
+
+<p>When you enter a new PubMed ID there should be a box that pops down that shows: <samp>I:<var>###</var> <var>Col14</var></samp> where <var>###</var> is the number of interactions and <var>Col14</var> is column 14 from the <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a> file: <q>First author surname of the publication in which the interaction has been shown, optionally followed by additional indicators, e.g. Stephenson A (2005)</q>. That seem to be all the publication information in the TAB2 file.</p>
+
+</section></body></head>

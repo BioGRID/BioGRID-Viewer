@@ -14,17 +14,19 @@ while(<CONF>){
 }
 
 my $q=new CGI;
-my $dbh=DBI->connect($conf{data_source},$conf{username},$conf{auth});
+my $dbh=DBI->connect($conf{data_source},$conf{username},$conf{auth})
+  or die $DBI::errstr;
 
 print $q->header(-type=>'text/plain','-charset'=>'UTF-8');
-my $sth=$dbh->prepare('SELECT DISTINCT Pubmed_ID,Author FROM biogrid ORDER BY Author');
+my $sth=$dbh->prepare(<<SQL);
+SELECT DISTINCT Pubmed_ID,Author,COUNT(*)
+FROM biogrid GROUP BY Pubmed_ID ORDER BY Author
+SQL
 $sth->execute();
-my $selected=$q->param('selected');
+my $selected=$q->param('selected')||0;
 while(my @row=$sth->fetchrow_array()){
 #    print join("\t",@row)."\n"; 
-#    print "<option value=\"$row[1]\">$row[0]</option>";
     print "<option value=\"$row[0]\"";
     print ' selected="selected"' if($row[0]==$selected);
-    print " label=\"$row[1]\">";
-#    print ">$row[1]</option>";
+    print " label=\"I:$row[2] $row[1]\">";
 }
