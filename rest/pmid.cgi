@@ -2,20 +2,14 @@
 use warnings;
 use strict;
 use CGI;
-use DBI;
+use FindBin;
+use lib $FindBin::Bin;
 
-open(CONF,'config')or die $!;
-my %conf;
-while(<CONF>){
-    next if(m/^#/);
-    chomp;
-    my($k,$v)=split(m/:/,$_,2);
-    $conf{$k}=$v;
-}
+use common;
 
+my $c=new common;
 my $q=new CGI;
-my $dbh=DBI->connect($conf{data_source},$conf{username},$conf{auth})
-  or die $DBI::errstr;
+my $dbh=$c->dbi();
 
 print $q->header(-type=>'text/plain','-charset'=>'UTF-8');
 my $sth=$dbh->prepare(<<SQL);

@@ -201,19 +201,14 @@ sub count{
 }
 
 package main;
-use DBI;
 use CGI;
+use FindBin;
+use lib $FindBin::Bin;
 
-open(CONF,'config')or die $!;
-my %conf;
-while(<CONF>){
-    next if(m/^#/);
-    chomp;
-    my($k,$v)=split(m/:/,$_,2);
-    $conf{$k}=$v;
-}
+use common;
 
-my $dbh=DBI->connect($conf{data_source},$conf{username},$conf{auth});
+my $c=new common;
+my $dbh=$c->dbi();
 my $q=new CGI;
 my $r=new BioGRID::REST($q,$dbh);
 

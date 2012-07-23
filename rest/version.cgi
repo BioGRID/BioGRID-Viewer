@@ -2,18 +2,14 @@
 use warnings;
 use strict;
 use CGI;
+use FindBin;
+use lib $FindBin::Bin;
 
-open(CONF,'config')or die $!;
-my %conf;
-while(<CONF>){
-    next if(m/^#/);
-    chomp;
-    my($k,$v)=split(m/:/,$_,2);
-    $conf{$k}=$v;
-}
+use common;
 
+my $c=new common;
 my $q=new CGI;
 
-print $q->header(-type=>'text/plain') . "$conf{version}\n";
+print $q->header(-type=>'text/plain') . $c->version() . "\n";
 
 
