@@ -1,3 +1,4 @@
+@import "solarized.css";
 .physical{stroke:#CB4B16} /* orange */
 .genetic{stroke:#2AA198} /* cyan */
 path.highlight{stroke:#002B36;stroke-width:1.5} /* base03 */
