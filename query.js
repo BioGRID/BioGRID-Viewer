@@ -1,10 +1,7 @@
 d3.html('rest/pmid.cgi?selected=20093466',function(html){
   var datalist=document.getElementById('pmids');
   datalist.appendChild(html);
-  
-  var input=document.getElementById('pmid');
-  input.setAttribute('value',20093466)
-  input.setAttribute('type','number');
+  document.getElementsByTagName('body')[0].removeAttribute('class');
 });
 
 d3.json('BGV/taxa.json',function(taxa){
