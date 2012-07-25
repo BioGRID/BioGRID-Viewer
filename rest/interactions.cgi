@@ -5,7 +5,6 @@ use strict;
 package BioGRID::REST;
 use warnings;
 use strict;
-use Data::Dumper;
 
 sub new{
     my $c=shift;
@@ -204,6 +203,7 @@ package main;
 use CGI;
 use FindBin;
 use lib $FindBin::Bin;
+#use Data::Dumper;
 
 use common;
 
@@ -211,7 +211,6 @@ my $c=new common;
 my $dbh=$c->dbi();
 my $q=new CGI;
 my $r=new BioGRID::REST($q,$dbh);
-
 
 print $q->header(-type=>'text/plain');
 if('count' eq ($q->param('format')||'')){

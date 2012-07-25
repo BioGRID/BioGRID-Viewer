@@ -22,5 +22,6 @@ while(my @row=$sth->fetchrow_array()){
 #    print join("\t",@row)."\n"; 
     print "<option value=\"$row[0]\"";
     print ' selected="selected"' if($row[0]==$selected);
-    print " label=\"I:$row[2] $row[1]\">";
+    print ">$row[0] $row[1] Interactions:$row[2]</options>";
+#    print " label=\"I:$row[2] $row[1]\">";
 }

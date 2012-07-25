@@ -112,7 +112,11 @@ BGV.plugin.rest={
 	var skip=['enableCaching','format'];
 	var kv=attr.split('=',2);
 	if(-1==skip.indexOf(kv[0])){
-	  that._queryString[kv[0]]=kv[1];
+	  if(undefined===that._queryString[kv[0]]){
+	    that._queryString[kv[0]]=kv[1];
+	  }else{
+	    that._queryString[kv[0]]+='|'+kv[1];
+	  }
 	}
       }
     );
