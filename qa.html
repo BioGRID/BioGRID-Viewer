@@ -32,7 +32,7 @@ with any issues or changes.</p>
 <p>The default query should be done with the following
 format:</p>
 
-<blockquote><samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchNames=true&amp;geneList=<var>name</var>&amp;geneTaxIdList=<var>taxid</var></samp></blockquote>
+<blockquote><samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchNames=true&amp;geneList=<var>name</var>&amp;taxId=<var>taxid</var></samp></blockquote>
 
 <p>Where <var>name</var> is the gene you are looking for
 and <var>taxid</var> is the species you are looking for.  A list of
@@ -55,19 +55,19 @@ Page</a> if they don't.</p>
 
 <dl>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=559292">Default Query</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292">Default Query</a></dt>
 <dd>Human PRKACA should be present.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=559292&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
 <dd>Make sure Human PRKACA is missing and "Include Interspecies Interactions" is deselected.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=559292&amp;throughputTag=low">&amp;throughputTag=low</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292&amp;throughputTag=low">&amp;throughputTag=low</a></dt>
 <dd>Make sure the only "Throughput" checkbox that is checked is "Low", also fewer edges (15 as of BioGRID v3.1.88).  Human PRKACA should be present.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=559292&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low">&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low">&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low</a></dt>
 <dd>Now Human PRKACA should be gone too.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;geneTaxIdList=559292&evidenceList=Biochemical%20Activity%7CFRET">Evidence List</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292&evidenceList=Biochemical%20Activity%7CFRET">Evidence List</a></dt>
 
 <dd>Only Human PRKACA should be connected, check that "Biochemical Activity" and "FRET" are the only highlighted evidence check boxes.</dd>
 
@@ -77,8 +77,8 @@ Page</a> if they don't.</p>
 
 <dl>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;geneTaxIdList=9606">Default Query</a></dt>
-<dd>Yeast CCC2 should be the only nonhuman gene present.  (Don't use <a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;taxId=9606"><code>taxId</code></a>!)</dd>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;taxId=9606">Default Query</a></dt>
+<dd>Yeast CCC2 should be the only nonhuman gene present.</dd>
 
 </dl>
 
@@ -86,10 +86,10 @@ Page</a> if they don't.</p>
 
 <dl>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=tat&amp;geneTaxIdList=11676">Default Query</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=tat&amp;taxId=11676">Default Query</a></dt>
 <dd>Only connects to human genes.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=tat&amp;geneTaxIdList=11676&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=tat&amp;taxId=11676&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
 <dd>Contains only one edge, to itself.</dd>
 
 </dl>
@@ -99,10 +99,10 @@ Page</a> if they don't.</p>
 <p>Queries with over an amount, defaults to 10000, <code>Throughput</code> will change to <code>Low</code>.</p>
 
 <dl>
-<dt><a href="ring.svg?searchNames=true&amp;geneList=act1&amp;geneTaxIdList=559292">Yeast ACT1</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=act1&amp;taxId=559292">Yeast ACT1</a></dt>
 <dd>Use the <code>[search]</code> button to find TUB1 and then click the <code>[follow]</code> butten.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=UBC&amp;geneTaxIdList=9606">Human UBC</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=UBC&amp;taxId=9606">Human UBC</a></dt>
 <dd>Search for RSP5 & follow it.</dd>
 </dl>
 
@@ -112,9 +112,9 @@ Page</a> if they don't.</p>
 
 <dl>
 <dt><a href="ring.svg?pubmedList=20093466">&amp;pubmedList=20093466</a>
-<dd>This should click in the <code>Throughput</code> threshold, click on <code>Any</code> at your own risk.</dd>
-<dt><a href="ring.svg?pubmedList=20093466&amp;geneList=bre1&amp;geneTaxIdList=559292">BRE1</a>
-<dt><a href="ring.svg?pubmedList=20093466&amp;geneList=pho23&amp;geneTaxIdList=559292">PHO23</a>
+<dd>This should click in the <code>Throughput</code> to <code>Low</code>, follow SGT2 and chenge the <code>Throughput</code> to </code> Any.  It should look like the following:
+<dt><a href="ring.svg?pubmedList=20093466&amp;geneList=SGT2&amp;taxId=559292">SGT2</a>
+
 </dl>
 
 <h2>Other Queries</h2>
@@ -122,8 +122,8 @@ Page</a> if they don't.</p>
 <p>All are the default query.</p>
 
 <dl>
-<dt><a href="ring.svg?searchNames=true&amp;geneList=prb1&amp;geneTaxIdList=559292">Yeast PRB1</a></dt>
-<dt><a href="ring.svg?searchNames=true&amp;geneList=foxp2&amp;geneTaxIdList=9606">Human FOXP2</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=prb1&amp;taxId=559292">Yeast PRB1</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=foxp2&amp;taxId=9606">Human FOXP2</a></dt>
 </dl>
 
 <h2>Browsers</h2>
@@ -146,6 +146,7 @@ indicate that the browser is not available on the given platform.</p>
 <th>GNU/Linux</th>
 <td></td>
 <td><ol>
+<li>Firefox only browser to support SVG alternative stylesheets.</li>
 <li><code>Unknown property 'alignment-baseline'.  Declaration dropped.</code></li>
 <li><code>&lt;svg onresize="…</code> doesn't work.</li>
 </ol></td>

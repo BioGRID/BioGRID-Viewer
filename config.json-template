@@ -1,15 +1,16 @@
 {
  "rest":{
-  "interactions":"http://sce-bio-c02577.bio.ed.ac.uk:8080/BiogridRestService/resources/interactions/",
-  "version":"http://sce-bio-c02577.bio.ed.ac.uk:8080/BiogridRestService/resources/version",
+  "interactions":"http://webservicebeta.thebiogrid.org/interactions",
+  "version":"http://webservicebeta.thebiogrid.org/version?accesskey=6ea500f7acd940be4a896122b9a46d45",
 
-  "interactions":"http://webservice.thebiogrid.org/BiogridRestService/resources/interactions/",
-  "version":"http://webservice.thebiogrid.org/BiogridRestService/resources/version",
-
-  "interactions":"http://biogridrest.princeton.edu:8080/BiogridRestService/resources/interactions/",
-  "version":"http://biogrirest.princeton.edu:8080/BiogridRestService/resources/version",
+  "interactions":"rest/interactions.cgi",
+  "version":"rest/version.cgi",
 
   "throughputCutoff":15000,
-  "queryStringDefaults":{"includeInteractors":"TRUE"}
+  "queryStringDefaults":
+  {
+   "includeInteractors":"TRUE",
+   "accesskey":"6ea500f7acd940be4a896122b9a46d45"}
+  }
  }
 }

@@ -105,7 +105,8 @@ sub whereSQL{
 
     my @where;
 
-    my @gtax=$s->param('geneTaxIdList');
+    #my @gtax=$s->param('geneTaxIdList');
+    my @gtax=$s->param('taxId');
     my @gene=$s->param('geneList');
     push @where,$s->_join
       ('OR',

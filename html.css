@@ -7,7 +7,6 @@ body{
 }
 a[href]{color:#268BD2} /* blue */
 
-.wait{cursor:wait};
-
-td,th{border:outset 2px}
+.wait{cursor:wait}
+td{border:2px outset black}
 .blank{border:none;text-align:center}
