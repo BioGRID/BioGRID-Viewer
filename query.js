@@ -11,7 +11,7 @@ d3.json('BGV/taxa.json',function(taxa){
       geneTaxIdList.append('option').attr('value',taxon.id)
 	.attr('selected',function(){
 	  // pick yeast
-	  return taxon.id===4932?'selected':undefined;
+	  return taxon.id===559292?'selected':undefined;
 	}).text(taxon.species);
     }
   });

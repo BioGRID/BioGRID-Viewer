@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="html.css"/>
 </head><body class="wait">
 
-<section><h1>Rest Query Form</h1>
+<section><h1>Rest Query Form <span class="warn">Alpha!</span></h1>
 <form action="ring.svg" method="GET" target="bgv">
 <input type="submit">
 
@@ -23,12 +23,14 @@
 <input type="submit">
 
 <script type="text/javascript" src="query.js"></form></script>
-</section><sections><h1>Hints</h1>
+</section><sections><h1>Status</h1>
 
-<p>Not well tested. No stylesheet yet.</p>
+<p>That is of <strong class="warn">alpha</strong> quality.</p>
 
-<p>On load the PubMed ID search is disabled, click on the check box to enable it.  The default PubMed ID, <a href="http://www.ncbi.nlm.nih.gov/pubmed?term=20093466">20093466</a>, is <cite>The genetic landscape of a cell</cite> by Costanzo M., et al.</p>
+<p>On load the PubMed ID search is disabled, click on the check box to enable it.  The default PubMed ID, <samp>20093466</samp>, is  <a href="http://www.ncbi.nlm.nih.gov/pubmed?term=20093466"><cite>The genetic landscape of a cell</cite></a> by Costanzo M., et al.<p>
 
-<p>When you enter a new PubMed ID there should be a box that pops down that shows: <samp>I:<var>###</var> <var>Col14</var></samp> where <var>###</var> is the number of interactions and <var>Col14</var> is column 14 from the <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a> file: <q>First author surname of the publication in which the interaction has been shown, optionally followed by additional indicators, e.g. Stephenson A (2005)</q>. That seem to be all the publication information in the TAB2 file.</p>
+<p>Publications ar listed as: <samp><var>PMID</var> <var>Col14</var> Interactions:<var>###</var></samp> where <var>PMID</var> is the PubMed ID, <var>Col14</var> is column 14 from the <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a> file: <q>First author surname of the publication in which the interaction has been shown, optionally followed by additional indicators, e.g. <samp>Stephenson A (2005)</samp></q>, and <var>###</var> is the number of interactions. Results with over 15000 edges will only display low throughput edges by default.</p>
+
+<hr/><p>Report bugs and ideas to <a href="https://github.com/svenmh/BioGRID-Viewer/issues?milestone=1&state=open">GitHub issues page</a> or Sven directly.</p>
 
 </section></body></head>
