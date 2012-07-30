@@ -5,10 +5,10 @@ d3.html('rest/pmid.cgi?selected=20093466',function(html){
 });
 
 d3.json('BGV/taxa.json',function(taxa){
-  var geneTaxIdList=d3.select('[name=geneTaxIdList]');
+  var taxId=d3.select('[name=taxId]');
   taxa.forEach(function(taxon){
     if(taxon.display){
-      geneTaxIdList.append('option').attr('value',taxon.id)
+      taxId.append('option').attr('value',taxon.id)
 	.attr('selected',function(){
 	  // pick yeast
 	  return taxon.id===559292?'selected':undefined;
