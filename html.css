@@ -10,6 +10,9 @@ a[href]{color:#268BD2} /* blue */
 .wait{cursor:wait}
 td{border:2px outset black}
 .blank{border:none;text-align:center}
-.warn{color:#DC322F} /* red */
+.warn{
+color:#DC322F; /* red */
+text-shadow:#93A1A1 6px 6px 6px;
+}
 a:link{color:#268BD2} /* blue */
 a:visited{color:#6C71C4} /* violet */
