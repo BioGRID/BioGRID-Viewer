@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html><head>
+<title>Web Worker Test</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="html.css"/>
+<script type="text/javascript">var BGV={};</script>
+<script type="text/javascript" src="BGV/Interactions.js"></script>
+</head><body>
+
+<table>
+
+<thead><tr>
+<th colspan="2">Interactor A</th>
+<th colspan="2">Interactor B</th>
+<th rowspan="2">Experimental Evidence Code</th>
+<th rowspan="2">Publication</th>
+<th rowspan="2">Throughput</th>
+<th rowspan="2">Qualifications</th>
+</tr><tr>
+<th>Name</th><th>Species</th>
+<th>Name</th><th>Species</th>
+</tr></thead>
+
+<tbody id="interactions"></tbody>
+</table>
+
+<pre id="log"></pre>
+
+<script>
+var w=new Worker('ww.js'+location.search);
+
+var log=document.getElementById('log');
+var iTable=document.getElementById('interactions');
+
+
+var interactions=new BGV.Interactions();
+w.onmessage=function(m){
+ interactions.assimilate(m.data);
+
+ interactions.forEach(function(i){
+  iTable.appendChild(i.trHTML());
+ });
+
+}
+
+
+
+</script>
+
+</body></head>
