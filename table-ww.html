@@ -5,46 +5,46 @@
 <link rel="stylesheet" href="html.css"/>
 <script type="text/javascript">var BGV={};</script>
 <script type="text/javascript" src="BGV/Interactions.js"></script>
+<script type="text/javascript" src="../jquery.min.js"></script> 
+<script type="text/javascript" src="../jquery.dataTables.js"></script> 
+<script>
+$(document).ready(function(){
+ var w=new Worker('ww.js'+location.search);
+ var log=document.getElementById('log');
+ var iTable=document.getElementById('interactions');
+ var iTBody=iTable.getElementsByTagName('tbody')[0];
+
+ $.getJSON('BGV/taxa.json',function(t){
+  var interactions=new BGV.Interactions(t);
+  w.onmessage=function(m){
+   interactions.assimilate(m.data);
+   interactions.forEach(function(i){
+    iTBody.appendChild(i.trHTML());
+   });
+   $(iTable).dataTable();
+  }
+ });
+});
+</script>
+
+
 </head><body>
 
-<table>
+<table id="interactions">
 
 <thead><tr>
-<th colspan="2">Interactor A</th>
-<th colspan="2">Interactor B</th>
-<th rowspan="2">Experimental Evidence Code</th>
-<th rowspan="2">Publication</th>
-<th rowspan="2">Throughput</th>
-<th rowspan="2">Qualifications</th>
-</tr><tr>
-<th>Name</th><th>Species</th>
-<th>Name</th><th>Species</th>
+<th>Interactor A</th>
+<th>Interactor B</th>
+<th>Experimental Evidence Code</th>
+<th>Publication</th>
+<th>Throughput</th>
+<th>Qualifications</th>
 </tr></thead>
 
-<tbody id="interactions"></tbody>
+<tbody></tbody>
 </table>
 
 <pre id="log"></pre>
 
-<script>
-var w=new Worker('ww.js'+location.search);
-
-var log=document.getElementById('log');
-var iTable=document.getElementById('interactions');
-
-
-var interactions=new BGV.Interactions();
-w.onmessage=function(m){
- interactions.assimilate(m.data);
-
- interactions.forEach(function(i){
-  iTable.appendChild(i.trHTML());
- });
-
-}
-
-
-
-</script>
 
 </body></head>

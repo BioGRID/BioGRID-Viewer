@@ -1,11 +1,19 @@
-BGV.Interactions=function(){
+BGV.Interactions=function(taxa){
   this._edges={};
   this._nodes={};
+  this._taxa={};
+  
+  if(undefined!==taxa){
+    taxa.forEach(function(taxon){
+      this._taxa[taxon.id]=taxon;
+    },this);
+  }
 }
 BGV.Interactions.prototype={
   assimilate:function(o){
     for(var id in o._nodes){
-      this._nodes[id]=new BGV.Interactions.Node(o._nodes[id]);
+      var node=this._nodes[id]=new BGV.Interactions.Node(o._nodes[id]);
+      node.O=this._taxa[node.organismID()];
     }
     for(var id in o._edges){
       var edge=new BGV.Interactions.Edge(o._edges[id]);
@@ -46,7 +54,6 @@ BGV.Interactions.prototype={
   forEach:function(callback){
     for(var id in this._edges){
       var edge=this._edges[id];
-
       callback(edge);
     }    
   },
@@ -86,13 +93,7 @@ BGV.Interactions.Edge.prototype={
     var tr=document.createElement('tr');
     
     [a,b].forEach(function(node){
-      var td=document.createElement('td');
-      td.appendChild(node.aBioGridHTML());
-      tr.appendChild(td);
-      
-      var td=document.createElement('td');
-      td.textContent=node.displayOrganism();
-      tr.appendChild(td);
+      tr.appendChild(node.tdHTML());
     });
     
     var td=document.createElement('td');
@@ -111,8 +112,10 @@ BGV.Interactions.Edge.prototype={
     var q=this.data.Qualifications;
     if(q!=='-'){
       td.textContent=q;
-      tr.appendChild(td);
+    }else{
+      td.setAttribute('class','blank')
     }
+    tr.appendChild(td);
     
     return tr;
   }
@@ -127,8 +130,11 @@ BGV.Interactions.Node.prototype={
     return this.data.BioGRIDInteractorID;
   },
   
+  organismID:function(){
+    return this.data.OrganismID;
+  },
   displayOrganism:function(){
-    return this.id();
+    return this.O.species;
   },
   display:function(){
     return this.data.OfficialSymbol;
@@ -141,5 +147,17 @@ BGV.Interactions.Node.prototype={
     a.textContent=this.display();
     a.setAttribute('href','http://thebiogrid.org/'+this.data.BioGRIDInteractorID);
     return a;
+  },
+  
+  tdHTML:function(){
+    var td=document.createElement('td');
+    
+    var o=document.createElement('em');
+    o.textContent=this.displayOrganism();
+    td.appendChild(o);
+    td.appendChild(document.createTextNode(' '));
+    td.appendChild(this.aBioGridHTML());
+    
+    return td;
   }
 }

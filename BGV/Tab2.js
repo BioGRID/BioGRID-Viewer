@@ -1,13 +1,16 @@
 // slurps up a tab2 file
 
 BGV.Tab2=function(tsv){
-  lines=tsv.split("\n");
-  
   this._edges={};
   this._nodes={};
+  
+  lines=tsv.split("\n");
 
   while(lines.length>0){
-    this.addEdge(new BGV.Tab2.Edge(lines.shift().split("\t")),this);
+    var line=lines.shift().split("\t");
+    if(line.length>=24){
+      this.addEdge(new BGV.Tab2.Edge(line),this);
+    }
   }
 }
 BGV.Tab2.prototype=new BGV.Interactions();

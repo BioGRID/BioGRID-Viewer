@@ -1,4 +1,5 @@
 {
+ "query":{"pmids":"rest/pmid.cgi"},
  "rest":{
   "interactions":"http://webservicebeta.thebiogrid.org/interactions",
   "version":"http://webservicebeta.thebiogrid.org/version?accesskey=6ea500f7acd940be4a896122b9a46d45",

@@ -8,7 +8,7 @@ body{
 a[href]{color:#268BD2} /* blue */
 
 .wait{cursor:wait}
-td{border:2px outset black}
+td{border:2px outset #93A1A1}
 .blank{border:none;text-align:center}
 .warn{
 color:#DC322F; /* red */
@@ -16,3 +16,16 @@ text-shadow:#93A1A1 6px 6px 6px;
 }
 a:link{color:#268BD2} /* blue */
 a:visited{color:#6C71C4} /* violet */
+
+
+
+
+.sorting:after{content:'⬍';color:#93A1A1} /* base1 */
+.sorting_asc:after{content:'⬆';color:#268BD2} /* blue */
+.sorting_desc:after{content:'⬇';color:#268BD2} /* blue */
+
+
+#interactions{border-collapse:collapse}
+#interactions td{border:none}
+#interactions .odd{background-color:#073642}
+#interactions .even{background-color:#002B40}
