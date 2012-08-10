@@ -86,10 +86,12 @@ sub sharedSQL(){
     }
 
     my $tp=lc($s->param('throughputTag'));
-    if(($tp eq 'low') || ($tp eq 'high')){
-	push @where,"(Throughput LIKE '%\u$tp Throughput%')";
-    }elsif($tp ne 'any'){
-	warn "What's '$tp' Throughput?"
+    if($tp){
+	if(($tp eq 'low') || ($tp eq 'high')){
+	    push @where,"(Throughput LIKE '%\u$tp Throughput%')";
+	}elsif($tp ne 'any'){
+	    warn "What's '$tp' Throughput?"
+	}
     }
 
     push @where,$s->_match('Experimental_System',$s->param('evidenceList'));
