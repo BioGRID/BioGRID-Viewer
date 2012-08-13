@@ -20,9 +20,9 @@ a:visited{color:#6C71C4} /* violet */
 
 
 
-.sorting:after{content:'⬍';color:#93A1A1} /* base1 */
-.sorting_asc:after{content:'⬆';color:#268BD2} /* blue */
-.sorting_desc:after{content:'⬇';color:#268BD2} /* blue */
+thead>tr>th:after{content:'⬍';color:#93A1A1} /* base1 */
+thead>tr>th.headerSortUp:after{content:'⬆';color:#268BD2} /* blue */
+thead>tr>th.headerSortDown:after{content:'⬇';color:#268BD2} /* blue */
 
 
 #interactions{border-collapse:collapse}

@@ -3,35 +3,75 @@
 <title>Web Worker Test</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="html.css"/>
-<script type="text/javascript">var BGV={};</script>
+<script type="text/javascript">var BGV={
+onload:function(){
+ var prefix='BGV_';
+ BGV.tags={
+   edgeCount:document.getElementsByClassName(prefix+'edgeCount')
+  };
+ },
+
+ updateTag:function(tag,value){
+  for(var i=0;i<BGV.tags[tag].length;i++){
+   BGV.tags[tag][i].textContent=value;
+  }
+ }
+};</script>
 <script type="text/javascript" src="BGV/Interactions.js"></script>
 <script type="text/javascript" src="../jquery.min.js"></script> 
-<script type="text/javascript" src="../jquery.dataTables.js"></script> 
-<script>
+<script type="text/javascript" src="../jquery.tablesorter.js"></script> 
+<script type="text/javascript">
 $(document).ready(function(){
  var w=new Worker('ww.js'+location.search);
  var log=document.getElementById('log');
  var iTable=document.getElementById('interactions');
  var iTBody=iTable.getElementsByTagName('tbody')[0];
+ var ts=$(iTable).tablesorter();
 
  $.getJSON('BGV/taxa.json',function(t){
   var interactions=new BGV.Interactions(t);
   w.onmessage=function(m){
    interactions.assimilate(m.data);
    interactions.forEach(function(i){
-    iTBody.appendChild(i.trHTML());
+    i.trHTML(iTBody);
    });
-   $(iTable).dataTable();
+
+   ts.trigger('update');
+   BGV.updateTag('edgeCount',interactions.interactionCount());
+   console.log(interactions.interactionCount());
   }
  });
+
+ $(document.getElementsByName('interSpeciesExcluded')).change(function(){
+  var data={};
+  data[this.getAttribute('name')]=[this.checked.toString().toUpperCase()];
+  w.postMessage(data);
+ });
+
+ $(document.getElementsByName('throughputTag')).change(function(){
+  var data={};
+  data[this.getAttribute('name')]=[this.getAttribute('value')];
+  w.postMessage(data);
+ });
+
 });
 </script>
 
 
-</head><body>
+</head><body onload="BGV.onload()">
 
-<table id="interactions">
+<!-- fieldset>
+<label><input type="checkbox" name="interSpeciesExcluded">Interspecies Exclude</label>
+</fieldset -->
 
+<fieldset><legend>Throughput</legend>
+<label><input type="radio" name="throughputTag" value="any" checked="checked">Any</label>
+<label><input type="radio" name="throughputTag" value="low">Low</label>
+<label><input type="radio" name="throughputTag" value="high">High</label>
+</fieldset>
+
+<table id="interactions" class="tablesorter">
+<caption>Edge Count:<span class="BGV_edgeCount">unknown</span></caption>
 <thead><tr>
 <th>Interactor A</th>
 <th>Interactor B</th>
@@ -40,8 +80,15 @@ $(document).ready(function(){
 <th>Throughput</th>
 <th>Qualifications</th>
 </tr></thead>
-
 <tbody></tbody>
+<tfoot><tr>
+<th>Interactor A</th>
+<th>Interactor B</th>
+<th>Experimental Evidence Code</th>
+<th>Publication</th>
+<th>Throughput</th>
+<th>Qualifications</th>
+</tr></tfoot>
 </table>
 
 <pre id="log"></pre>

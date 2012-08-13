@@ -14,6 +14,10 @@ var fetch=function(search){
 
 fetch(location.search.substring(1));
 
+onmessage=function(m){
+  fetch(m.data);
+}
+
 
 /*
 onmessage=function(m){

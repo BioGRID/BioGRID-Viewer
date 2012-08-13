@@ -33,17 +33,23 @@ BGV.QueryString.prototype={
   },
   
   addSearch:function(add){
-    add.split('&').forEach(
-      function(attr){
-	var kv=attr.split('=',2);
-	if(this.allowed(kv[0])){
-	  if(undefined===this.qs[kv[0]]){
-            this.qs[kv[0]]=[kv[1]];
-	  }else if(-1===this.qs[kv[0]].indexOf(kv[1])){
-            this.qs[kv[0]].push(kv[1]);
+    if('string'===typeof(add)){
+      add.split('&').forEach(
+	function(attr){
+	  var kv=attr.split('=',2);
+	  if(this.allowed(kv[0])){
+	    if(undefined===this.qs[kv[0]]){
+              this.qs[kv[0]]=[kv[1]];
+	    }else if(-1===this.qs[kv[0]].indexOf(kv[1])){
+              this.qs[kv[0]].push(kv[1]);
+	    }
 	  }
-	}
-      },this);
+	},this);
+    }else{
+      for(var k in add){
+	this.qs[k]=add[k];
+      }
+    }
   },
   
   toString:function(){

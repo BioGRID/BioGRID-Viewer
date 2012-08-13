@@ -11,18 +11,45 @@ BGV.Interactions=function(taxa){
 }
 BGV.Interactions.prototype={
   assimilate:function(o){
+    
+    // remove items we don't want anymore
+    for(var id in this._edges){
+      if(undefined===o._edges[id]){
+	var aId=this._edges[id].interactorA().id();
+	var bId=this._edges[id].interactorB().id();
+	
+	[aId,bId].forEach(function(nId){
+	  if(undefined===o._nodes[nId]){
+	    delete this._nodes[nId];
+	  }
+	},this);
+	
+	if(undefined!==this._edges[id].tr){
+	  var tr=this._edges[id].tr;
+	  tr.parentElement.removeChild(tr);
+	}
+	delete this._edges[id];
+      }
+    }
+
+
     for(var id in o._nodes){
-      var node=this._nodes[id]=new BGV.Interactions.Node(o._nodes[id]);
-      node.O=this._taxa[node.organismID()];
+      if(undefined===this._nodes[id]){
+	var node=this._nodes[id]=new BGV.Interactions.Node(o._nodes[id]);
+	node.O=this._taxa[node.organismID()];
+      }
     }
     for(var id in o._edges){
-      var edge=new BGV.Interactions.Edge(o._edges[id]);
-      this._edges[id]=edge;
+      if(undefined===this._edges[id]){
+	var edge=new BGV.Interactions.Edge(o._edges[id]);
+	this._edges[id]=edge;
 	
-      edge.A=this._nodes[edge.data.BioGRIDInteractorA];
-      edge.B=this._nodes[edge.data.BioGRIDInteractorB];
+	edge.A=this._nodes[edge.data.BioGRIDInteractorA];
+	edge.B=this._nodes[edge.data.BioGRIDInteractorB];
+      }
     }
   },
+  
   
   hasEdge:function(edge){
     return (undefined !== this._edges[edge.id()]);
@@ -85,12 +112,31 @@ BGV.Interactions.Edge.prototype={
     a.textContent=this.data.PaperReference;
     return a;
   },
+  
+/*
+  tr:function(){
+    var q=this.data.Qualifications;
+    return [
+      this.data.ExperimentalSystemName,
+      this.interactorA().tdHTML().toString(),
+      this.interactorB().tdHTML().toString(),
+      this.aPubmedHTML(),
+      this.data.InteractionThroughput,
+      (q==='-')?'':q];
+  },
+*/  
 
-  trHTML:function(){
+  trHTML:function(tbody){
+    if(undefined!==this.tr){
+      return tr;
+    }
+    
     var a=this.interactorA();
     var b=this.interactorB();
     
     var tr=document.createElement('tr');
+    tr.setAttribute('class','interaction');
+    tr.setAttribute('id',this.id());
     
     [a,b].forEach(function(node){
       tr.appendChild(node.tdHTML());
@@ -117,6 +163,9 @@ BGV.Interactions.Edge.prototype={
     }
     tr.appendChild(td);
     
+    
+    this.tr=tr;
+    tbody.appendChild(tr);
     return tr;
   }
 
@@ -127,7 +176,7 @@ BGV.Interactions.Node=function(o){
 };
 BGV.Interactions.Node.prototype={
   id:function(){
-    return this.data.BioGRIDInteractorID;
+    return 'i'+this.data.BioGRIDInteractorID;
   },
   
   organismID:function(){
@@ -151,6 +200,7 @@ BGV.Interactions.Node.prototype={
   
   tdHTML:function(){
     var td=document.createElement('td');
+    td.setAttribute('class',this.id());
     
     var o=document.createElement('em');
     o.textContent=this.displayOrganism();
