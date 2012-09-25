@@ -1,4 +1,4 @@
-d3.html('rest/pmid.cgi?selected=20093466',function(html){
+d3.html('/cgi-bin/pmid.cgi?selected=20093466',function(html){
   var datalist=document.getElementById('pmids');
   datalist.appendChild(html);
   document.getElementsByTagName('body')[0].removeAttribute('class');
