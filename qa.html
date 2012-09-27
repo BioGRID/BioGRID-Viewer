@@ -27,9 +27,22 @@ with any issues or changes.</p>
 
 <h2>Queries</h2>
 
+<p>Any <a href="http://wiki.thebiogrid.org/doku.php/biogridrest">REST</a>
+options that returns
+a <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a>
+files <em>should</em> do, report them on
+the <a href="https://github.com/svenmh/BioGRID-Viewer/issues">Issues
+Page</a> if they don't.</p>
+
 <h3>Default Query</h3>
 
-<p>The default query should be done with the following
+<blockquote><samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchbiogridids=TRUE&amp;geneList=<var>id</var></samp></blockquote>
+
+<p>Where <var>id</var> is the biogrid id of the desired gene you wish to view.</p>
+
+<h3>Query By Gene Name</h3>
+
+<p>This query should be done with the following
 format:</p>
 
 <blockquote><samp>http://biogrid-dev.princeton.edu/BioGRID-Viewer/ring.svg?searchNames=true&amp;geneList=<var>name</var>&amp;taxId=<var>taxid</var></samp></blockquote>
@@ -37,13 +50,7 @@ format:</p>
 <p>Where <var>name</var> is the gene you are looking for
 and <var>taxid</var> is the species you are looking for.  A list of
 species <var>taxid</var>s supported can be received from
-the <a href="BGV/taxa.json"><code>BGV/taxa.json</code> file</a>.  But
-any <a href="http://wiki.thebiogrid.org/doku.php/biogridrest">REST</a>
-options that returns
-a <a href="http://wiki.thebiogrid.org/doku.php/biogrid_tab_version_2.0">TAB2</a>
-files <em>should</em> do, report them on
-the <a href="https://github.com/svenmh/BioGRID-Viewer/issues">Issues
-Page</a> if they don't.</p>
+the <a href="BGV/taxa.json"><code>BGV/taxa.json</code> file</a>.</p>
 
 
 
@@ -55,19 +62,22 @@ Page</a> if they don't.</p>
 
 <dl>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292">Default Query</a></dt>
+<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292">Name Search</a></dt>
+<dd>Not the default search, but make sure it looks the same of the default search.</dd>
+
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=32325">Default Search</a></dt>
 <dd>Human PRKACA should be present.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=32325&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
 <dd>Make sure Human PRKACA is missing and "Include Interspecies Interactions" is deselected.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292&amp;throughputTag=low">&amp;throughputTag=low</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=32325&amp;throughputTag=low">&amp;throughputTag=low</a></dt>
 <dd>Make sure the only "Throughput" checkbox that is checked is "Low", also fewer edges (15 as of BioGRID v3.1.88).  Human PRKACA should be present.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low">&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=32325&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low">&amp;interSpeciesExcluded=TRUE&amp;throughputTag=low</a></dt>
 <dd>Now Human PRKACA should be gone too.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=ccc2&amp;taxId=559292&evidenceList=Biochemical%20Activity%7CFRET">Evidence List</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=32325&amp;evidenceList=Biochemical%20Activity%7CFRET">Evidence List</a></dt>
 
 <dd>Only Human PRKACA should be connected, check that "Biochemical Activity" and "FRET" are the only highlighted evidence check boxes.</dd>
 
@@ -77,7 +87,7 @@ Page</a> if they don't.</p>
 
 <dl>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=PRKACA&amp;taxId=9606">Default Query</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=111553">Default Query</a></dt>
 <dd>Yeast CCC2 should be the only nonhuman gene present.</dd>
 
 </dl>
@@ -86,10 +96,10 @@ Page</a> if they don't.</p>
 
 <dl>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=tat&amp;taxId=11676">Default Query</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=1205541">Default Query</a></dt>
 <dd>Only connects to human genes.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=tat&amp;taxId=11676&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=1205541&amp;interSpeciesExcluded=TRUE">&amp;interSpeciesExcluded=TRUE</a></dt>
 <dd>Contains only one edge, to itself.</dd>
 
 </dl>
@@ -99,10 +109,10 @@ Page</a> if they don't.</p>
 <p>Queries with over an amount, defaults to 10000, <code>Throughput</code> will change to <code>Low</code>.</p>
 
 <dl>
-<dt><a href="ring.svg?searchNames=true&amp;geneList=act1&amp;taxId=559292">Yeast ACT1</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=31107">Yeast ACT1</a></dt>
 <dd>Use the <code>[search]</code> button to find TUB1 and then click the <code>[follow]</code> butten.</dd>
 
-<dt><a href="ring.svg?searchNames=true&amp;geneList=UBC&amp;taxId=9606">Human UBC</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=113164">Human UBC</a></dt>
 <dd>Search for RSP5 & follow it.</dd>
 </dl>
 
@@ -122,8 +132,8 @@ Page</a> if they don't.</p>
 <p>All are the default query.</p>
 
 <dl>
-<dt><a href="ring.svg?searchNames=true&amp;geneList=prb1&amp;taxId=559292">Yeast PRB1</a></dt>
-<dt><a href="ring.svg?searchNames=true&amp;geneList=foxp2&amp;taxId=9606">Human FOXP2</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=36669">Yeast PRB1</a></dt>
+<dt><a href="ring.svg?searchbiogridids=TRUE&amp;geneList=125073">Human FOXP2</a></dt>
 </dl>
 
 <h2>Browsers</h2>

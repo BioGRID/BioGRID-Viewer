@@ -2,16 +2,17 @@ BGV.plugin.rest={
   reload:function(node){
 
     if(undefined!=node){
-      this._queryString.geneList=node.data.OfficialSymbol;
-      
-      // geneTaxIdList is the better choice, but if we are already in
-      // taxId mode lets stay there5A
-      if(undefined==this._queryString.taxId){
-	this._queryString.geneTaxIdList=node.data.OrganismID;
-      }else{
-	this._queryString.taxId=node.data.OrganismID;
-      }
+      // when doing internal linking always use BioGRID id search
 
+      delete this._queryString.searchNames;
+      delete this._queryString.taxId;
+      delete this._queryString.geneList;
+      
+      this._queryString.searchbiogridids='TRUE';
+      this._queryString.geneList=node.data.BioGridId;
+
+      // geneTaxIdList is the better choice, but if we are already in
+      // taxId mode lets stay there
     }
 
     var that=this;
@@ -38,10 +39,25 @@ BGV.plugin.rest={
 
   // try to get the primary node from the query string
   qs2node:function(){
+    var that=this;
+    var match;
+
+    if((this._queryString.searchNames||'').toLowerCase()==='true'){
+      match=function(node){
+	return node.isTaxonId(that.taxId())&&node.match(that._queryString.geneList);
+      }
+    }else if((this._queryString.searchbiogridids||'').toLowerCase()==='true'){
+      match=function(node){
+	return node.data.BioGridId===that._queryString.geneList;
+      }
+    }else{
+      return null;
+    }
+
     var nodes=BGV.getNodes();
     for(var l=0;l<nodes.length;l++){
       var node=nodes[l];
-      if(node.isTaxonId(this.taxId())&&node.match(this._queryString.geneList)){
+      if(match(node)){
 	return node;
       }
     }
