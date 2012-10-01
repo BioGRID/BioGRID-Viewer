@@ -8,7 +8,7 @@ BGV.plugin.rest={
       delete this._queryString.taxId;
       delete this._queryString.geneList;
       
-      this._queryString.searchbiogridids='TRUE';
+      this._queryString.searchBiogridIds='TRUE';
       this._queryString.geneList=node.data.BioGridId;
 
       // geneTaxIdList is the better choice, but if we are already in
@@ -46,7 +46,7 @@ BGV.plugin.rest={
       match=function(node){
 	return node.isTaxonId(that.taxId())&&node.match(that._queryString.geneList);
       }
-    }else if((this._queryString.searchbiogridids||'').toLowerCase()==='true'){
+    }else if((this._queryString.searchBiogridIds||'').toLowerCase()==='true'){
       match=function(node){
 	return node.data.BioGridId===that._queryString.geneList;
       }
