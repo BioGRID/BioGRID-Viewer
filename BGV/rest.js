@@ -211,10 +211,12 @@ BGV.plugin.rest={
     // Get the database version
     var bgv='BioGRIDVersion';
     BGV.e.BioGRIDVersion=document.getElementsByClassName(bgv);
-    BGV.ajax(this.versionURL(),function(v){BGV.updateElementsText(bgv,v);});
+    if(null===sessionStorage.getItem(bgv)){
+      BGV.ajax(this.versionURL(),function(v){sessionStorage.setItem(bgv,v);});
+    }
+    BGV.updateElementsText(bgv,sessionStorage.getItem(bgv));
 
     this.resize();
-    
   },
 
   _queryString:{},
