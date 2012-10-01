@@ -1,7 +1,6 @@
 Math.TAU=2*Math.PI;
 
 BGV.pplugin.ring={
-  radius:(((window.innerWidth<window.innerHeight)?window.innerWidth:window.innerHeight)/2),
   padding:.6,
 
   cluster:function(centerNode){
@@ -49,8 +48,23 @@ BGV.pplugin.ring={
   },
 
   load:function(){
+    var w;
+    var h;
+    
+    if(document.documentElement.nodeName==='svg'){
+      w=window.innerWidth;
+      h=window.innerHeight;
+    }else{
+      var e=document.getElementsByTagName('svg')[0];
+      w=e.width.baseVal.value;
+      h=e.height.baseVal.value;
+    }
+
+    this.radius=(((w<h)?w:h)/2);
+    
+
     this.ring=d3.select("#BGVring")
-      .attr("transform","translate("+(window.innerWidth/2)+","+this.radius+")")
+      .attr("transform","translate("+(w/2)+","+this.radius+")")
     ;
 
     d3.select("#BGVcontrol").attr('transform','translate(10,'+(this.radius/2)+')');
