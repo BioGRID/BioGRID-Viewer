@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html><head>
+<title>Ring</title>
+<meta charset="UTF-8">
+<script type="text/javascript" src="../d3.v2.min.js"></script>
+<script type="text/javascript" src="BGV.js"></script>
+<script type="text/javascript" src="BGV/rest.js"></script>
+<script type="text/javascript" src="BGV/ring.js"></script>
+<script type="text/javascript" src="BGV/HTMLform.js"></script>
+<link rel="stylesheet" href="ring/common.css">
+</head><body onload="BGV.load()">
+
+<dl>
+<dt>BioGRID Version</dt>
+<dd class="BioGRIDVersion"></dd>
+
+<dt>Total Interactions</dt>
+<dd><a class="restTab2 InteractionCount"></a></dd>
+
+</dl>
+
+<form name="REST">
+
+<fieldset>
+<legend>Throughput Filter</legend>
+<label><input type="radio" name="throughputTag" value="any" checked="checked">Any</label>
+<label><input type="radio" name="throughputTag" value="high">High</label>
+<label><input type="radio" name="throughputTag" value="low">Low</label>
+</fieldset>
+
+<fieldset>
+<legend>Interaction Filter</legend>
+<label><input type="checkbox" checked="checked" name="interSpeciesExcluded">Include Interspecies Interactions</label>
+<label><input type="checkbox" checked="checked" name="selfInteractionsExcluded">Include Self Interaction</label>
+<label><input type="checkbox" checked="checked" name="includeInteractorInteractions">Include Interactor Interactions</label>
+</fieldset>
+
+</form>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="5in" height="5in" version="1.2" baseProfile="tiny" width="300px" height="200px">
+    <title>A textarea</title>
+<g id="BGVring"><title class="mainNodeSummary"/><g class="edges"/><g class="taxa"/><g class="nodes"/></g>
+  </svg>
+
+
+</body></head>

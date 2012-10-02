@@ -212,9 +212,16 @@ BGV.plugin.rest={
     var bgv='BioGRIDVersion';
     BGV.e.BioGRIDVersion=document.getElementsByClassName(bgv);
     if(null===sessionStorage.getItem(bgv)){
-      BGV.ajax(this.versionURL(),function(v){sessionStorage.setItem(bgv,v);});
+      BGV.ajax
+      (this.versionURL(),
+       function(v){
+	 BGV.updateElementsText(bgv,v);
+	 sessionStorage.setItem(bgv,v);
+       }
+      );
+    }else{
+      BGV.updateElementsText(bgv,sessionStorage.getItem(bgv));
     }
-    BGV.updateElementsText(bgv,sessionStorage.getItem(bgv));
 
     this.resize();
   },
