@@ -2,7 +2,8 @@ BGV.Form=function(name,go){
 //  this.go=go;
   for(var l=0;l<document.forms.length;l++){
     if(document.forms[l].name===name){
-      this.tags=document.forms[l].getElementsByTagName('input');
+//      this.tags=document.forms[l].getElementsByTagName('input');
+      this.tags=document.forms[l].elements;
       l=document.forms.length+1;
     }
   }
@@ -27,9 +28,13 @@ BGV.Form.prototype={
 	  break;
 	case 'checkbox':
 	  t.checked=d[t.name];
-//	  break;
-//	default:
-//	  console.log('wuzza ' + t.type);
+	  break;
+	case 'select-multiple':
+	  var e=d[t.name].split('|');
+	  for(var m=0;m<t.options.length;m++){
+	    var o=t.options[m];
+	    o.selected=(-1!==e.indexOf(o.value));
+	  }
 	}
 
       }
@@ -49,9 +54,15 @@ BGV.Form.prototype={
 	break;
       case 'checkbox':
 	out[t.name]=t.checked;
-//	break;
-//      default:
-//	console.log('wazza ' + t.type);
+	break;
+      case 'select-multiple':
+	out[t.name]=[];
+	for(var m=0;m<t.options.length;m++){
+	  var o=t.options[m];
+	  if(o.selected){
+	    out[t.name].push(o.value);
+	  }
+	}
       }
     }
 
