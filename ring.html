@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html><head>
-<title>Ring</title>
+<title class="mainNodeSummary">Ring</title>
 <meta charset="UTF-8">
 <script type="text/javascript" src="../d3.v2.min.js"></script>
 <script type="text/javascript" src="BGV.js"></script>
@@ -8,6 +8,7 @@
 <script type="text/javascript" src="BGV/ring.js"></script>
 <script type="text/javascript" src="BGV/HTMLform.js"></script>
 <link rel="stylesheet" href="ring/common.css">
+<link rel="alternate stylesheet" href="ring/colorize.css" title="Colorize Throughptu">
 </head><body onload="BGV.load()">
 
 <dl>
@@ -37,39 +38,43 @@
 
 <fieldset>
 <legend>Evidence Filter</legend>
+
+<label><input class="toggle" type="checkbox">Physical</label>
+<label><input class="toggle" type="checkbox">Genetic</label>
+
 <select name="evidenceList" multiple>
 
 <optgroup label="Physical">
-<option>Affinity Capture-Luminescence</option>
-<option>Affinity Capture-MS</option>
-<option>Affinity Capture-RNA</option>
-<option>Affinity Capture-Western</option>
-<option>Biochemical Activity</option>
-<option>Co-crystal Structure</option>
-<option>Co-fractionation</option>
-<option>Co-localization</option>
-<option>Co-purification</option>
-<option>Far Western</option>
-<option>FRET</option>
-<option>PCA</option>
-<option>Protein-peptide</option>
-<option>Protein-RNA</option>
-<option>Reconstituted Complex</option>
-<option>Two-hybrid</option>
+<option class="physical">Affinity Capture-Luminescence</option>
+<option class="physical">Affinity Capture-MS</option>
+<option class="physical">Affinity Capture-RNA</option>
+<option class="physical">Affinity Capture-Western</option>
+<option class="physical">Biochemical Activity</option>
+<option class="physical">Co-crystal Structure</option>
+<option class="physical">Co-fractionation</option>
+<option class="physical">Co-localization</option>
+<option class="physical">Co-purification</option>
+<option class="physical">Far Western</option>
+<option class="physical">FRET</option>
+<option class="physical">PCA</option>
+<option class="physical">Protein-peptide</option>
+<option class="physical">Protein-RNA</option>
+<option class="physical">Reconstituted Complex</option>
+<option class="physical">Two-hybrid</option>
 </optgroup>
 
-<optgroup label="Genetic"</optgroup>
-<option>Dosage Growth Defect</option>
-<option>Dosage Lethality</option>
-<option>Dosage Rescue</option>
-<option>Negative Genetic</option>
-<option>Phenotypic Enhancement</option>
-<option>Phenotypic Suppression</option>
-<option>Positive Genetic</option>
-<option>Synthetic Growth Defect</option>
-<option>Synthetic Haploinsufficiency</option>
-<option>Synthetic Lethality</option>
-<option>Synthetic Rescue</option>
+<optgroup label="Genetic">
+<option class="genetic">Dosage Growth Defect</option>
+<option class="genetic">Dosage Lethality</option>
+<option class="genetic">Dosage Rescue</option>
+<option class="genetic">Negative Genetic</option>
+<option class="genetic">Phenotypic Enhancement</option>
+<option class="genetic">Phenotypic Suppression</option>
+<option class="genetic">Positive Genetic</option>
+<option class="genetic">Synthetic Growth Defect</option>
+<option class="genetic">Synthetic Haploinsufficiency</option>
+<option class="genetic">Synthetic Lethality</option>
+<option class="genetic">Synthetic Rescue</option>
 </optgroup>
 
 </select></fieldset>
