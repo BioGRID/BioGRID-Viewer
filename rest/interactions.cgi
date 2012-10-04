@@ -107,22 +107,33 @@ sub whereSQL{
 
     my @where;
 
-    #my @gtax=$s->param('geneTaxIdList');
-    my @gtax=$s->param('taxId');
-    my @gene=$s->param('geneList');
-    push @where,$s->_join
-      ('OR',
-       $s->_join
-       ('AND',
-	$s->_match('Official_Symbol_Interactor_A',@gene),
-	$s->_match('Organism_Interactor_A',@gtax)
-       ),
-       $s->_join
-       ('AND',
-	$s->_match('Official_Symbol_Interactor_B',@gene),
-	$s->_match('Organism_Interactor_B',@gtax)
-       )
-      );
+    if($s->param('searchBiogridIds')){
+	my @gene=$s->param('geneList');
+
+	push @where,$s->_join
+	  ('OR',
+	   $s->_match('BioGRID_ID_Interactor_A',@gene),
+	   $s->_match('BioGRID_ID_Interactor_B',@gene),
+	  );
+
+    }elsif($s->param('searchNames')){
+	#my @gtax=$s->param('geneTaxIdList');
+	my @gtax=$s->param('taxId');
+	my @gene=$s->param('geneList');
+	push @where,$s->_join
+	  ('OR',
+	   $s->_join
+	   ('AND',
+	    $s->_match('Official_Symbol_Interactor_A',@gene),
+	    $s->_match('Organism_Interactor_A',@gtax)
+	   ),
+	   $s->_join
+	   ('AND',
+	    $s->_match('Official_Symbol_Interactor_B',@gene),
+	    $s->_match('Organism_Interactor_B',@gtax)
+	   )
+	  );
+    }
 
     push @where,$s->_match('BioGRID_Interaction_ID',$s->param('sourceDatabaseIdList'));
 

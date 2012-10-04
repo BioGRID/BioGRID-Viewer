@@ -1,1 +1,4 @@
 A poor mans REST server.  Not sure this stuff is going to stay here.
+
+time unzip -pq $HOME/Downloads/BIOGRID-ALL-3.1.93.tab2.zip  | ./mksql.pl | sqlite3 /dev/shm/biogrid-3.1.93
+
