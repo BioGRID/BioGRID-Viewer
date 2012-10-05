@@ -1,0 +1,50 @@
+dd{
+height:1em;
+}
+
+
+#throughputFilter{
+    position:absolute;
+    left:5in;
+    width:4in;
+
+    top:0em;
+    height:3em;
+    margin:2em;
+}
+#interactionFilter{
+    position:absolute;
+    left:5in;
+    width:4in;
+
+    top:5em;
+    height:3em;
+    margin:2em;
+}
+
+#evidenceFilter{
+    position:absolute;
+    left:5in;
+    width:4in;
+
+    top:10em;
+    margin:2em;
+    height:5em;
+}
+
+
+#globalInfo{
+    position:absolute;
+    left:5in;
+    width:2in;
+
+    top:17em;
+    margin:2em;
+}
+
+#nodeInfo{
+    position:absolute;
+    left:7in;
+    top:17em;
+    margin:2em;
+}

@@ -8,58 +8,54 @@
 <script type="text/javascript" src="BGV/ring.js"></script>
 <script type="text/javascript" src="BGV/HTMLform.js"></script>
 <link rel="stylesheet" href="ring/common.css">
+<link rel="stylesheet" href="ring/html.css">
 <link rel="alternate stylesheet" href="ring/colorize.css" title="Colorize Throughptu">
 </head><body onload="BGV.load()">
 
-<svg xmlns="http://www.w3.org/2000/svg" width="5in" height="5in" version="1.2" baseProfile="tiny" width="300px" height="200px">
+<svg xmlns="http://www.w3.org/2000/svg" width="5in" height="5in" version="1.1" baseProfile="tiny" width="300px" height="200px">
 <g id="BGVring"><title class="mainNodeSummary"/><g class="edges"/><g class="taxa"/><g class="nodes"/></g>
   </svg>
 
 
-<dl>
-<dt>Species</td>
+<dl id="nodeInfo">
+<dt>Species</dt>
 <dd class="species"></dd>
-
 <dt>Official Symbol</dt>
 <dd><a class="restNodeOfficialSymbol"></a></dd>
-
 <dt>Systematic Name</dt>
 <dd class="restNodeSystematicName"></dd>
-
 <dt>BioGRID ID</dt>
 <dd><a class="restNodeBioGridId"></a></dd>
-
 <dt>Entrez</dt>
 <dd><a class="restNodeEntrez"></a></dd>
-
 <dt>Interactions</dt>
 <dd><a class="restNodeEdges"></a></dd>
+</dl>
 
+<dl id="globalInfo">
 <dt>BioGRID Version</dt>
 <dd class="BioGRIDVersion"></dd>
-
 <dt>Total Interactions</dt>
 <dd><a class="restTab2 InteractionCount"></a></dd>
-
 </dl>
 
 <form name="REST">
 
-<fieldset>
+<fieldset id="throughputFilter">
 <legend>Throughput Filter</legend>
 <label><input type="radio" name="throughputTag" value="any" checked="checked">Any</label>
 <label><input type="radio" name="throughputTag" value="high">High</label>
 <label><input type="radio" name="throughputTag" value="low">Low</label>
 </fieldset>
 
-<fieldset>
+<fieldset id="interactionFilter">
 <legend>Interaction Filter</legend>
 <label><input type="checkbox" checked="checked" name="interSpeciesExcluded">Include Interspecies Interactions</label>
 <label><input type="checkbox" checked="checked" name="selfInteractionsExcluded">Include Self Interaction</label>
 <label><input type="checkbox" checked="checked" name="includeInteractorInteractions">Include Interactor Interactions</label>
 </fieldset>
 
-<fieldset>
+<fieldset id="evidenceFilter">
 <legend>Evidence Filter</legend>
 
 <label><input class="toggle" type="checkbox">Physical</label>
