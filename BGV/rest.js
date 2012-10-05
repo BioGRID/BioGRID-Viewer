@@ -243,7 +243,7 @@ BGV.plugin.rest={
 
   interactionsURL:function(){
     return BGV.config('rest','interactions')+
-      '?enableCaching=true&'+this.queryString();
+      'enableCaching=true&'+this.queryString();
   },
   countURL:function(){
     return this.interactionsURL()+"&format=count";
