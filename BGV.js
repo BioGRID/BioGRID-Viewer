@@ -113,12 +113,15 @@ BGV={
   },
 
   e:{}, // elements
-
+  
+  // there has gotta be a better way to do this
+  href:(document.lastChild.namespaceURI.substr(-4,4)==='html')?'href':'xlink:href',
+  
   updateElementsText:function(e,text){
     d3.selectAll(this.e[e]).text(text);
   },
   updateElementsHref:function(e,url){
-    d3.selectAll(this.e[e]).attr('xlink:href',url);
+    d3.selectAll(this.e[e]).attr(this.href,url);
   },
 
   // Should only be called on the root tag onload() attribute
