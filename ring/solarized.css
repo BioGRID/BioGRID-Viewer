@@ -5,7 +5,7 @@ background-color:#eee8d5;fill:#586E75} /* base2 base01 */
 path{stroke:#268bd2} /* blue */
 
 .button,a[xlink|href]{fill:#268bd2;cursor:pointer} /* blue */
-a[xlink|href=""]{fill:#586E75;cursor: /* base01 */
+a[xlink|href=""]{fill:#586E75;} /* base01 */
 
 path.taxon{stroke:black;stroke-width:1;stroke-opacity:.3;}
 path.highlight{stroke:#dc322f} /* red */

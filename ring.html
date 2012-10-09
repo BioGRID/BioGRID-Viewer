@@ -58,12 +58,8 @@
 <fieldset id="evidenceFilter">
 <legend>Evidence Filter</legend>
 
-<label><input class="toggle" type="checkbox">Physical</label>
-<label><input class="toggle" type="checkbox">Genetic</label>
 
-<select name="evidenceList" multiple>
-
-<optgroup label="Physical">
+<select name="evidenceList" multiple size="4"><optgroup label="Physical">
 <option class="physical">Affinity Capture-Luminescence</option>
 <option class="physical">Affinity Capture-MS</option>
 <option class="physical">Affinity Capture-RNA</option>
@@ -80,9 +76,7 @@
 <option class="physical">Protein-RNA</option>
 <option class="physical">Reconstituted Complex</option>
 <option class="physical">Two-hybrid</option>
-</optgroup>
-
-<optgroup label="Genetic">
+</optgroup><optgroup label="Genetic">
 <option class="genetic">Dosage Growth Defect</option>
 <option class="genetic">Dosage Lethality</option>
 <option class="genetic">Dosage Rescue</option>
@@ -94,9 +88,12 @@
 <option class="genetic">Synthetic Haploinsufficiency</option>
 <option class="genetic">Synthetic Lethality</option>
 <option class="genetic">Synthetic Rescue</option>
-</optgroup>
+</optgroup></select>
 
-</select></fieldset>
+<label><input class="toggle" type="checkbox">Physical</label><br/>
+<label><input class="toggle" type="checkbox">Genetic</label><br/>
+
+</fieldset>
 
 </form>
 
