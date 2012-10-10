@@ -68,6 +68,25 @@ BGV.pplugin.ring={
     ;
 
     d3.select("#BGVcontrol").attr('transform','translate(10,'+(this.radius/2)+')');
+    
+    var f=document.forms.namedItem('RING');
+    if(undefined!==f){
+      var ring=this.ring.node();
+      var u=5;
+      var r=f.getElementsByClassName('rotate');
+      d3.selectAll(r)
+	.on('click',
+	    function(){
+	      var a=(this.name==='clockwise')?u:-u;
+	      var i=ring.transform.baseVal.getItem(0);
+	      
+	      i.setMatrix(i.matrix.rotate(a));
+	      //console.log(foo);
+	    }
+	   );
+		      
+    }
+
   },
 
   d3arcPrep:function(nodes){
