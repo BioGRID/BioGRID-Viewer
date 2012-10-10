@@ -137,10 +137,11 @@ BGV={
     this.e.InteractionCount=document.getElementsByClassName('InteractionCount');
     this.e.species=document.getElementsByClassName('species');
     this.e.mainNodeSummary=document.getElementsByClassName('mainNodeSummary');
+    this.e.nodeFollow=document.getElementsByClassName('nodeFollow');
 
     d3.selectAll(document.getElementsByClassName('nodeSearch'))
       .on('click',BGV.promptNode);
-    d3.selectAll(document.getElementsByClassName('nodeFollow'))
+    d3.selectAll(this.e.nodeFollow)
       .on('click',function(){
 	if(BGV.selected()){
 	  BGV.reload(BGV.deselect())
@@ -237,11 +238,25 @@ BGV={
       out.deselect();
       this._selected=null;
     }
+    
+    for(var i=0;i<this.e.nodeFollow.length;i++){
+      if('boolean'===typeof BGV.e.nodeFollow[i].disabled){
+	BGV.e.nodeFollow[i].disabled=true;
+      }
+    }
+
     return out;
   },
   select:function(node){
     this.deselect();
     this._selected=node;
+    
+    for(var i=0;i<this.e.nodeFollow.length;i++){
+      if('boolean'===typeof BGV.e.nodeFollow[i].disabled){
+	BGV.e.nodeFollow[i].disabled=false;
+      }
+    }
+
     return node;
   },
   hasClass:function(node,c){
