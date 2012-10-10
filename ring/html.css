@@ -9,7 +9,7 @@ height:1em;
     width:4in;
 
     top:0em;
-    height:3em;
+    height:2em;
     margin:2em;
 }
 #interactionFilter{
@@ -17,8 +17,8 @@ height:1em;
     left:5in;
     width:4in;
 
-    top:5em;
-    height:3em;
+    top:4em;
+    height:5em;
     margin:2em;
 }
 
@@ -27,7 +27,7 @@ height:1em;
     left:5in;
     width:4in;
 
-    top:10em;
+    top:11em;
     margin:2em;
     height:5em;
 }
@@ -41,13 +41,13 @@ height:1em;
     left:5in;
     width:2in;
 
-    top:17em;
+    top:18em;
     margin:2em;
 }
 
 #nodeInfo{
     position:absolute;
     left:7in;
-    top:17em;
+    top:18em;
     margin:2em;
 }

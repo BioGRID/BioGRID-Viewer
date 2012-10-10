@@ -41,24 +41,19 @@
 
 <form name="REST">
 
-<fieldset id="throughputFilter">
-<legend>Throughput Filter</legend>
+<fieldset id="throughputFilter"><legend>Throughput Filter</legend>
 <label><input type="radio" name="throughputTag" value="any" checked="checked">Any</label>
 <label><input type="radio" name="throughputTag" value="high">High</label>
 <label><input type="radio" name="throughputTag" value="low">Low</label>
 </fieldset>
 
-<fieldset id="interactionFilter">
-<legend>Interaction Filter</legend>
-<label><input type="checkbox" checked="checked" name="interSpeciesExcluded">Include Interspecies Interactions</label>
-<label><input type="checkbox" checked="checked" name="selfInteractionsExcluded">Include Self Interaction</label>
+<fieldset id="interactionFilter"><legend>Interaction Filter</legend>
+<label><input type="checkbox" checked="checked" name="interSpeciesExcluded">Include Interspecies Interactions</label><br>
+<label><input type="checkbox" checked="checked" name="selfInteractionsExcluded">Include Self Interaction</label><br>
 <label><input type="checkbox" checked="checked" name="includeInteractorInteractions">Include Interactor Interactions</label>
 </fieldset>
 
-<fieldset id="evidenceFilter">
-<legend>Evidence Filter</legend>
-
-
+<fieldset id="evidenceFilter"><legend>Evidence Filter</legend>
 <select name="evidenceList" multiple size="4"><optgroup label="Physical">
 <option class="physical">Affinity Capture-Luminescence</option>
 <option class="physical">Affinity Capture-MS</option>
@@ -91,7 +86,7 @@
 </optgroup></select>
 
 <label><input class="toggle" type="checkbox">Physical</label><br/>
-<label><input class="toggle" type="checkbox">Genetic</label><br/>
+<label><input class="toggle" type="checkbox">Genetic</label>
 
 </fieldset>
 
