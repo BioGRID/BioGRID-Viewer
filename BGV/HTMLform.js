@@ -68,21 +68,23 @@ BGV.Form.prototype={
     for(var l=0;l<this.tags.length;l++){
       var t=this.tags[l];
       
-      switch(t.type){
-      case 'radio':
-	if(t.checked){
-	  out[t.name]=t.value;
-	}
-	break;
-      case 'checkbox':
-	out[t.name]=t.checked;
-	break;
-      case 'select-multiple':
-	out[t.name]=[];
-	for(var m=0;m<t.options.length;m++){
-	  var o=t.options[m];
-	  if(o.selected){
-	    out[t.name].push(o.value);
+      if(t.name!==''){
+	switch(t.type){
+	case 'radio':
+	  if(t.checked){
+	    out[t.name]=t.value;
+	  }
+	  break;
+	case 'checkbox':
+	  out[t.name]=t.checked;
+	  break;
+	case 'select-multiple':
+	  out[t.name]=[];
+	  for(var m=0;m<t.options.length;m++){
+	    var o=t.options[m];
+	    if(o.selected){
+	      out[t.name].push(o.value);
+	    }
 	  }
 	}
       }

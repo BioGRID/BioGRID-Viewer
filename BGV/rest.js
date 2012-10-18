@@ -184,11 +184,10 @@ BGV.plugin.rest={
     BGV.ajax
     (countURL,function(t){
       var count=parseInt(t);
-
       if(count>BGV.config('rest','throughputCutoff')){
-	that._queryString.throughputTag='Low';
+	that._queryString.throughputTag='low';
 	if(form){
-	  form.setDefaults({'throughputTag':'Low'});
+	  form.setDefaults({'throughputTag':'low'});
 	}
       }else{
 	that.count=count;
