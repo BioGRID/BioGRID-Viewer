@@ -45,7 +45,9 @@ BGV.Form.prototype={
 	switch(t.type){
 	case 'radio':
 	  if(d[t.name]===t.value){
-	    t.checked=true;
+	    t.setAttribute('checked','checked');
+	  }else{
+	    t.removeAttribute('checked');
 	  }
 	  break;
 	case 'checkbox':
