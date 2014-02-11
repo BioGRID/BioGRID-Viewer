@@ -1,12 +1,8 @@
 {
  "query":{"pmids":"rest/pmid.cgi"},
  "rest":{
-  "interactions":"http://webservicebeta.thebiogrid.org/interactions?accesskey=6ea500f7acd940be4a896122b9a46d45&",
-  "version":"http://webservicebeta.thebiogrid.org/version?accesskey=6ea500f7acd940be4a896122b9a46d45",
-
-  "interactions":"rest/interactions.cgi?",
-  "version":"rest/version.cgi",
-
+  "interactions":"http://webservice.thebiogrid.org/interactions?accesskey=6ea500f7acd940be4a896122b9a46d45&",
+  "version":"http://webservice.thebiogrid.org/version?accesskey=6ea500f7acd940be4a896122b9a46d45",
   "throughputCutoff":15000,
   "queryStringDefaults":
   {

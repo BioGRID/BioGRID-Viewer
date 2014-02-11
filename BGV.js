@@ -199,12 +199,18 @@ BGV={
     this.freeze('ajax');
     if(('function'==typeof window.XDomainRequest)&&('http'==url.substring(0,4))){
       ajax=new window.XDomainRequest();
-      ajax.onload=function(){callback(this.responseText);that.melt('ajax function');};
+      ajax.onload=function(){
+	  callback(this.responseText);
+	  that.melt('ajax function');
+      };
       ajax.open('GET',url,true);
       ajax.send();
     }else{
       var that=this;
-      d3.text(url,function(rt){callback(rt);that.melt('ajax else');});
+      d3.text(url,function(rt){
+	  callback(rt);
+	  that.melt('ajax else');
+      });
     }
   },
 

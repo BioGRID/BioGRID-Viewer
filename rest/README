@@ -1,4 +1,30 @@
-A poor mans REST server.  Not sure this stuff is going to stay here.
+* A poor mans REST server
+This is a partial implementing of the BioGRID REST service documented
+at: http://wiki.thebiogrid.org/doku.php/biogridrest
 
-time unzip -pq $HOME/Downloads/BIOGRID-ALL-3.1.93.tab2.zip  | ./mksql.pl | sqlite3 /dev/shm/biogrid-3.1.93
+* Install
+Copy files in this rest diroctory to someplace that will execute CGI
+files, something link:
 
+$ sudo mkdir /usr/lib/cgi-bin/rest
+$ sudo cp ./rest/* /usr/lib/cgi-bin/rest
+
+** Create Database
+Get the latest BIOGRID-ALL.*.tab2.zip file from:
+http://thebiogrid.org/download.php
+
+Create the database, if you downloaded BIOGRID-ALL-3.1.93.tab2.zip
+create the database using:
+
+$ time unzip -pq $HOME/Downloads/BIOGRID-ALL-3.1.93.tab2.zip  | ./mksql.pl | sqlite3 /dev/shm/biogrid-3.1.93
+
+Then copy and rename it to the same directory you put the CGI files:
+
+$ cp /dev/shm/biogrid-3.1.93 /usr/lib/cgi-bin/rest/biogrid
+
+** Edit ../config.json
+Change the entries labeled "interactions" and "version" to point to
+the CGI files:
+
+ "interactions":"/cgi-bin/rest/interactions.cgi?",
+ "version":"/cgi-bin/rest/version.cgi",

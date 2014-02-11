@@ -1,15 +1,22 @@
 * Config
 Copy config.json-template to config.json and edit it to suit your
-needs.  The Princeton REST server is of mixed stabalility.
+needs.
 
 * Depends
 
 ** d3.js
-From http://mbostock.github.com/d3/ page.  d3.v2.min.js should be in
-the parent directory of BioGRID-Viewer.
+From http://mbostock.github.com/d3/ page.  Make sure just there is a
+d3.min.js in the parent directory.
+
+This as been tested with d3.v2.min.js with some minor testing with
+d3.v3.min.js version.
 
 * Browsers
 See qa.html for tested browsers.
+
+* REST Server
+If you have problems to the default rest service you can try to run
+your own.  See the README in the ./rest/ directory.
 
 * Copyright
 
